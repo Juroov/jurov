@@ -8,7 +8,7 @@ export default function About() {
         background: "var(--bg)",
       }}
     >
-      <div style={{ maxWidth: 800, margin: "0 auto" }}>
+      <div style={{ maxWidth: 680, margin: "0 auto" }}>
         {/* Centered large heading */}
         <h2
           className="reveal"
@@ -25,6 +25,12 @@ export default function About() {
           people actually{" "}
           <span style={{ color: "var(--accent)" }}>use.</span>
         </h2>
+        {/* Animated SVG underline */}
+        <svg className="heading-underline-svg" viewBox="0 0 300 8" preserveAspectRatio="none"
+          style={{ maxWidth: 220, height: 8, marginBottom: 24 }} aria-hidden="true">
+          <path className="heading-underline-path" d="M 2 4 Q 75 2 150 4 Q 225 6 298 4"
+            vectorEffect="non-scaling-stroke" pathLength="1" />
+        </svg>
 
         {/* Body copy */}
         <div className="reveal reveal-delay-1" style={{ marginBottom: 56 }}>
@@ -57,15 +63,19 @@ export default function About() {
           </p>
         </div>
 
-        {/* Horizontal divider */}
-        <div
-          className="reveal"
-          style={{
-            height: 1,
-            background: "var(--border)",
-            marginBottom: 48,
-          }}
-        />
+        {/* Animated SVG horizontal divider */}
+        <div className="reveal" style={{ marginBottom: 48, overflow: "visible" }}>
+          <svg viewBox="0 0 680 2" style={{ width: "100%", height: 2, display: "block", overflow: "visible" }} aria-hidden="true">
+            <line x1="0" y1="1" x2="680" y2="1"
+              stroke="var(--border)" strokeWidth="1"
+              strokeDasharray="680" strokeDashoffset="680"
+              strokeLinecap="round"
+            >
+              <animate attributeName="stroke-dashoffset" from="680" to="0"
+                dur="1.2s" fill="freeze" calcMode="spline" keySplines="0.16 1 0.3 1" />
+            </line>
+          </svg>
+        </div>
 
         {/* Stats — horizontal row */}
         <div className="reveal reveal-delay-2 grid grid-cols-3 gap-6">

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { List, X, Sun, Moon } from "@phosphor-icons/react";
 import { useTheme } from "./ThemeProvider";
 
 const links = [
@@ -11,6 +10,54 @@ const links = [
   { href: "#projects",    label: "Projects"     },
   { href: "#commissions", label: "Commissions"  },
 ];
+
+// Inline SVG hamburger icon
+function IconHamburger() {
+  return (
+    <svg width="17" height="14" viewBox="0 0 17 14" fill="none" aria-hidden="true">
+      <line x1="0" y1="1.5" x2="17" y2="1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+      <line x1="0" y1="7"   x2="17" y2="7"   stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+      <line x1="0" y1="12.5" x2="17" y2="12.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+// Morphing X close icon
+function IconClose() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <line x1="3" y1="3" x2="15" y2="15" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+      <line x1="15" y1="3" x2="3" y2="15" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+// Sun icon (for dark mode — click to switch to light)
+function IconSun() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+      <circle cx="7.5" cy="7.5" r="3" fill="currentColor"/>
+      <line x1="7.5" y1="0.5"  x2="7.5" y2="2.5"  stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="7.5" y1="12.5" x2="7.5" y2="14.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="0.5"  y1="7.5" x2="2.5"  y2="7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="12.5" y1="7.5" x2="14.5" y2="7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="2.7" y1="2.7"  x2="4.1"  y2="4.1"  stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="10.9" y1="10.9" x2="12.3" y2="12.3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="10.9" y1="4.1"  x2="12.3" y2="2.7"  stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="2.7" y1="12.3"  x2="4.1"  y2="10.9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+// Moon icon (for light mode — click to switch to dark)
+function IconMoon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+      <path d="M13 9.5a6 6 0 0 1-7.5-7.5A6 6 0 1 0 13 9.5z"
+        fill="currentColor"/>
+    </svg>
+  );
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -73,7 +120,7 @@ export default function Navbar() {
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{
           background: scrolled
-            ? "rgba(255,255,255,0.92)"
+            ? (theme === 'dark' ? "rgba(17,17,19,0.92)" : "rgba(255,255,255,0.92)")
             : "transparent",
           backdropFilter: scrolled ? "blur(20px)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
@@ -98,7 +145,7 @@ export default function Navbar() {
               >
                 <span
                   style={{
-                    color: "#fff",
+                    color: "var(--bg)",
                     fontFamily: "var(--font-geist-mono)",
                     fontSize: 13,
                     fontWeight: 700,
@@ -143,29 +190,26 @@ export default function Navbar() {
             {/* Right side */}
             <div className="flex items-center gap-3">
               <div
-                className="hidden sm:flex items-center gap-2"
+                className="hidden sm:flex items-center gap-2 bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/20"
                 style={{
                   padding: "6px 12px",
                   borderRadius: 999,
-                  background: "#f0fdf4",
-                  border: "1px solid #bbf7d0",
                 }}
               >
                 <div
-                  className="status-dot"
+                  className="status-dot bg-green-500 dark:bg-green-400"
                   style={{
                     width: 7, height: 7,
                     borderRadius: "50%",
-                    background: "#22c55e",
                     flexShrink: 0,
                   }}
                 />
                 <span
+                  className="text-green-700 dark:text-green-400"
                   style={{
                     fontSize: 10,
                     fontWeight: 700,
-                    color: "#15803d",
-                    letterSpacing: "0.1em",
+                    letterSpacing: "0.06em",
                     textTransform: "uppercase",
                     fontFamily: "var(--font-geist-mono)",
                   }}
@@ -173,33 +217,32 @@ export default function Navbar() {
                   Open
                 </span>
               </div>
-              {/* Theme toggle */}
+              {/* Theme toggle — inline SVG icons */}
               <button
                 onClick={toggle}
                 className="theme-toggle"
                 aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                style={{ color: "var(--text-muted)" }}
               >
-                {theme === 'dark'
-                  ? <Sun size={15} color="var(--text-muted)" weight="fill" />
-                  : <Moon size={15} color="var(--text-muted)" weight="fill" />}
+                {theme === 'dark' ? <IconSun /> : <IconMoon />}
               </button>
               <a href="#contact" className="btn-primary hidden sm:inline-flex" style={{ padding: "8px 18px", fontSize: 12 }}>
                 Hire me
               </a>
               <button
                 id="menuBtn"
-                className="lg:hidden flex items-center justify-center transition-colors"
+                className="lg:hidden flex items-center justify-center transition-colors bg-white dark:bg-zinc-900"
                 onClick={() => setMenuOpen(true)}
                 aria-label="Open menu"
                 style={{
                   width: 40, height: 40,
                   borderRadius: 10,
-                  background: "#fff",
                   border: "1px solid var(--border-strong)",
                   cursor: "pointer",
+                  color: "var(--text-primary)",
                 }}
               >
-                <List size={17} weight="bold" color="var(--text-primary)" />
+                <IconHamburger />
               </button>
             </div>
           </div>
@@ -221,18 +264,18 @@ export default function Navbar() {
       >
         <button
           onClick={() => setMenuOpen(false)}
-          className="absolute flex items-center justify-center"
+          className="absolute flex items-center justify-center bg-black/5 dark:bg-white/10"
           aria-label="Close menu"
           style={{
             top: 20, right: 24,
             width: 40, height: 40,
             borderRadius: 10,
-            background: "rgba(0,0,0,0.06)",
             border: "none",
             cursor: "pointer",
+            color: "var(--text-primary)",
           }}
         >
-          <X size={18} color="var(--text-primary)" />
+          <IconClose />
         </button>
         {links.map((l) => (
           <button

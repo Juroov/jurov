@@ -19,6 +19,12 @@
       "skillPath": "skills/frontend-design/SKILL.md",
       "computedHash": "93f53fd1c0352d3d7ec17b8f73d7351bf76f4821e55d123c9d2abc2c53ba48e4"
     },
+    "svg-animations": {
+      "source": "supermemoryai/skills",
+      "sourceType": "github",
+      "skillPath": "svg-animations/SKILL.md",
+      "computedHash": "f25711af04ba7a0f8e662f41cdf707423102eef303dfd3dc7d48d35bb83c7ec4"
+    },
     "ui-ux-pro-max": {
       "source": "nextlevelbuilder/ui-ux-pro-max-skill",
       "sourceType": "github",

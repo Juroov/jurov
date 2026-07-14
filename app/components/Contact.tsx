@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, FormEvent } from "react";
-import { EnvelopeSimple, GithubLogo, FacebookLogo, CheckCircle } from "@phosphor-icons/react";
 
 type FormState = {
   name: string;
@@ -18,6 +17,70 @@ const budgetOptions = [
   "Let's talk (Custom scope)",
 ];
 
+// Inline SVG checkmark — animated stroke-draw
+function AnimatedCheckmark() {
+  return (
+    <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-label="Sent" role="img">
+      <circle cx="28" cy="28" r="25"
+        stroke="#22c55e"
+        strokeWidth="2"
+        strokeDasharray="160"
+        strokeDashoffset="160"
+        fill="none"
+      >
+        <animate attributeName="stroke-dashoffset" from="160" to="0"
+          dur="0.5s" fill="freeze" calcMode="spline" keySplines="0.16 1 0.3 1" />
+      </circle>
+      <path
+        d="M16 28l8 8 16-16"
+        stroke="#22c55e"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+        strokeDasharray="45"
+        strokeDashoffset="45"
+      >
+        <animate attributeName="stroke-dashoffset" from="45" to="0"
+          dur="0.4s" begin="0.4s" fill="freeze" calcMode="spline" keySplines="0.16 1 0.3 1" />
+      </path>
+    </svg>
+  );
+}
+
+const socialLinks = [
+  {
+    label: "Email",
+    href: "https://mail.google.com/mail/?view=cm&fs=1&to=amarillelorrenz@gmail.com",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <rect x="1" y="3" width="16" height="12" rx="2" stroke="currentColor" strokeWidth="1.6"/>
+        <path d="M1 6l8 5 8-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+      </svg>
+    ),
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/Juroov",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M9 1a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.33c-2.23.49-2.7-1.07-2.7-1.07-.36-.93-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.65-.89-3.65-3.97 0-.88.31-1.59.83-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.22 2.2.82A7.65 7.65 0 0 1 9 5.8c.68 0 1.36.09 2 .27 1.52-1.04 2.19-.82 2.19-.82.44 1.1.16 1.92.08 2.12.52.56.83 1.27.83 2.15 0 3.09-1.88 3.77-3.67 3.97.29.25.54.74.54 1.49v2.21c0 .21.14.46.55.38A8 8 0 0 0 9 1z"
+          fill="currentColor"/>
+      </svg>
+    ),
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/lorrenz.amarille.5/",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M17 9a8 8 0 1 0-9.25 7.9V11.5H5.75v-2.5H7.75V7.5c0-2 1.2-3.1 3-3.1.87 0 1.78.16 1.78.16v1.96h-1c-.99 0-1.3.61-1.3 1.24V9H12.5l-.42 2.5H10.23V17A8 8 0 0 0 17 9z"
+          fill="currentColor"/>
+      </svg>
+    ),
+  },
+];
+
 export default function Contact() {
   const [form, setForm] = useState<FormState>({ name: "", email: "", budget: "", message: "" });
   const [sent, setSent] = useState(false);
@@ -31,10 +94,21 @@ export default function Contact() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate send — replace with real API call (e.g. Resend, Formspree)
-    await new Promise((r) => setTimeout(r, 1200));
+    
+    const subject = encodeURIComponent(`Project Inquiry from ${form.name} (Budget: ${form.budget || "N/A"})`);
+    const body = encodeURIComponent(
+      `Name: ${form.name}\n` +
+      `Email: ${form.email}\n` +
+      `Budget: ${form.budget || "N/A"}\n\n` +
+      `Message:\n${form.message}`
+    );
+    
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=amarillelorrenz@gmail.com&su=${subject}&body=${body}`;
+    window.open(gmailUrl, "_blank", "noopener,noreferrer");
+
     setLoading(false);
     setSent(true);
+    setForm({ name: "", email: "", budget: "", message: "" });
   };
 
   const inputStyle: React.CSSProperties = {
@@ -61,12 +135,6 @@ export default function Contact() {
     textTransform: "uppercase",
   };
 
-  const socialLinks = [
-    { icon: EnvelopeSimple, label: "Email",    href: "mailto:amarillelorrenz@gmail.com" },
-    { icon: GithubLogo,     label: "GitHub",   href: "https://github.com/Juroov"       },
-    { icon: FacebookLogo,   label: "Facebook",  href: "https://www.facebook.com/lorrenz.amarille.5/"    },
-  ];
-
   return (
     <section
       id="contact"
@@ -76,7 +144,7 @@ export default function Contact() {
         borderTop: "1px solid var(--border)",
       }}
     >
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+      <div style={{ maxWidth: 960, margin: "0 auto" }}>
         <div className="grid lg:grid-cols-[1fr_480px] gap-16 lg:gap-24 items-start">
           {/* Left — copy + socials */}
           <div>
@@ -87,11 +155,17 @@ export default function Contact() {
                 fontWeight: 700,
                 letterSpacing: "-0.03em",
                 color: "var(--text-primary)",
-                marginBottom: 16,
+                marginBottom: 8,
               }}
             >
               Let&apos;s work together.
             </h2>
+            {/* SVG stroke-draw underline */}
+            <svg className="heading-underline-svg" viewBox="0 0 300 8" preserveAspectRatio="none"
+              style={{ maxWidth: 240, height: 8, marginBottom: 20 }} aria-hidden="true">
+              <path className="heading-underline-path" d="M 2 4 Q 75 2 150 4 Q 225 6 298 4"
+                vectorEffect="non-scaling-stroke" pathLength="1" />
+            </svg>
             <p
               className="reveal reveal-delay-1"
               style={{
@@ -107,7 +181,7 @@ export default function Contact() {
             </p>
 
             <div className="reveal reveal-delay-2 flex flex-col gap-3">
-              {socialLinks.map(({ icon: Icon, label, href }) => (
+              {socialLinks.map(({ icon, label, href }) => (
                 <a
                   key={label}
                   href={href}
@@ -126,7 +200,7 @@ export default function Contact() {
                   onMouseOver={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--accent)")}
                   onMouseOut={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-body)")}
                 >
-                  <Icon size={18} />
+                  {icon}
                   {label}
                 </a>
               ))}
@@ -140,7 +214,7 @@ export default function Contact() {
                 className="flex flex-col items-center justify-center text-center"
                 style={{ padding: "40px 0", gap: 16 }}
               >
-                <CheckCircle size={48} color="#22c55e" weight="light" />
+                <AnimatedCheckmark />
                 <h3 style={{ fontSize: 20, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
                   Message sent!
                 </h3>

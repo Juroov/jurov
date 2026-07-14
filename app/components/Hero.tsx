@@ -1,21 +1,21 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ArrowRight, FolderOpen, MapPin } from "@phosphor-icons/react";
+import { HeroSVG } from "./HeroSVG";
 
 export default function Hero() {
-  const leftRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = leftRef.current;
+    const el = contentRef.current;
     if (!el) return;
     const children = Array.from(el.children) as HTMLElement[];
     children.forEach((child, i) => {
       child.style.opacity = "0";
-      child.style.transform = "translateY(28px)";
+      child.style.transform = "translateY(24px)";
       child.style.transition =
         "opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1)";
-      child.style.transitionDelay = `${0.1 + i * 0.15}s`;
+      child.style.transitionDelay = `${0.1 + i * 0.14}s`;
       requestAnimationFrame(() => {
         child.style.opacity = "1";
         child.style.transform = "translateY(0)";
@@ -26,255 +26,212 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex flex-col justify-center"
+      className="relative flex flex-col items-center justify-center"
       style={{
         minHeight: "100dvh",
         padding: "0 24px",
         background: "var(--surface)",
+        textAlign: "center",
+        overflow: "hidden",
       }}
     >
-      {/* Structural gutter line */}
+      {/* Subtle grid backdrop */}
       <div
-        className="absolute hidden lg:block"
+        aria-hidden="true"
         style={{
-          left: "calc(50% - 280px)",
-          top: 0,
-          bottom: 0,
-          width: 1,
-          background:
-            "linear-gradient(to bottom, transparent 5%, var(--border) 20%, var(--border) 80%, transparent 95%)",
+          position: "absolute",
+          inset: 0,
+          backgroundImage:
+            "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+          opacity: 0.4,
+          maskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 100%)",
+          WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 100%)",
+          pointerEvents: "none",
         }}
       />
 
       <div
+        ref={contentRef}
         style={{
-          maxWidth: 1200,
-          margin: "0 auto",
+          maxWidth: 680,
           width: "100%",
-          paddingTop: 112,
-          paddingBottom: 96,
+          paddingTop: 120,
+          paddingBottom: 80,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          position: "relative",
+          zIndex: 1,
         }}
       >
-        <div className="grid lg:grid-cols-[1fr_420px] gap-16 lg:gap-20 items-center">
-          {/* ── LEFT ── */}
-          <div ref={leftRef} style={{ display: "flex", flexDirection: "column" }}>
-            {/* Role pill */}
-            <div
-              className="inline-flex items-center gap-2 self-start"
-              style={{
-                padding: "6px 14px",
-                borderRadius: 999,
-                border: "1px solid var(--accent-border)",
-                background: "var(--accent-subtle)",
-                marginBottom: 32,
-              }}
-            >
-              <div
-                style={{
-                  width: 6, height: 6,
-                  borderRadius: "50%",
-                  background: "var(--accent)",
-                  flexShrink: 0,
-                }}
-              />
-              <span
-                style={{
-                  fontSize: 11,
-                  fontWeight: 600,
-                  color: "var(--accent)",
-                  fontFamily: "var(--font-geist-mono)",
-                  letterSpacing: "0.06em",
-                }}
-              >
-                Frontend Dev · UI/UX Designer · Open for commissions
-              </span>
-            </div>
-
-            {/* Headline */}
-            <h1
-              style={{
-                fontSize: "clamp(3.2rem, 8.5vw, 7rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.045em",
-                lineHeight: 0.9,
-                color: "var(--text-primary)",
-                fontFamily: "var(--font-geist-sans)",
-                marginBottom: 32,
-              }}
-            >
-              I design &amp;<br />
-              build web<br />
-              <span style={{ color: "var(--accent)" }}>experiences.</span>
-            </h1>
-
-            {/* Sub-copy */}
-            <p
-              style={{
-                fontSize: 16,
-                color: "var(--text-body)",
-                maxWidth: "50ch",
-                lineHeight: 1.8,
-                marginBottom: 48,
-              }}
-            >
-              Computer Engineering student with real internship experience at
-              PRIME Philippines. I build responsive frontends, design UI
-              systems, and take on freelance commissions — from landing pages
-              to full-stack apps.
-            </p>
-
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-              <a href="#commissions" className="btn-primary">
-                Commission rates
-                <ArrowRight size={15} weight="bold" />
-              </a>
-              <a href="#projects" className="btn-outline">
-                <FolderOpen size={15} />
-                View my work
-              </a>
-            </div>
-          </div>
-
-          {/* ── RIGHT ── */}
+        {/* Role pill */}
+        <div
+          className="inline-flex items-center gap-2"
+          style={{
+            padding: "6px 14px",
+            borderRadius: 999,
+            border: "1px solid var(--accent-border)",
+            background: "var(--accent-subtle)",
+            marginBottom: 28,
+          }}
+        >
           <div
             style={{
-              opacity: 0,
-              animation: "fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.65s forwards",
-              display: "flex",
-              flexDirection: "column",
-              gap: 16,
+              width: 6, height: 6,
+              borderRadius: "50%",
+              background: "var(--accent)",
+              flexShrink: 0,
+            }}
+          />
+          <span
+            style={{
+              fontSize: 11,
+              fontWeight: 600,
+              color: "var(--accent)",
+              fontFamily: "var(--font-geist-mono)",
+              letterSpacing: "0.06em",
             }}
           >
-            {/* Availability card */}
+            Frontend Dev · UI/UX Designer · Open for commissions
+          </span>
+        </div>
+
+        {/* SVG Illustration */}
+        <div
+          style={{
+            width: "100%",
+            maxWidth: 280,
+            marginBottom: 32,
+            opacity: 0,
+            animation: "heroFadeSlide 1.2s cubic-bezier(0.16,1,0.3,1) 0.2s forwards",
+          }}
+        >
+          <HeroSVG />
+        </div>
+
+        {/* Headline */}
+        <h1
+          style={{
+            fontSize: "clamp(2.8rem, 8vw, 5.5rem)",
+            fontWeight: 800,
+            letterSpacing: "-0.045em",
+            lineHeight: 0.95,
+            color: "var(--text-primary)",
+            fontFamily: "var(--font-geist-sans)",
+            marginBottom: 28,
+          }}
+        >
+          I design &amp; build<br />
+          <span style={{ color: "var(--accent)" }}>web experiences.</span>
+        </h1>
+
+        {/* Sub-copy */}
+        <p
+          style={{
+            fontSize: 16,
+            color: "var(--text-body)",
+            maxWidth: "48ch",
+            lineHeight: 1.8,
+            marginBottom: 40,
+          }}
+        >
+          Computer Engineering student with real internship experience at
+          PRIME Philippines. I build responsive frontends, design UI
+          systems, and take on freelance commissions — from landing pages
+          to full-stack apps.
+        </p>
+
+        {/* CTAs */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3" style={{ marginBottom: 56 }}>
+          <a href="#commissions" className="btn-primary">
+            Commission rates
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
+          <a href="#projects" className="btn-outline">
+            View my work
+          </a>
+        </div>
+
+        {/* Stats row */}
+        <div
+          className="grid grid-cols-3 gap-3"
+          style={{ width: "100%", maxWidth: 480 }}
+        >
+          {[
+            { value: "2+", label: "Commissions" },
+            { value: "1",  label: "Internship"  },
+            { value: "2",  label: "Projects"    },
+          ].map((s) => (
             <div
-              className="card"
-              style={{
-                padding: "24px 28px",
-                border: "1px solid var(--accent-border)",
-                background: "var(--accent-subtle)",
-              }}
+              key={s.label}
+              className="card text-center"
+              style={{ padding: "20px 8px" }}
             >
-              <div className="flex items-center gap-3" style={{ marginBottom: 12 }}>
-                <div
-                  className="status-dot"
-                  style={{
-                    width: 8, height: 8,
-                    borderRadius: "50%",
-                    background: "#22c55e",
-                    flexShrink: 0,
-                  }}
-                />
-                <span
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 700,
-                    color: "#15803d",
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    fontFamily: "var(--font-geist-mono)",
-                  }}
-                >
-                  Currently available
-                </span>
-              </div>
-              <p style={{ fontSize: 14, color: "var(--text-body)", lineHeight: 1.65, marginBottom: 16 }}>
-                Taking local &amp; remote commissions — websites, UI/UX design,
-                and automation tools.
-              </p>
-              <div
+              <p
                 style={{
-                  paddingTop: 14,
-                  borderTop: "1px solid var(--accent-border)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
+                  fontSize: 28,
+                  fontWeight: 800,
+                  color: "var(--accent)",
+                  letterSpacing: "-0.04em",
+                  fontFamily: "var(--font-geist-sans)",
+                  lineHeight: 1,
+                  marginBottom: 6,
                 }}
               >
-                <MapPin size={13} color="var(--text-label)" weight="fill" />
-                <p
-                  style={{
-                    fontSize: 11,
-                    fontFamily: "var(--font-geist-mono)",
-                    color: "var(--text-label)",
-                    letterSpacing: "0.04em",
-                  }}
-                >
-                  San Jose Del Monte, Bulacan PH
-                </p>
-              </div>
+                {s.value}
+              </p>
+              <p
+                style={{
+                  fontSize: 10,
+                  fontWeight: 600,
+                  color: "var(--text-label)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                  fontFamily: "var(--font-geist-mono)",
+                }}
+              >
+                {s.label}
+              </p>
             </div>
+          ))}
+        </div>
 
-            {/* Stats row */}
-            <div className="grid grid-cols-3 gap-3">
-              {[
-                { value: "2+", label: "Commissions" },
-                { value: "1",  label: "Internship"  },
-                { value: "2",  label: "Projects"    },
-              ].map((s) => (
-                <div
-                  key={s.label}
-                  className="card text-center"
-                  style={{ padding: "22px 10px" }}
-                >
-                  <p
-                    style={{
-                      fontSize: 30,
-                      fontWeight: 800,
-                      color: "var(--accent)",
-                      letterSpacing: "-0.04em",
-                      fontFamily: "var(--font-geist-sans)",
-                      lineHeight: 1,
-                      marginBottom: 8,
-                    }}
-                  >
-                    {s.value}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: 10,
-                      fontWeight: 600,
-                      color: "var(--text-label)",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.08em",
-                      fontFamily: "var(--font-geist-mono)",
-                    }}
-                  >
-                    {s.label}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            {/* Quick-contact strip */}
-            <a
-              href="#contact"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "14px 20px",
-                borderRadius: 10,
-                border: "1px solid var(--border-strong)",
-                background: "var(--surface)",
-                textDecoration: "none",
-                transition: "border-color 0.2s ease, background 0.2s ease",
-              }}
-              onMouseOver={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--accent)";
-                (e.currentTarget as HTMLAnchorElement).style.background = "var(--accent-subtle)";
-              }}
-              onMouseOut={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--border-strong)";
-                (e.currentTarget as HTMLAnchorElement).style.background = "var(--surface)";
-              }}
-            >
-              <span style={{ fontSize: 13, fontWeight: 500, color: "var(--text-body)" }}>
-                amarillelorrenz@gmail.com
-              </span>
-              <ArrowRight size={14} color="var(--text-muted)" />
-            </a>
-          </div>
+        {/* Availability badge */}
+        <div
+          className="flex items-center gap-2"
+          style={{
+            marginTop: 20,
+            padding: "10px 20px",
+            borderRadius: 10,
+            border: "1px solid var(--accent-border)",
+            background: "var(--accent-subtle)",
+            width: "100%",
+            maxWidth: 480,
+            justifyContent: "center",
+          }}
+        >
+          <div
+            className="status-dot"
+            style={{
+              width: 8, height: 8,
+              borderRadius: "50%",
+              background: "#22c55e",
+              flexShrink: 0,
+            }}
+          />
+          <span
+            style={{
+              fontSize: 12,
+              fontWeight: 600,
+              color: "var(--text-body)",
+              fontFamily: "var(--font-geist-mono)",
+            }}
+          >
+            Currently available · San Jose Del Monte, Bulacan PH
+          </span>
         </div>
       </div>
 
@@ -283,7 +240,7 @@ export default function Hero() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         style={{
           opacity: 0,
-          animation: "fadeIn 1s ease 1.8s forwards",
+          animation: "fadeIn 1s ease 2s forwards",
         }}
       >
         <span
@@ -297,25 +254,15 @@ export default function Hero() {
         >
           Scroll
         </span>
-        <div
-          style={{
-            width: 20, height: 32,
-            borderRadius: 999,
-            border: "1.5px solid var(--border-strong)",
-            display: "flex",
-            justifyContent: "center",
-            paddingTop: 6,
-          }}
-        >
-          <div
-            style={{
-              width: 3, height: 7,
-              borderRadius: 999,
-              background: "var(--text-label)",
-              animation: "blink 1.4s ease-in-out infinite",
-            }}
-          />
-        </div>
+        <svg width="20" height="32" viewBox="0 0 20 32" fill="none" aria-hidden="true">
+          <rect x="1" y="1" width="18" height="30" rx="9" stroke="var(--border-strong)" strokeWidth="1.5" />
+          <rect x="8.5" y="6" width="3" height="7" rx="1.5" fill="var(--text-label)">
+            <animate attributeName="y" values="6;16;6" dur="1.4s" repeatCount="indefinite"
+              calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+            <animate attributeName="opacity" values="1;0.2;1" dur="1.4s" repeatCount="indefinite"
+              calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+          </rect>
+        </svg>
       </div>
     </section>
   );

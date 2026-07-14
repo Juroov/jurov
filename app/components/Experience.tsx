@@ -91,11 +91,17 @@ export default function Experience() {
             fontWeight: 700,
             letterSpacing: "-0.03em",
             color: "var(--text-primary)",
-            marginBottom: 64,
+            marginBottom: 8,
           }}
         >
           Where I&apos;ve worked.
         </h2>
+        {/* SVG stroke-draw underline */}
+        <svg className="heading-underline-svg" viewBox="0 0 300 8" preserveAspectRatio="none"
+          style={{ maxWidth: 240, height: 8, marginBottom: 48 }} aria-hidden="true">
+          <path className="heading-underline-path" d="M 2 4 Q 75 2 150 4 Q 225 6 298 4"
+            vectorEffect="non-scaling-stroke" pathLength="1" />
+        </svg>
 
         <div className="timeline-track" style={{ paddingLeft: 48 }}>
           {roles.map((role, i) => (
@@ -107,7 +113,7 @@ export default function Experience() {
                 paddingBottom: i < roles.length - 1 ? 40 : 0,
               }}
             >
-              {/* Timeline dot */}
+              {/* Animated SVG timeline dot */}
               <div
                 style={{
                   position: "absolute",
@@ -115,21 +121,20 @@ export default function Experience() {
                   top: 6,
                   width: 30,
                   height: 30,
-                  borderRadius: "50%",
-                  background: `${role.dotColor}15`,
-                  border: `2px solid ${role.dotColor}40`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <div
-                  style={{
-                    width: 8, height: 8,
-                    borderRadius: "50%",
-                    background: role.dotColor,
-                  }}
-                />
+                <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+                  <circle cx="15" cy="15" r="13" fill={`${role.dotColor}12`} stroke={`${role.dotColor}40`} strokeWidth="1.5" />
+                  <circle cx="15" cy="15" r="4" fill={role.dotColor}>
+                    <animate attributeName="r" values="4;6;4" dur="2.5s" repeatCount="indefinite"
+                      calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+                    <animate attributeName="opacity" values="1;0.6;1" dur="2.5s" repeatCount="indefinite"
+                      calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+                  </circle>
+                </svg>
               </div>
 
               <div className="card" style={{ padding: "24px 28px" }}>
