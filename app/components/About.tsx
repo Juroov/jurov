@@ -1,4 +1,5 @@
-// Server Component — centered layout, no portrait
+// About section
+
 export default function About() {
   return (
     <section
@@ -6,30 +7,56 @@ export default function About() {
       style={{
         padding: "120px 24px",
         background: "var(--bg)",
+        position: "relative",
+        zIndex: 1,
       }}
     >
       <div style={{ maxWidth: 680, margin: "0 auto" }}>
-        {/* Centered large heading */}
+
+        {/* Headline — clip-wipe reveal */}
         <h2
-          className="reveal"
+          className="clip-wipe"
           style={{
             fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
             fontWeight: 700,
             letterSpacing: "-0.035em",
             lineHeight: 1.1,
             color: "var(--text-primary)",
+            fontFamily: "var(--font-inter)",
+            textShadow: "0 0 40px var(--accent-glow)",
             marginBottom: 32,
           }}
         >
-          I build things that<br />
+          I build things that
+          <br />
           people actually{" "}
-          <span style={{ color: "var(--accent)" }}>use.</span>
+          <span
+            style={{
+              color: "var(--accent)",
+              fontFamily: "var(--font-playfair)",
+              fontStyle: "italic",
+              fontWeight: 900,
+              textShadow: "0 0 50px var(--accent-glow)",
+            }}
+          >
+            use.
+          </span>
         </h2>
+
         {/* Animated SVG underline */}
-        <svg className="heading-underline-svg" viewBox="0 0 300 8" preserveAspectRatio="none"
-          style={{ maxWidth: 220, height: 8, marginBottom: 24 }} aria-hidden="true">
-          <path className="heading-underline-path" d="M 2 4 Q 75 2 150 4 Q 225 6 298 4"
-            vectorEffect="non-scaling-stroke" pathLength="1" />
+        <svg
+          className="heading-underline-svg"
+          viewBox="0 0 300 8"
+          preserveAspectRatio="none"
+          style={{ maxWidth: 220, height: 8, marginBottom: 24 }}
+          aria-hidden="true"
+        >
+          <path
+            className="heading-underline-path"
+            d="M 2 4 Q 75 2 150 4 Q 225 6 298 4"
+            vectorEffect="non-scaling-stroke"
+            pathLength="1"
+          />
         </svg>
 
         {/* Body copy */}
@@ -37,7 +64,8 @@ export default function About() {
           <p
             style={{
               fontSize: 16,
-              color: "var(--text-body)",
+              color: "var(--text-secondary)",
+              fontFamily: "var(--font-inter)",
               lineHeight: 1.85,
               marginBottom: 20,
             }}
@@ -52,7 +80,8 @@ export default function About() {
           <p
             style={{
               fontSize: 16,
-              color: "var(--text-muted)",
+              color: "var(--text-secondary)",
+              fontFamily: "var(--font-inter)",
               lineHeight: 1.85,
             }}
           >
@@ -63,36 +92,56 @@ export default function About() {
           </p>
         </div>
 
-        {/* Animated SVG horizontal divider */}
-        <div className="reveal" style={{ marginBottom: 48, overflow: "visible" }}>
-          <svg viewBox="0 0 680 2" style={{ width: "100%", height: 2, display: "block", overflow: "visible" }} aria-hidden="true">
-            <line x1="0" y1="1" x2="680" y2="1"
-              stroke="var(--border)" strokeWidth="1"
-              strokeDasharray="680" strokeDashoffset="680"
+        {/* Signature SVG divider */}
+        <div className="reveal" style={{ marginBottom: 48, display: "flex", justifyContent: "center" }}>
+          <svg viewBox="0 0 500 32" fill="none" style={{ width: "100%", maxWidth: 500, height: 32, overflow: "visible" }} aria-hidden="true">
+            <defs>
+              <linearGradient id="sig-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="var(--accent)" stopOpacity="0" />
+                <stop offset="20%" stopColor="var(--accent)" stopOpacity="0.7" />
+                <stop offset="50%" stopColor="var(--accent)" stopOpacity="1" />
+                <stop offset="80%" stopColor="var(--accent)" stopOpacity="0.7" />
+                <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
+              </linearGradient>
+              <filter id="sig-glow-f">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+            <line x1="0" y1="16" x2="500" y2="16" stroke="url(#sig-grad)" strokeWidth="0.6" />
+            <path
+              d="M 60 16 C 100 8, 150 6, 200 14 C 240 20, 280 22, 320 16 C 360 10, 400 8, 440 16"
+              stroke="var(--accent)"
+              strokeWidth="1.4"
               strokeLinecap="round"
-            >
-              <animate attributeName="stroke-dashoffset" from="680" to="0"
-                dur="1.2s" fill="freeze" calcMode="spline" keySplines="0.16 1 0.3 1" />
-            </line>
+              fill="none"
+              filter="url(#sig-glow-f)"
+            />
+            <circle cx="440" cy="16" r="3.5" fill="var(--accent)">
+              <animate attributeName="opacity" values="0;1;0.6;1" dur="0.6s" begin="0.3s" fill="freeze" />
+              <animate attributeName="r" values="3.5;5;3.5" dur="1.5s" repeatCount="indefinite" />
+            </circle>
           </svg>
         </div>
 
-        {/* Stats — horizontal row */}
-        <div className="reveal reveal-delay-2 grid grid-cols-3 gap-6">
+        {/* Stats — row-reveal stagger */}
+        <div className="grid grid-cols-3 gap-6">
           {[
-            { value: "2+", label: "Commissions done",  sub: "Local & remote" },
-            { value: "1",  label: "Internship",         sub: "PRIME Philippines" },
-            { value: "2",  label: "Live projects",      sub: "Fully deployed" },
+            { value: "2+", label: "Commissions done",  sub: "Local & remote",     delay: "d1" },
+            { value: "1",  label: "Internship",         sub: "PRIME Philippines",  delay: "d2" },
+            { value: "2",  label: "Live projects",      sub: "Fully deployed",     delay: "d3" },
           ].map((s) => (
             <div
               key={s.label}
-              className="card"
+              className={`card row-reveal row-reveal-${s.delay}`}
               style={{ padding: "24px 20px", textAlign: "center" }}
             >
               <p
                 style={{
                   fontSize: 36,
-                  fontWeight: 800,
+                  fontWeight: 900,
+                  fontFamily: "var(--font-playfair)",
+                  fontStyle: "italic",
                   color: "var(--accent)",
                   letterSpacing: "-0.05em",
                   lineHeight: 1,
@@ -106,6 +155,7 @@ export default function About() {
                   fontSize: 12,
                   fontWeight: 700,
                   color: "var(--text-primary)",
+                  fontFamily: "var(--font-inter)",
                   marginBottom: 3,
                   letterSpacing: "-0.01em",
                 }}
@@ -115,7 +165,7 @@ export default function About() {
               <p
                 style={{
                   fontSize: 11,
-                  color: "var(--text-label)",
+                  color: "var(--text-faint)",
                   fontFamily: "var(--font-geist-mono)",
                   letterSpacing: "0.03em",
                 }}
@@ -134,7 +184,7 @@ export default function About() {
             padding: "20px 24px",
             borderRadius: 12,
             border: "1px solid var(--border)",
-            background: "var(--surface)",
+            background: "var(--bg-card)",
             display: "flex",
             alignItems: "center",
             gap: 16,
@@ -143,22 +193,25 @@ export default function About() {
         >
           <div
             style={{
-              width: 40, height: 40,
-              borderRadius: 10,
-              background: "var(--accent-subtle)",
-              border: "1px solid var(--accent-border)",
+              width: 32, height: 32,
+              borderRadius: 8,
+              background: "var(--accent-glow)",
               display: "flex", alignItems: "center", justifyContent: "center",
               flexShrink: 0,
+              color: "var(--accent)",
+              fontFamily: "var(--font-playfair)",
+              fontStyle: "italic",
+              fontWeight: 900,
               fontSize: 18,
             }}
           >
-            🎓
+            E
           </div>
           <div>
-            <p style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)", marginBottom: 2 }}>
+            <p style={{ fontSize: 13, fontWeight: 700, color: "var(--text-primary)", fontFamily: "var(--font-inter)", marginBottom: 2 }}>
               Bachelor of Science in Computer Engineering
             </p>
-            <p style={{ fontSize: 12, color: "var(--text-muted)", fontFamily: "var(--font-geist-mono)" }}>
+            <p style={{ fontSize: 12, color: "var(--text-secondary)", fontFamily: "var(--font-geist-mono)" }}>
               Bulacan State University · 2022 – Present
             </p>
           </div>
@@ -167,8 +220,8 @@ export default function About() {
               marginLeft: "auto",
               padding: "4px 12px",
               borderRadius: 999,
-              background: "var(--accent-subtle)",
-              border: "1px solid var(--accent-border)",
+              background: "var(--accent-glow)",
+              border: "1px solid var(--border)",
             }}
           >
             <span
@@ -178,7 +231,7 @@ export default function About() {
                 color: "var(--accent)",
                 letterSpacing: "0.08em",
                 textTransform: "uppercase",
-                fontFamily: "var(--font-geist-mono)",
+                fontFamily: "var(--font-inter)",
               }}
             >
               In Progress

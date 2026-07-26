@@ -192,7 +192,7 @@ export function ProjectPreviewSVG({
             {/* Page content rows */}
             {rows.map((row, ri) => (
               <g key={ri} transform={`translate(155, ${232 + ri * 12})`}>
-                {row.reduce((acc: JSX.Element[], block, bi) => {
+                {row.reduce((acc: React.ReactElement[], block, bi) => {
                   const prevWidths = row.slice(0, bi).map(b => parseFloat(b.width) / 100 * 190);
                   const x = prevWidths.reduce((s, w) => s + w + 6, 0);
                   const w = parseFloat(block.width) / 100 * 190;

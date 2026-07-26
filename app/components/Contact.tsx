@@ -22,7 +22,7 @@ function AnimatedCheckmark() {
   return (
     <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-label="Sent" role="img">
       <circle cx="28" cy="28" r="25"
-        stroke="#22c55e"
+        stroke="var(--accent)"
         strokeWidth="2"
         strokeDasharray="160"
         strokeDashoffset="160"
@@ -33,7 +33,7 @@ function AnimatedCheckmark() {
       </circle>
       <path
         d="M16 28l8 8 16-16"
-        stroke="#22c55e"
+        stroke="var(--accent)"
         strokeWidth="2.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -140,7 +140,7 @@ export default function Contact() {
       id="contact"
       style={{
         padding: "120px 24px",
-        background: "var(--surface)",
+        background: "var(--bg)",
         borderTop: "1px solid var(--border)",
       }}
     >
@@ -149,16 +149,27 @@ export default function Contact() {
           {/* Left — copy + socials */}
           <div>
             <h2
-              className="reveal"
+              className="reveal clip-wipe"
               style={{
                 fontSize: "clamp(2rem, 4vw, 3rem)",
                 fontWeight: 700,
                 letterSpacing: "-0.03em",
                 color: "var(--text-primary)",
+                fontFamily: "var(--font-inter)",
                 marginBottom: 8,
               }}
             >
-              Let&apos;s work together.
+              Let&apos;s work{" "}
+              <span
+                style={{
+                  fontFamily: "var(--font-playfair)",
+                  fontStyle: "italic",
+                  fontWeight: 900,
+                  color: "var(--accent)",
+                }}
+              >
+                together.
+              </span>
             </h2>
             {/* SVG stroke-draw underline */}
             <svg className="heading-underline-svg" viewBox="0 0 300 8" preserveAspectRatio="none"
@@ -170,7 +181,8 @@ export default function Contact() {
               className="reveal reveal-delay-1"
               style={{
                 fontSize: 15,
-                color: "var(--text-muted)",
+                color: "var(--text-secondary)",
+                fontFamily: "var(--font-inter)",
                 lineHeight: 1.8,
                 maxWidth: "42ch",
                 marginBottom: 40,
@@ -208,7 +220,7 @@ export default function Contact() {
           </div>
 
           {/* Right — form */}
-          <div className="reveal reveal-delay-1 card" style={{ padding: "32px 28px" }}>
+          <div className="reveal reveal-delay-1 card" style={{ padding: "32px 28px", background: "var(--bg-card)" }}>
             {sent ? (
               <div
                 className="flex flex-col items-center justify-center text-center"
@@ -238,7 +250,7 @@ export default function Contact() {
                       style={inputStyle}
                       onFocus={(e) => {
                         e.target.style.borderColor = "var(--accent)";
-                        e.target.style.boxShadow = "0 0 0 3px rgba(37,99,235,0.1)";
+                        e.target.style.boxShadow = "0 0 0 3px var(--accent-glow)";
                       }}
                       onBlur={(e) => {
                         e.target.style.borderColor = "var(--border-strong)";
@@ -259,7 +271,7 @@ export default function Contact() {
                       style={inputStyle}
                       onFocus={(e) => {
                         e.target.style.borderColor = "var(--accent)";
-                        e.target.style.boxShadow = "0 0 0 3px rgba(37,99,235,0.1)";
+                        e.target.style.boxShadow = "0 0 0 3px var(--accent-glow)";
                       }}
                       onBlur={(e) => {
                         e.target.style.borderColor = "var(--border-strong)";
@@ -279,7 +291,7 @@ export default function Contact() {
                     style={{ ...inputStyle, cursor: "pointer" }}
                     onFocus={(e) => {
                       e.target.style.borderColor = "var(--accent)";
-                      e.target.style.boxShadow = "0 0 0 3px rgba(37,99,235,0.1)";
+                      e.target.style.boxShadow = "0 0 0 3px var(--accent-glow)";
                     }}
                     onBlur={(e) => {
                       e.target.style.borderColor = "var(--border-strong)";
@@ -306,7 +318,7 @@ export default function Contact() {
                     style={{ ...inputStyle, resize: "vertical", minHeight: 120 }}
                     onFocus={(e) => {
                       e.target.style.borderColor = "var(--accent)";
-                      e.target.style.boxShadow = "0 0 0 3px rgba(37,99,235,0.1)";
+                      e.target.style.boxShadow = "0 0 0 3px var(--accent-glow)";
                     }}
                     onBlur={(e) => {
                       e.target.style.borderColor = "var(--border-strong)";

@@ -7,9 +7,6 @@ type Tier = {
   description: string;
   startingAt: string;
   features: string[];
-  accent: string;
-  accentSubtle: string;
-  accentBorder: string;
 };
 
 const tiers: Tier[] = [
@@ -25,9 +22,6 @@ const tiers: Tier[] = [
       "Up to 5 sections",
       "Deployed & ready to share",
     ],
-    accent: "#2563EB",
-    accentSubtle: "#EFF6FF",
-    accentBorder: "#BFDBFE",
   },
   {
     icon: "🎨",
@@ -41,9 +35,6 @@ const tiers: Tier[] = [
       "Light & dark mode variants",
       "Handoff-ready components",
     ],
-    accent: "#DB2777",
-    accentSubtle: "#FDF2F8",
-    accentBorder: "#FBCFE8",
   },
   {
     icon: "🤖",
@@ -57,9 +48,6 @@ const tiers: Tier[] = [
       "Scheduled automation",
       "Documentation included",
     ],
-    accent: "#D97706",
-    accentSubtle: "#FFFBEB",
-    accentBorder: "#FDE68A",
   },
 ];
 
@@ -83,7 +71,7 @@ export default function Commissions() {
             letterSpacing: "0.18em",
             textTransform: "uppercase",
             color: "var(--accent)",
-            fontFamily: "var(--font-geist-mono)",
+            fontFamily: "var(--font-inter)",
             marginBottom: 16,
           }}
         >
@@ -92,21 +80,33 @@ export default function Commissions() {
 
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4" style={{ marginBottom: 64 }}>
           <h2
-            className="reveal reveal-delay-1"
+            className="reveal reveal-delay-1 clip-wipe"
             style={{
               fontSize: "clamp(2rem, 4vw, 3rem)",
               fontWeight: 700,
               letterSpacing: "-0.03em",
               color: "var(--text-primary)",
+              fontFamily: "var(--font-inter)",
             }}
           >
-            What I can build for you.
+            What I can build{" "}
+            <span
+              style={{
+                fontFamily: "var(--font-playfair)",
+                fontStyle: "italic",
+                fontWeight: 900,
+                color: "var(--accent)",
+              }}
+            >
+              for you.
+            </span>
           </h2>
           <p
             className="reveal reveal-delay-2"
             style={{
               fontSize: 13,
-              color: "var(--text-muted)",
+              color: "var(--text-secondary)",
+              fontFamily: "var(--font-inter)",
               maxWidth: "38ch",
               lineHeight: 1.7,
             }}
@@ -124,13 +124,15 @@ export default function Commissions() {
                 padding: "36px 32px",
                 display: "flex",
                 flexDirection: "column",
+                background: "var(--bg-card)",
               }}
             >
               <div
                 style={{
                   width: 52, height: 52,
                   borderRadius: 12,
-                  background: tier.accentSubtle,
+                  background: "var(--accent-glow)",
+                  border: "1px solid var(--border)",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   fontSize: 24,
                   marginBottom: 20,
@@ -145,6 +147,7 @@ export default function Commissions() {
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
                   color: "var(--text-primary)",
+                  fontFamily: "var(--font-inter)",
                   marginBottom: 10,
                 }}
               >
@@ -154,7 +157,8 @@ export default function Commissions() {
               <p
                 style={{
                   fontSize: 13,
-                  color: "var(--text-muted)",
+                  color: "var(--text-secondary)",
+                  fontFamily: "var(--font-inter)",
                   lineHeight: 1.7,
                   marginBottom: 24,
                   flex: 1,
@@ -165,17 +169,17 @@ export default function Commissions() {
 
               <ul style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 28 }}>
                 {tier.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2.5" style={{ fontSize: 12, color: "var(--text-body)" }}>
+                  <li key={f} className="flex items-center gap-2.5" style={{ fontSize: 12, color: "var(--text-secondary)", fontFamily: "var(--font-inter)" }}>
                     <div
                       style={{
                         width: 16, height: 16,
                         borderRadius: "50%",
-                        background: tier.accentSubtle,
-                        border: `1px solid ${tier.accentBorder}`,
+                        background: "var(--accent-glow)",
+                        border: "1px solid var(--border)",
                         display: "flex", alignItems: "center", justifyContent: "center",
                         flexShrink: 0,
                         fontSize: 9,
-                        color: tier.accent,
+                        color: "var(--accent)",
                         fontWeight: 700,
                       }}
                     >
@@ -195,15 +199,17 @@ export default function Commissions() {
                   justifyContent: "space-between",
                 }}
               >
-                <span style={{ fontSize: 11, color: "var(--text-label)", fontFamily: "var(--font-geist-mono)" }}>
+                <span style={{ fontSize: 11, color: "var(--text-faint)", fontFamily: "var(--font-inter)" }}>
                   Starting from
                 </span>
                 <span
                   style={{
                     fontSize: 20,
-                    fontWeight: 800,
-                    color: tier.accent,
+                    fontWeight: 900,
+                    color: "var(--accent)",
                     letterSpacing: "-0.03em",
+                    fontFamily: "var(--font-playfair)",
+                    fontStyle: "italic",
                   }}
                 >
                   {tier.startingAt}
@@ -220,7 +226,7 @@ export default function Commissions() {
             marginTop: 32,
             padding: "24px 32px",
             borderRadius: 12,
-            background: "var(--surface)",
+            background: "var(--bg-card-2)",
             border: "1px solid var(--border)",
             display: "flex",
             alignItems: "center",
@@ -228,7 +234,7 @@ export default function Commissions() {
             flexWrap: "wrap",
           }}
         >
-          <p style={{ fontSize: 13, color: "var(--text-body)", lineHeight: 1.6 }}>
+          <p style={{ fontSize: 13, color: "var(--text-secondary)", fontFamily: "var(--font-inter)", lineHeight: 1.6 }}>
             <strong style={{ color: "var(--text-primary)" }}>Scope not listed?</strong> Custom quotes available for larger projects — full-stack apps, Figma-to-code conversions, ongoing maintenance retainers.
           </p>
           <a

@@ -1,10 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
+import SmoothScroll from "./components/SmoothScroll";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"], display: "swap" });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap" });
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["700", "900"],
+  display: "swap",
+});
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Lorrenz Amarille — Frontend Developer & UI/UX Designer",
@@ -24,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} scroll-smooth`}
+      className={`${geistMono.variable} ${playfair.variable} ${inter.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       {/* Prevent dark-mode flash — reads localStorage before first paint */}
@@ -44,7 +57,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen antialiased">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <SmoothScroll>{children}</SmoothScroll>
+        </ThemeProvider>
       </body>
     </html>
   );

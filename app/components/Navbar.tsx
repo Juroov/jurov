@@ -120,7 +120,7 @@ export default function Navbar() {
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{
           background: scrolled
-            ? (theme === 'dark' ? "rgba(17,17,19,0.92)" : "rgba(255,255,255,0.92)")
+            ? "color-mix(in srgb, var(--bg-card) 92%, transparent)"
             : "transparent",
           backdropFilter: scrolled ? "blur(20px)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
@@ -139,13 +139,13 @@ export default function Navbar() {
                 className="flex items-center justify-center transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3"
                 style={{
                   width: 32, height: 32,
-                  background: "var(--text-primary)",
+                  background: "var(--bg-card)",
                   borderRadius: 8,
                 }}
               >
                 <span
                   style={{
-                    color: "var(--bg)",
+                    color: "var(--accent)",
                     fontFamily: "var(--font-geist-mono)",
                     fontSize: 13,
                     fontWeight: 700,
@@ -163,9 +163,46 @@ export default function Navbar() {
                   fontWeight: 600,
                   color: "var(--text-primary)",
                   letterSpacing: "-0.02em",
+                  position: "relative",
                 }}
               >
                 Lorrenz Amarille
+                {/* Pen-stroke SVG underline — draws in on group hover */}
+                <svg
+                  viewBox="0 0 120 4"
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    bottom: -3, left: 0,
+                    width: "100%", height: 4,
+                    overflow: "visible",
+                    opacity: 0,
+                    transition: "opacity 0.25s ease",
+                  }}
+                  className="group-hover:[opacity:1]!"
+                >
+                  <path
+                    d="M 0 2 Q 30 1 60 2 Q 90 3 120 2"
+                    fill="none"
+                    stroke="var(--accent)"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeDasharray="120"
+                    strokeDashoffset="120"
+                    style={{ transition: "none" }}
+                  >
+                    <animate
+                      attributeName="stroke-dashoffset"
+                      from="120" to="0"
+                      dur="0.45s"
+                      fill="freeze"
+                      begin="indefinite"
+                      id="logo-underline-anim"
+                      calcMode="spline"
+                      keySplines="0.22 1 0.36 1"
+                    />
+                  </path>
+                </svg>
               </span>
             </a>
 
@@ -180,33 +217,50 @@ export default function Navbar() {
                     color: active === l.href.slice(1)
                       ? "var(--text-primary)"
                       : undefined,
+                    position: "relative",
                   }}
                 >
                   {l.label}
+                  {active === l.href.slice(1) && (
+                    <span
+                      aria-hidden="true"
+                      style={{
+                        position: "absolute",
+                        bottom: -6, left: "50%",
+                        transform: "translateX(-50%)",
+                        width: 4, height: 4,
+                        borderRadius: "50%",
+                        background: "var(--accent)",
+                        boxShadow: "0 0 6px var(--accent-glow)",
+                      }}
+                    />
+                  )}
                 </a>
               ))}
             </div>
 
-            {/* Right side */}
             <div className="flex items-center gap-3">
               <div
-                className="hidden sm:flex items-center gap-2 bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/20"
+                className="hidden sm:flex items-center gap-2"
                 style={{
+                  background: "var(--accent-glow)",
+                  border: "1px solid var(--border)",
                   padding: "6px 12px",
                   borderRadius: 999,
                 }}
               >
                 <div
-                  className="status-dot bg-green-500 dark:bg-green-400"
+                  className="status-dot"
                   style={{
+                    background: "var(--accent)",
                     width: 7, height: 7,
                     borderRadius: "50%",
                     flexShrink: 0,
                   }}
                 />
                 <span
-                  className="text-green-700 dark:text-green-400"
                   style={{
+                    color: "var(--accent)",
                     fontSize: 10,
                     fontWeight: 700,
                     letterSpacing: "0.06em",
@@ -253,7 +307,7 @@ export default function Navbar() {
       <div
         className="fixed inset-0 z-[60] flex flex-col items-center justify-center transition-all duration-400"
         style={{
-          background: theme === 'dark' ? "rgba(9,9,11,0.97)" : "rgba(255,255,255,0.97)",
+          background: "color-mix(in srgb, var(--bg) 97%, transparent)",
           backdropFilter: "blur(24px)",
           WebkitBackdropFilter: "blur(24px)",
           opacity: menuOpen ? 1 : 0,

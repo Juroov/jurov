@@ -5,8 +5,6 @@ type Role = {
   title: string;
   company: string;
   period: string;
-  color: string;
-  dotColor: string;
   bullets?: string[];
   blurb?: string;
   tags?: string[];
@@ -17,8 +15,6 @@ const roles: Role[] = [
     title: "UI/UX and Frontend Development Intern",
     company: "PRIME Philippines",
     period: "May 2026 — Jul 2026",
-    color: "#2563EB",
-    dotColor: "#2563EB",
     bullets: [
       "Developed responsive frontend interfaces for ArgoNavis, an Intelligent Fleet and Mobility Management System, using Next.js and modern frontend tools.",
       "Built and maintained a reusable design system with modular components and full dual-theme (Light & Dark Mode) support.",
@@ -32,8 +28,6 @@ const roles: Role[] = [
     title: "Partnership Lead — External",
     company: "Microsoft Student Community, Bulacan State University",
     period: "Jul 2025 — Apr 2026",
-    color: "#6366F1",
-    dotColor: "#6366F1",
     blurb:
       "Coordinated strategic partnerships and brand visibility initiatives for the Membership ID Program, fostering tech community growth and collaboration with external organizations.",
   },
@@ -41,8 +35,6 @@ const roles: Role[] = [
     title: "Volunteer Coordinator",
     company: "DEVCON Manila",
     period: "Apr 2025",
-    color: "#F59E0B",
-    dotColor: "#F59E0B",
     blurb:
       "Orchestrated logistics and managed volunteer teams during technical conferences, ensuring smooth event operations and attendee support.",
   },
@@ -50,8 +42,6 @@ const roles: Role[] = [
     title: "Game Agent",
     company: "Yield Guild Games Philippines Workforce",
     period: "2023 — 2024",
-    color: "#A855F7",
-    dotColor: "#A855F7",
     blurb:
       "Executed daily operations and optimized digital asset management strategies within a fast-paced Web3 gaming environment.",
   },
@@ -77,7 +67,7 @@ export default function Experience() {
             letterSpacing: "0.18em",
             textTransform: "uppercase",
             color: "var(--accent)",
-            fontFamily: "var(--font-geist-mono)",
+            fontFamily: "var(--font-inter)",
             marginBottom: 16,
           }}
         >
@@ -91,10 +81,23 @@ export default function Experience() {
             fontWeight: 700,
             letterSpacing: "-0.03em",
             color: "var(--text-primary)",
+            fontFamily: "var(--font-inter)",
+            textShadow: "0 0 40px var(--accent-glow)",
             marginBottom: 8,
           }}
         >
-          Where I&apos;ve worked.
+          Where I&apos;ve{" "}
+          <span
+            style={{
+              fontFamily: "var(--font-playfair)",
+              fontStyle: "italic",
+              fontWeight: 900,
+              color: "var(--accent)",
+              textShadow: "0 0 50px var(--accent-glow)",
+            }}
+          >
+            worked.
+          </span>
         </h2>
         {/* SVG stroke-draw underline */}
         <svg className="heading-underline-svg" viewBox="0 0 300 8" preserveAspectRatio="none"
@@ -127,8 +130,8 @@ export default function Experience() {
                 }}
               >
                 <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
-                  <circle cx="15" cy="15" r="13" fill={`${role.dotColor}12`} stroke={`${role.dotColor}40`} strokeWidth="1.5" />
-                  <circle cx="15" cy="15" r="4" fill={role.dotColor}>
+                  <circle cx="15" cy="15" r="13" fill="var(--accent-glow)" stroke="var(--border)" strokeWidth="1.5" />
+                  <circle cx="15" cy="15" r="4" fill="var(--accent)">
                     <animate attributeName="r" values="4;6;4" dur="2.5s" repeatCount="indefinite"
                       calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
                     <animate attributeName="opacity" values="1;0.6;1" dur="2.5s" repeatCount="indefinite"
@@ -137,7 +140,7 @@ export default function Experience() {
                 </svg>
               </div>
 
-              <div className="card" style={{ padding: "24px 28px" }}>
+              <div className="card" style={{ padding: "24px 28px", background: "var(--bg-card)" }}>
                 <div
                   className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2"
                   style={{ marginBottom: 16 }}
@@ -148,6 +151,7 @@ export default function Experience() {
                         fontSize: 16,
                         fontWeight: 700,
                         color: "var(--text-primary)",
+                        fontFamily: "var(--font-inter)",
                         letterSpacing: "-0.01em",
                         marginBottom: 3,
                       }}
@@ -158,7 +162,8 @@ export default function Experience() {
                       style={{
                         fontSize: 13,
                         fontWeight: 600,
-                        color: role.color,
+                        color: "var(--accent)",
+                        fontFamily: "var(--font-inter)",
                       }}
                     >
                       {role.company}
@@ -168,8 +173,9 @@ export default function Experience() {
                     style={{
                       fontSize: 11,
                       fontWeight: 600,
-                      color: "var(--text-muted)",
-                      background: "rgba(0,0,0,0.04)",
+                      color: "var(--text-faint)",
+                      background: "var(--bg-card-2)",
+                      border: "1px solid var(--border)",
                       padding: "4px 10px",
                       borderRadius: 6,
                       whiteSpace: "nowrap",
@@ -184,8 +190,8 @@ export default function Experience() {
                 {role.bullets && (
                   <ul style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 20 }}>
                     {role.bullets.map((b, j) => (
-                      <li key={j} className="flex gap-2.5" style={{ fontSize: 13, color: "var(--text-body)", lineHeight: 1.7 }}>
-                        <span style={{ color: `${role.dotColor}99`, marginTop: 5, flexShrink: 0 }}>•</span>
+                      <li key={j} className="flex gap-2.5" style={{ fontSize: 13, color: "var(--text-secondary)", fontFamily: "var(--font-inter)", lineHeight: 1.7 }}>
+                        <span style={{ color: "var(--accent)", opacity: 0.6, marginTop: 5, flexShrink: 0 }}>•</span>
                         {b}
                       </li>
                     ))}
@@ -193,7 +199,7 @@ export default function Experience() {
                 )}
 
                 {role.blurb && (
-                  <p style={{ fontSize: 13, color: "var(--text-body)", lineHeight: 1.7 }}>
+                  <p style={{ fontSize: 13, color: "var(--text-secondary)", fontFamily: "var(--font-inter)", lineHeight: 1.7 }}>
                     {role.blurb}
                   </p>
                 )}
@@ -201,20 +207,7 @@ export default function Experience() {
                 {role.tags && (
                   <div className="flex flex-wrap gap-2" style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
                     {role.tags.map((t) => (
-                      <span
-                        key={t}
-                        style={{
-                          padding: "3px 10px",
-                          borderRadius: 4,
-                          fontSize: 10,
-                          fontWeight: 700,
-                          letterSpacing: "0.06em",
-                          textTransform: "uppercase",
-                          background: `${role.dotColor}10`,
-                          color: role.dotColor,
-                          fontFamily: "var(--font-geist-mono)",
-                        }}
-                      >
+                      <span key={t} className="tag">
                         {t}
                       </span>
                     ))}

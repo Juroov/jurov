@@ -10,10 +10,14 @@ import Contact      from "./components/Contact";
 import Footer       from "./components/Footer";
 import ScrollReveal from "./components/ScrollReveal";
 import Cursor       from "./components/Cursor";
+import AmbientGlow  from "./components/AmbientGlow";
 
 export default function Home() {
   return (
     <>
+      {/* Ambient parallax glow — fixed, z-index 0 */}
+      <AmbientGlow />
+
       {/* Client-only utilities (isolated leaves) */}
       <Cursor />
       <ScrollReveal />

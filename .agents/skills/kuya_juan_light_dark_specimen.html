@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuya Juan — Noir Serif / Light &amp; Dark</title>
+
+<!--
+  ADAPTED FROM THE LIVE SITE'S REAL SCREENSHOTS
+  ------------------------------------------------
+  Source: 5 screenshots of https://clients-portfolio.vercel.app/ as actually
+  rendered (dark, not the generic light template assumed earlier).
+
+  TYPOGRAPHY IDENTIFIED:
+   • Display — a high-contrast serif italic with dramatic swashes on caps
+     (the flourish on "F" in Financial, the "K" in Kuya). This is Playfair
+     Display Black Italic, or extremely close to it — one of the most
+     common choices for exactly this "editorial luxury" hero moment.
+   • UI / body — a plain geometric grotesk (nav, labels, paragraph text).
+     Reads as Inter or a Vercel/Geist default. Recommendation: keep it.
+     It's deliberately quiet here — all the drama is carried by the serif
+     and the red, and a quiet utility face is the right call, not a flaw
+     to fix.
+
+  COLORS IDENTIFIED (estimated from the screenshots):
+   • Near-black, faintly warm/maroon background (not pure #000)
+   • One saturated crimson accent (buttons, kickers, glow)
+   • A softer blush-pink used only on italic gradient emphasis words
+   • Off-white primary text, warm gray secondary text
+   • Card surfaces a shade lighter than the background, with a hairline
+     red border at low opacity — never a hard white border
+
+  Below: the same tokens and components in DARK (close to the current
+  site) and a proposed LIGHT companion that keeps the identical feel —
+  same red, same serif drama — inverted rather than washed out.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --font-display: 'Playfair Display', serif;
+    --font-ui: 'Inter', sans-serif;
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  [data-theme="dark"] {
+    --bg: #0A0707;
+    --bg-card: #170B0D;
+    --text-primary: #F7F3EF;
+    --text-secondary: #9A938F;
+    --accent: #D92D42;
+    --accent-glow: rgba(217,45,66,0.45);
+    --accent-soft: #EF8FA0;
+    --border: rgba(217,45,66,0.28);
+    --watermark: rgba(217,45,66,0.07);
+  }
+  [data-theme="light"] {
+    --bg: #FAF6F1;
+    --bg-card: #FBEFEF;
+    --text-primary: #1C1512;
+    --text-secondary: #746A64;
+    --accent: #B5182C;
+    --accent-glow: rgba(181,24,44,0.18);
+    --accent-soft: #C97186;
+    --border: rgba(181,24,44,0.18);
+    --watermark: rgba(181,24,44,0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    padding: 3rem 2rem 5rem;
+    transition: background var(--ease) 400ms, color var(--ease) 400ms;
+    position: relative;
+    overflow-x: hidden;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; position: relative; z-index: 2; }
+
+  /* ---------- Toggle ---------- */
+  .toggle-row { display: flex; justify-content: center; margin-bottom: 3.5rem; }
+  .toggle {
+    display: inline-flex; background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 999px; padding: 4px; gap: 4px;
+  }
+  .toggle button {
+    font-family: var(--font-ui); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em;
+    padding: 0.55rem 1.25rem; border-radius: 999px; border: none; cursor: pointer;
+    background: transparent; color: var(--text-secondary);
+    transition: background var(--ease) 200ms, color var(--ease) 200ms;
+  }
+  .toggle button.active { background: var(--accent); color: #fff; }
+
+  /* ---------- Section label ---------- */
+  .lbl {
+    font-family: var(--font-ui); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--text-secondary); margin: 3.5rem 0 1rem;
+  }
+  .lbl:first-of-type { margin-top: 0; }
+
+  /* ---------- Type & color reference ---------- */
+  .ref-row { display: flex; align-items: baseline; gap: 1.5rem; padding: 0.9rem 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .ref-row .k { font-family: var(--font-ui); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); width: 130px; flex-shrink: 0; }
+
+  .swatch-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
+  .swatch { width: 96px; height: 64px; border-radius: 6px; display: flex; align-items: flex-end; padding: 0.5rem; font-family: var(--font-ui); font-size: 0.6rem; }
+
+  /* ---------- Hero specimen ---------- */
+  .hero-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 3rem 2.5rem; text-align: center; position: relative; overflow: hidden;
+  }
+  .kicker-pill {
+    display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-ui);
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); border: 1px solid var(--border); border-radius: 999px; padding: 0.5rem 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+  .kicker-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .eyebrow { font-family: var(--font-ui); font-size: 0.75rem; letter-spacing: 0.2em; color: var(--text-secondary); margin-bottom: 0.5rem; }
+  .headline { font-family: var(--font-display); font-style: italic; font-weight: 900; font-size: clamp(2.4rem, 7vw, 3.6rem); line-height: 1.05; }
+  .headline .line1 { color: var(--text-primary); display: block; text-shadow: 0 0 40px var(--accent-glow); }
+  .headline .line2 { color: var(--accent); display: block; text-shadow: 0 0 50px var(--accent-glow); }
+  .hero-sub { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; margin: 1.25rem 0 1rem; }
+  .hero-sub em { color: var(--accent); }
+  .hero-lede { font-family: var(--font-ui); color: var(--text-secondary); font-size: 0.95rem; max-width: 42ch; margin: 0 auto 2rem; }
+
+  .cta-row { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+  .btn { font-family: var(--font-ui); font-size: 0.82rem; font-weight: 600; padding: 0.85rem 1.6rem; border-radius: 999px; border: none; cursor: pointer; transition: transform 200ms var(--ease); }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-fill { background: var(--accent); color: #fff; box-shadow: 0 8px 22px var(--accent-glow); }
+  .btn-line { background: transparent; color: var(--text-primary); border: 1px solid var(--border); }
+
+  .stat-row { display: flex; justify-content: center; gap: 2.5rem; }
+  .stat-num { font-family: var(--font-display); font-weight: 900; font-style: italic; font-size: 1.8rem; color: var(--accent); display: block; }
+  .stat-label { font-family: var(--font-ui); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-secondary); }
+
+  /* ---------- Credential rows ---------- */
+  .cred-row {
+    display: flex; align-items: center; gap: 1rem; background: var(--bg-card);
+    border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 0.75rem;
+  }
+  .cred-icon {
+    width: 40px; height: 40px; border-radius: 9px; background: var(--accent-glow);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .cred-icon svg { width: 18px; height: 18px; stroke: var(--accent); fill: none; stroke-width: 1.8; }
+  .cred-row h4 { font-family: var(--font-ui); font-size: 0.92rem; flex: 1; }
+  .tag-pill { font-family: var(--font-ui); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); background: var(--accent-glow); padding: 0.3rem 0.7rem; border-radius: 999px; }
+
+  /* ---------- Process rows ---------- */
+  .process-row { display: flex; align-items: flex-start; gap: 1rem; position: relative; padding: 1.25rem 0; border-top: 1px solid var(--border); }
+  .process-ghost { position: absolute; right: 0; top: -0.5rem; font-family: var(--font-display); font-weight: 900; font-size: 3.5rem; color: var(--watermark); z-index: 0; }
+  .process-icon { width: 38px; height: 38px; border-radius: 9px; background: var(--accent-glow); display: flex; align-items: center; justify-content: center; flex-shrink: 0; z-index: 1; }
+  .process-icon svg { width: 16px; height: 16px; stroke: var(--accent); fill: none; stroke-width: 1.8; }
+  .process-row h4 { font-family: var(--font-ui); font-size: 0.95rem; margin-bottom: 0.2rem; z-index: 1; }
+  .process-row p { font-family: var(--font-ui); font-size: 0.85rem; color: var(--text-secondary); z-index: 1; }
+
+  /* ---------- Why-it-matters ghost watermark demo ---------- */
+  .why-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 2.75rem 2rem; text-align: center; position: relative; overflow: hidden; }
+  .why-watermark {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: var(--font-display); font-weight: 900; font-size: 9rem; color: var(--watermark);
+    white-space: nowrap; z-index: 0; user-select: none;
+  }
+  .why-card p { position: relative; z-index: 1; font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; line-height: 1.35; }
+  .why-card p em { color: var(--accent); font-style: italic; }
+</style>
+</head>
+<body data-theme="dark">
+
+<div class="wrap">
+
+  <div class="toggle-row">
+    <div class="toggle">
+      <button id="btn-dark" class="active">Dark</button>
+      <button id="btn-light">Light</button>
+    </div>
+  </div>
+
+  <div class="lbl">Type &amp; Color Reference</div>
+  <div class="ref-row"><span class="k">Display</span><span style="font-family:var(--font-display); font-style:italic; font-weight:900; font-size:1.6rem;">Financial Kuya</span></div>
+  <div class="ref-row"><span class="k">UI / Body</span><span style="font-family:var(--font-ui); font-size:1rem;">Helping Filipino families build financial security.</span></div>
+  <div class="swatch-row">
+    <div class="swatch" style="background:var(--bg); color:var(--text-primary); border:1px solid var(--border);">Background</div>
+    <div class="swatch" style="background:var(--bg-card); color:var(--text-primary); border:1px solid var(--border);">Card</div>
+    <div class="swatch" style="background:var(--accent); color:#fff;">Accent</div>
+    <div class="swatch" style="background:var(--accent-soft); color:#1c1512;">Accent Soft</div>
+    <div class="swatch" style="background:var(--text-primary); color:var(--bg);">Text</div>
+  </div>
+
+  <div class="lbl">Hero</div>
+  <div class="hero-card">
+    <span class="kicker-pill">Licensed Professional Teacher · Financial Advisor</span>
+    <div class="eyebrow">PLAN WITH YOUR</div>
+    <h1 class="headline"><span class="line1">Financial</span><span class="line2">Kuya</span></h1>
+    <p class="hero-sub">Juan dela Cruz, <em>LPT</em></p>
+    <p class="hero-lede">Helping Filipino individuals and families build financial security, protection, and confidence for the future.</p>
+    <div class="cta-row">
+      <button class="btn btn-fill">Plan With Kuya Juan</button>
+      <button class="btn btn-line">Meet Kuya Juan</button>
+    </div>
+    <div class="stat-row">
+      <div><span class="stat-num">200+</span><span class="stat-label">Families</span></div>
+      <div><span class="stat-num">50+</span><span class="stat-label">School Talks</span></div>
+      <div><span class="stat-num">30+</span><span class="stat-label">Events</span></div>
+    </div>
+  </div>
+
+  <div class="lbl">Credentials</div>
+  <div class="cred-row">
+    <div class="cred-icon"><svg viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
+    <h4>Licensed Professional Teacher (LPT)</h4>
+    <span class="tag-pill">Education</span>
+  </div>
+  <div class="cred-row">
+    <div class="cred-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="M8 13 6 21l6-3 6 3-2-8"/></svg></div>
+    <h4>Certified Financial Advisor</h4>
+    <span class="tag-pill">Finance</span>
+  </div>
+
+  <div class="lbl">Process</div>
+  <div class="process-row">
+    <span class="process-ghost">01</span>
+    <div class="process-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-8.9 8.4 9 9 0 0 1-3.6-.8L3 20l1.05-3.15A8.4 8.4 0 0 1 3.5 11.5 8.4 8.4 0 0 1 12 3a8.6 8.6 0 0 1 9 8.5Z"/></svg></div>
+    <div><h4>Talk</h4><p>A relaxed, zero-pressure kwentuhan to understand where you are financially.</p></div>
+  </div>
+  <div class="process-row">
+    <span class="process-ghost">02</span>
+    <div class="process-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></div>
+    <div><h4>Plan</h4><p>A custom strategy built around your real numbers, income, and life goals.</p></div>
+  </div>
+
+  <div class="lbl">Why It Matters</div>
+  <div class="why-card">
+    <span class="why-watermark">WHY</span>
+    <p>Only <em>1 in 5</em> Filipino families is financially prepared for the loss of an income earner.</p>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var body = document.body;
+  var dark = document.getElementById('btn-dark');
+  var light = document.getElementById('btn-light');
+  function setTheme(t) {
+    body.setAttribute('data-theme', t);
+    dark.classList.toggle('active', t === 'dark');
+    light.classList.toggle('active', t === 'light');
+  }
+  dark.addEventListener('click', function () { setTheme('dark'); });
+  light.addEventListener('click', function () { setTheme('light'); });
+})();
+</script>
+
+</body>
+</html>

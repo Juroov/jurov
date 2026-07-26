@@ -23,6 +23,15 @@ export default function Hero() {
     });
   }, []);
 
+  // Trigger pill-sweep immediately since it's above the fold
+  useEffect(() => {
+    const pill = document.getElementById("hero-kicker");
+    if (!pill) return;
+    requestAnimationFrame(() => {
+      setTimeout(() => pill.classList.add("is-visible"), 400);
+    });
+  }, []);
+
   return (
     <section
       id="hero"
@@ -30,23 +39,38 @@ export default function Hero() {
       style={{
         minHeight: "100dvh",
         padding: "0 24px",
-        background: "var(--surface)",
+        background: "var(--bg-card)",
         textAlign: "center",
         overflow: "hidden",
+        isolation: "isolate",
       }}
     >
-      {/* Subtle grid backdrop */}
-      <div
+      {/* Full-background SVG canvas — arcs + floating nodes, no rings */}
+      <HeroSVG />
+      {/* Corner accent marks — luxury card aesthetic */}
+      <span
         aria-hidden="true"
         style={{
           position: "absolute",
-          inset: 0,
-          backgroundImage:
-            "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-          opacity: 0.4,
-          maskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 100%)",
-          WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 100%)",
+          top: 80, left: 24,
+          width: 22, height: 22,
+          borderTop: "1px solid var(--border-strong)",
+          borderLeft: "1px solid var(--border-strong)",
+          borderRadius: "3px 0 0 0",
+          opacity: 0.6,
+          pointerEvents: "none",
+        }}
+      />
+      <span
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          bottom: 80, right: 24,
+          width: 22, height: 22,
+          borderBottom: "1px solid var(--border-strong)",
+          borderRight: "1px solid var(--border-strong)",
+          borderRadius: "0 0 3px 0",
+          opacity: 0.6,
           pointerEvents: "none",
         }}
       />
@@ -65,52 +89,37 @@ export default function Hero() {
           zIndex: 1,
         }}
       >
-        {/* Role pill */}
+        {/* Role pill — pill-sweep + kicker-dot */}
         <div
-          className="inline-flex items-center gap-2"
+          id="hero-kicker"
+          className="pill-sweep inline-flex items-center gap-2"
           style={{
-            padding: "6px 14px",
+            padding: "6px 16px",
             borderRadius: 999,
-            border: "1px solid var(--accent-border)",
-            background: "var(--accent-subtle)",
+            border: "1px solid var(--border-strong)",
+            background: "var(--bg-card)",
             marginBottom: 28,
+            boxShadow: "0 0 0 1px var(--border-strong), 0 0 18px var(--accent-glow)",
           }}
         >
-          <div
-            style={{
-              width: 6, height: 6,
-              borderRadius: "50%",
-              background: "var(--accent)",
-              flexShrink: 0,
-            }}
-          />
+          <span className="kicker-dot" aria-hidden="true" />
           <span
             style={{
               fontSize: 11,
-              fontWeight: 600,
+              fontWeight: 700,
               color: "var(--accent)",
-              fontFamily: "var(--font-geist-mono)",
-              letterSpacing: "0.06em",
+              fontFamily: "var(--font-inter)",
+              letterSpacing: "0.07em",
+              textTransform: "uppercase",
             }}
           >
-            Frontend Dev · UI/UX Designer · Open for commissions
+            Frontend Dev · Available for Commissions
           </span>
         </div>
 
-        {/* SVG Illustration */}
-        <div
-          style={{
-            width: "100%",
-            maxWidth: 280,
-            marginBottom: 32,
-            opacity: 0,
-            animation: "heroFadeSlide 1.2s cubic-bezier(0.16,1,0.3,1) 0.2s forwards",
-          }}
-        >
-          <HeroSVG />
-        </div>
+        {/* SVG now lives in the background — spacer removed */}
 
-        {/* Headline */}
+        {/* Headline — Playfair Display italic on the key phrase */}
         <h1
           style={{
             fontSize: "clamp(2.8rem, 8vw, 5.5rem)",
@@ -118,19 +127,35 @@ export default function Hero() {
             letterSpacing: "-0.045em",
             lineHeight: 0.95,
             color: "var(--text-primary)",
-            fontFamily: "var(--font-geist-sans)",
+            fontFamily: "var(--font-inter)",
+            textShadow: "0 0 40px var(--accent-glow)",
             marginBottom: 28,
           }}
         >
-          I design &amp; build<br />
-          <span style={{ color: "var(--accent)" }}>web experiences.</span>
+          I design &amp; build
+          <br />
+          <span
+            style={{
+              fontFamily: "var(--font-playfair)",
+              fontStyle: "italic",
+              fontWeight: 900,
+              color: "var(--accent)",
+              letterSpacing: "-0.02em",
+              textShadow: "0 0 50px var(--accent-glow)",
+              display: "inline-block",
+              paddingBottom: "0.08em", // descender clearance for italic
+            }}
+          >
+            web experiences.
+          </span>
         </h1>
 
         {/* Sub-copy */}
         <p
           style={{
             fontSize: 16,
-            color: "var(--text-body)",
+            color: "var(--text-secondary)",
+            fontFamily: "var(--font-inter)",
             maxWidth: "48ch",
             lineHeight: 1.8,
             marginBottom: 40,
@@ -155,30 +180,53 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* Stats row */}
+        {/* Stats row — row-reveal with stagger */}
         <div
           className="grid grid-cols-3 gap-3"
-          style={{ width: "100%", maxWidth: 480 }}
+          style={{ 
+            width: "100%", 
+            maxWidth: 480,
+            borderTop: "1px solid var(--rule)",
+            paddingTop: "24px"
+          }}
         >
           {[
-            { value: "2+", label: "Commissions" },
-            { value: "1",  label: "Internship"  },
-            { value: "2",  label: "Projects"    },
+            { value: "2+", label: "Commissions", delay: "d1", border: true },
+            { value: "1",  label: "Internship",  delay: "d2", border: true },
+            { value: "2",  label: "Projects",    delay: "d3", border: false },
           ].map((s) => (
             <div
               key={s.label}
-              className="card text-center"
-              style={{ padding: "20px 8px" }}
+              className={`card row-reveal row-reveal-${s.delay} text-center`}
+              style={{ 
+                padding: "20px 8px",
+                position: "relative",
+                background: "transparent",
+                border: "none",
+                boxShadow: "none"
+              }}
             >
+              {s.border && (
+                <div style={{
+                  position: "absolute",
+                  right: 0,
+                  top: "15%",
+                  height: "70%",
+                  width: 1,
+                  background: "var(--rule)"
+                }} />
+              )}
               <p
                 style={{
-                  fontSize: 28,
-                  fontWeight: 800,
+                  fontSize: 32,
+                  fontWeight: 900,
+                  fontFamily: "var(--font-playfair)",
+                  fontStyle: "italic",
                   color: "var(--accent)",
                   letterSpacing: "-0.04em",
-                  fontFamily: "var(--font-geist-sans)",
                   lineHeight: 1,
-                  marginBottom: 6,
+                  marginBottom: 8,
+                  textShadow: "0 0 20px var(--accent-glow)",
                 }}
               >
                 {s.value}
@@ -186,11 +234,11 @@ export default function Hero() {
               <p
                 style={{
                   fontSize: 10,
-                  fontWeight: 600,
-                  color: "var(--text-label)",
+                  fontWeight: 700,
+                  color: "var(--text-secondary)",
                   textTransform: "uppercase",
-                  letterSpacing: "0.08em",
-                  fontFamily: "var(--font-geist-mono)",
+                  letterSpacing: "0.1em",
+                  fontFamily: "var(--font-inter)",
                 }}
               >
                 {s.label}
@@ -199,40 +247,7 @@ export default function Hero() {
           ))}
         </div>
 
-        {/* Availability badge */}
-        <div
-          className="flex items-center gap-2"
-          style={{
-            marginTop: 20,
-            padding: "10px 20px",
-            borderRadius: 10,
-            border: "1px solid var(--accent-border)",
-            background: "var(--accent-subtle)",
-            width: "100%",
-            maxWidth: 480,
-            justifyContent: "center",
-          }}
-        >
-          <div
-            className="status-dot"
-            style={{
-              width: 8, height: 8,
-              borderRadius: "50%",
-              background: "#22c55e",
-              flexShrink: 0,
-            }}
-          />
-          <span
-            style={{
-              fontSize: 12,
-              fontWeight: 600,
-              color: "var(--text-body)",
-              fontFamily: "var(--font-geist-mono)",
-            }}
-          >
-            Currently available · San Jose Del Monte, Bulacan PH
-          </span>
-        </div>
+
       </div>
 
       {/* Scroll indicator */}
