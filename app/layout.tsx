@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Playfair_Display, Inter } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import SmoothScroll from "./components/SmoothScroll";
 
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap" });
 const playfair = Playfair_Display({
-  variable: "--font-playfair",
+  variable: "--font-display",
   subsets: ["latin"],
   style: ["normal", "italic"],
   weight: ["700", "900"],
   display: "swap",
 });
+
 const inter = Inter({
-  variable: "--font-inter",
+  variable: "--font-ui",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
@@ -37,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistMono.variable} ${playfair.variable} ${inter.variable} scroll-smooth`}
+      className={`${playfair.variable} ${inter.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       {/* Prevent dark-mode flash — reads localStorage before first paint */}

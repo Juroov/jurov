@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuya Juan — Brand Guidelines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,600;1,700&family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --obsidian:#0B0807;
+    --obsidian-soft:#170F0F;
+    --obsidian-card:#1D1313;
+    --hairline:#33201F;
+    --ember:#C41E3A;
+    --ember-bright:#FF4D5E;
+    --ember-deep:#5C0C1D;
+    --bone:#F4EEE7;
+    --ash:#AE9E97;
+    --ash-dim:#7E706A;
+    --display:'Playfair Display', serif;
+    --impact:'Bebas Neue', sans-serif;
+    --ui:'Montserrat', sans-serif;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--obsidian);
+    color:var(--bone);
+    font-family:var(--ui);
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block; max-width:100%;}
+  a{color:inherit;}
+
+  ::selection{background:var(--ember); color:var(--bone);}
+
+  /* ---------- Layout helpers ---------- */
+  .wrap{max-width:1180px; margin:0 auto; padding:0 40px;}
+  .chapter{position:relative; padding:160px 0; overflow:hidden; border-bottom:1px solid var(--hairline);}
+  .eyebrow{
+    font-family:var(--ui); font-size:11px; font-weight:600; letter-spacing:.32em;
+    text-transform:uppercase; color:var(--ember-bright); margin-bottom:22px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .eyebrow::before{content:''; width:28px; height:1px; background:var(--ember-bright);}
+
+  /* ---------- Ghost watermark (signature parallax device) ---------- */
+  .ghost-word{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    font-family:var(--display); font-weight:900; font-style:italic;
+    font-size:clamp(140px, 24vw, 420px);
+    color:transparent;
+    -webkit-text-stroke:1px rgba(244,238,231,0.06);
+    white-space:nowrap; z-index:0; pointer-events:none; user-select:none;
+    letter-spacing:-0.02em;
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s cubic-bezier(.2,.7,.3,1);}
+  .reveal.is-visible{opacity:1; transform:translateY(0);}
+  .reveal.d1{transition-delay:.08s;}
+  .reveal.d2{transition-delay:.16s;}
+  .reveal.d3{transition-delay:.24s;}
+  .reveal.d4{transition-delay:.32s;}
+
+  /* ---------- Chapter dot nav ---------- */
+  .chapternav{
+    position:fixed; right:28px; top:50%; transform:translateY(-50%); z-index:50;
+    display:flex; flex-direction:column; gap:16px; align-items:flex-end;
+  }
+  .chapternav button{
+    background:none; border:none; cursor:pointer; display:flex; align-items:center; gap:10px;
+    font-family:var(--ui); font-size:10px; letter-spacing:.2em; color:var(--ash-dim);
+    opacity:0; transition:opacity .3s, color .3s;
+  }
+  .chapternav.show button{opacity:1;}
+  .chapternav button .dot{width:6px; height:6px; border-radius:50%; background:var(--ash-dim); transition:all .3s;}
+  .chapternav button.active{color:var(--ember-bright);}
+  .chapternav button.active .dot{background:var(--ember-bright); box-shadow:0 0 8px var(--ember-bright); transform:scale(1.4);}
+  @media(max-width:900px){.chapternav{display:none;}}
+
+  /* ================= COVER ================= */
+  .cover{
+    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; position:relative; padding:40px;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 100%, rgba(196,30,58,0.22), transparent 70%),
+      var(--obsidian);
+  }
+  .cover .eyebrow{justify-content:center;}
+  .cover .eyebrow::before{display:none;}
+  .cover-mark{margin-bottom:36px;}
+  .cover h1{
+    font-family:var(--display); font-weight:900; font-style:italic;
+    font-size:clamp(56px, 11vw, 150px); line-height:.94; letter-spacing:-0.02em;
+    color:var(--bone);
+  }
+  .cover h1 span{color:var(--ember-bright);}
+  .cover .sub{
+    margin-top:26px; font-size:15px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--ash); font-weight:500;
+  }
+  .scrollcue{
+    position:absolute; bottom:42px; left:50%; transform:translateX(-50%);
+    font-size:10px; letter-spacing:.3em; color:var(--ash-dim); text-transform:uppercase;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+  }
+  .scrollcue .line{width:1px; height:34px; background:linear-gradient(var(--ember-bright), transparent); animation:cuepulse 1.8s ease-in-out infinite;}
+  @keyframes cuepulse{0%,100%{opacity:.3;} 50%{opacity:1;}}
+
+  /* ================= CHAPTER 01 — POSITIONING + SPECIMEN ================= */
+  .positioning-grid{display:grid; grid-template-columns:0.95fr 1.25fr; gap:80px; position:relative; z-index:1;}
+  @media(max-width:960px){.positioning-grid{grid-template-columns:1fr;}}
+
+  .pos-headline{
+    font-family:var(--display); font-weight:800; font-size:clamp(34px,4.4vw,52px);
+    line-height:1.08; letter-spacing:-0.01em; color:var(--bone); margin-bottom:26px;
+  }
+  .pos-headline em{color:var(--ember-bright); font-style:italic; font-weight:600;}
+  .pos-copy{color:var(--ash); font-size:16px; max-width:46ch; margin-bottom:34px;}
+
+  .pull-quote{
+    border-left:2px solid var(--ember); padding:6px 0 6px 22px; margin-bottom:36px;
+  }
+  .pull-quote p{font-family:var(--display); font-style:italic; font-size:19px; color:var(--bone); line-height:1.5;}
+
+  .btn{
+    display:inline-flex; align-items:center; gap:10px; font-family:var(--ui); font-weight:600;
+    font-size:13px; letter-spacing:.08em; text-transform:uppercase; text-decoration:none;
+    padding:16px 30px; border-radius:100px; cursor:pointer; border:none;
+  }
+  .btn-primary{
+    background:linear-gradient(180deg, var(--ember-bright), var(--ember));
+    color:#fff; position:relative;
+    box-shadow:0 0 0 rgba(196,30,58,0.6);
+    animation:glowpulse 2.6s ease-in-out infinite;
+  }
+  @keyframes glowpulse{
+    0%,100%{box-shadow:0 4px 20px rgba(196,30,58,.35);}
+    50%{box-shadow:0 4px 36px rgba(255,77,94,.65);}
+  }
+  .btn-ghost{
+    background:transparent; border:1px solid var(--hairline); color:var(--bone);
+  }
+
+  /* --- Type specimen table (mirrors reference format) --- */
+  .specimen{border-top:1px solid var(--hairline);}
+  .specimen-row{
+    display:grid; grid-template-columns:1fr 1.6fr 1fr; gap:24px; align-items:center;
+    padding:26px 0; border-bottom:1px solid var(--hairline);
+  }
+  @media(max-width:760px){.specimen-row{grid-template-columns:1fr; gap:8px; padding:20px 0;}}
+  .specimen-role{font-family:var(--ui); font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--bone);}
+  .specimen-role small{display:block; font-weight:400; text-transform:none; letter-spacing:0; color:var(--ash-dim); font-size:12px; margin-top:5px;}
+  .specimen-example{font-family:var(--display); color:var(--bone); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .specimen-meta{font-family:var(--ui); font-size:11px; color:var(--ash-dim); line-height:1.7; text-align:right;}
+  @media(max-width:760px){.specimen-meta{text-align:left;}}
+
+  .ex-hero{font-weight:900; font-size:clamp(26px,3.4vw,42px); font-style:italic; letter-spacing:-0.01em;}
+  .ex-hero span{color:var(--ember-bright); font-weight:900;}
+  .ex-heading{font-weight:600; font-style:italic; font-size:26px;}
+  .ex-impact{font-family:var(--impact); font-weight:400; font-size:30px; letter-spacing:.04em; color:var(--ember-bright); text-transform:uppercase;}
+  .ex-label{font-family:var(--ui); font-weight:600; font-size:12px; letter-spacing:.32em; text-transform:uppercase; color:var(--ash);}
+  .ex-body{font-family:var(--ui); font-weight:400; font-size:15px; color:var(--ash); white-space:normal;}
+
+  /* ================= CHAPTER 02 — COLOR ================= */
+  .swatch-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:18px; position:relative; z-index:1;}
+  @media(max-width:900px){.swatch-grid{grid-template-columns:repeat(2,1fr);}}
+  .swatch{border-radius:14px; overflow:hidden; border:1px solid var(--hairline);}
+  .swatch-fill{height:130px;}
+  .swatch-info{padding:16px 18px; background:var(--obsidian-soft);}
+  .swatch-name{font-size:13px; font-weight:600; margin-bottom:4px;}
+  .swatch-hex{font-size:12px; color:var(--ash-dim); font-family:monospace; letter-spacing:.03em;}
+  .swatch-use{font-size:12px; color:var(--ash); margin-top:8px; line-height:1.5;}
+
+  .glow-demo{
+    margin-top:60px; padding:60px; border-radius:20px; text-align:center;
+    background:radial-gradient(ellipse 60% 90% at 50% 50%, rgba(196,30,58,0.25), transparent 70%), var(--obsidian-soft);
+    border:1px solid var(--hairline); position:relative; z-index:1;
+  }
+  .glow-demo p{font-family:var(--ui); font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--ash-dim); margin-top:24px;}
+
+  /* ================= CHAPTER 03 — TYPE DETAIL ================= */
+  .type-block{margin-bottom:70px; position:relative; z-index:1;}
+  .type-block:last-child{margin-bottom:0;}
+  .type-alpha{font-family:var(--display); font-size:clamp(40px,7vw,96px); line-height:1; letter-spacing:-0.01em;}
+  .type-alpha.italic{font-style:italic; font-weight:600; color:var(--ember-bright);}
+  .type-caption{font-size:12px; color:var(--ash-dim); margin-top:16px; letter-spacing:.05em;}
+  .weight-row{display:flex; gap:36px; flex-wrap:wrap; align-items:baseline; margin-top:10px;}
+  .weight-row span{font-family:var(--display); font-size:34px;}
+
+  .impact-demo{font-family:var(--impact); font-size:clamp(48px,9vw,120px); letter-spacing:.03em; color:var(--bone); line-height:1;}
+  .impact-demo em{color:var(--ember);}
+
+  .caps-demo{font-family:var(--ui); font-weight:600; letter-spacing:.35em; text-transform:uppercase; font-size:14px; color:var(--bone);}
+
+  .rules-list{margin-top:20px; display:grid; gap:14px;}
+  .rules-list li{list-style:none; padding-left:22px; position:relative; color:var(--ash); font-size:14px;}
+  .rules-list li::before{content:''; position:absolute; left:0; top:9px; width:8px; height:1px; background:var(--ember);}
+
+  /* ================= CHAPTER 04 — LOGO ================= */
+  .logo-stage{
+    display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; position:relative; z-index:1;
+  }
+  @media(max-width:900px){.logo-stage{grid-template-columns:1fr;}}
+  .mark-frame{
+    display:flex; align-items:center; justify-content:center; padding:70px;
+    background:var(--obsidian-soft); border:1px solid var(--hairline); border-radius:20px;
+  }
+  .wordmark{font-family:var(--display); font-style:italic; font-weight:700; font-size:56px;}
+  .wordmark .dot{color:var(--ember);}
+  .clearspace-note{font-size:13px; color:var(--ash); line-height:1.8;}
+  .clearspace-note b{color:var(--bone);}
+
+  /* ================= CHAPTER 05 — VOICE ================= */
+  .voice-card{
+    background:var(--obsidian-soft); border:1px solid var(--hairline); border-radius:20px;
+    padding:56px; position:relative; z-index:1;
+  }
+  .voice-card .pull-quote{margin-bottom:0;}
+  .voice-card .pull-quote p{font-size:26px;}
+  .voice-attrib{margin-top:20px; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--ash-dim);}
+  .voice-principles{margin-top:56px; display:grid; grid-template-columns:repeat(3,1fr); gap:30px; position:relative; z-index:1;}
+  @media(max-width:800px){.voice-principles{grid-template-columns:1fr;}}
+  .vp{padding-top:20px; border-top:1px solid var(--hairline);}
+  .vp h4{font-family:var(--display); font-style:italic; font-weight:600; font-size:22px; margin-bottom:10px; color:var(--ember-bright);}
+  .vp p{font-size:13.5px; color:var(--ash);}
+
+  /* ================= CHAPTER 06 — UI COMPONENTS ================= */
+  .component-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; position:relative; z-index:1;}
+  @media(max-width:800px){.component-grid{grid-template-columns:1fr;}}
+  .comp-card{background:var(--obsidian-soft); border:1px solid var(--hairline); border-radius:16px; padding:32px;}
+  .comp-label{font-size:11px; letter-spacing:.25em; text-transform:uppercase; color:var(--ash-dim); margin-bottom:22px;}
+  .btn-row{display:flex; gap:14px; flex-wrap:wrap;}
+
+  .badge-row{display:flex; gap:10px; flex-wrap:wrap;}
+  .badge{
+    font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+    padding:9px 18px; border-radius:100px; background:rgba(196,30,58,0.12);
+    border:1px solid rgba(196,30,58,0.35); color:var(--ember-bright);
+  }
+
+  .stat-row{display:flex; gap:40px; flex-wrap:wrap;}
+  .stat{}
+  .stat .num{font-family:var(--impact); font-size:44px; color:var(--ember-bright); line-height:1;}
+  .stat .lbl{font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--ash-dim); margin-top:8px;}
+
+  .mini-nav{display:flex; align-items:center; justify-content:space-between; padding:16px 22px; background:var(--obsidian); border-radius:12px; border:1px solid var(--hairline); font-size:12px;}
+  .mini-nav .brand{font-family:var(--display); font-style:italic; font-weight:700;}
+  .mini-nav .links{display:flex; gap:18px; color:var(--ash); font-size:11px; letter-spacing:.1em; text-transform:uppercase;}
+
+  /* ================= CHAPTER 07 — APPLICATIONS ================= */
+  .app-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; position:relative; z-index:1;}
+  @media(max-width:900px){.app-grid{grid-template-columns:1fr;}}
+  .app-card{
+    aspect-ratio:4/5; border-radius:16px; border:1px solid var(--hairline); overflow:hidden;
+    display:flex; flex-direction:column; justify-content:flex-end; padding:26px;
+    position:relative;
+  }
+  .app-card::before{content:''; position:absolute; inset:0; z-index:0;}
+  .app-1::before{background:radial-gradient(ellipse 80% 50% at 50% 100%, rgba(196,30,58,0.35), transparent 70%), var(--obsidian-soft);}
+  .app-2::before{background:var(--obsidian-card);}
+  .app-3::before{background:linear-gradient(160deg, var(--obsidian-card), var(--obsidian-soft));}
+  .app-card *{position:relative; z-index:1;}
+  .app-tag{font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:var(--ash-dim); margin-bottom:10px;}
+  .app-title{font-family:var(--display); font-style:italic; font-weight:700; font-size:22px;}
+
+  /* ================= FOOTER ================= */
+  .footer{padding:80px 0; text-align:center;}
+  .footer .wordmark{font-size:30px; margin-bottom:14px;}
+  .footer p{font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ash-dim);}
+
+  h2.chapter-title{
+    font-family:var(--display); font-weight:800; font-size:clamp(30px,4vw,44px);
+    margin-bottom:50px; position:relative; z-index:1; letter-spacing:-0.01em;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001s !important; transition-duration:0.2s !important;}
+    .reveal{opacity:1; transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="chapternav" id="chapterNav">
+  <button data-target="#ch01"><span class="dot"></span>01 — Positioning</button>
+  <button data-target="#ch02"><span class="dot"></span>02 — Color</button>
+  <button data-target="#ch03"><span class="dot"></span>03 — Type</button>
+  <button data-target="#ch04"><span class="dot"></span>04 — Mark</button>
+  <button data-target="#ch05"><span class="dot"></span>05 — Voice</button>
+  <button data-target="#ch06"><span class="dot"></span>06 — UI</button>
+  <button data-target="#ch07"><span class="dot"></span>07 — Apps</button>
+</nav>
+
+<!-- ================= COVER ================= -->
+<header class="cover">
+  <div class="cover-mark" id="coverMark"></div>
+  <div class="eyebrow">Brand Guidelines · Edition No. 01</div>
+  <h1>Kuya Juan<span>.</span></h1>
+  <div class="sub">Plan With Your Financial Kuya</div>
+  <div class="scrollcue"><div class="line"></div>Scroll</div>
+</header>
+
+<!-- ================= CHAPTER 01 ================= -->
+<section class="chapter" id="ch01">
+  <div class="ghost-word" id="gw1">WHY</div>
+  <div class="wrap">
+    <div class="positioning-grid">
+      <div>
+        <div class="eyebrow reveal">Chapter 01 · The Positioning</div>
+        <h2 class="pos-headline reveal d1">Protection first, <em>growth second</em> — that's how families stay standing.</h2>
+        <p class="pos-copy reveal d2">Kuya Juan exists so that the "1 in 5" becomes the majority. Every headline, every stat, and every quiet red glow on this site is built to make a hard, unglamorous topic — financial protection — feel like something a trusted older sibling is walking you through, not something a policy is being sold to you for.</p>
+        <div class="pull-quote reveal d3">
+          <p>"Only 1 in 5 Filipino families is financially prepared for the loss of an income earner. Let's make sure your family is the one that is."</p>
+        </div>
+        <div class="reveal d4"><a class="btn btn-primary" href="#ch06">See The System ›</a></div>
+      </div>
+
+      <div class="reveal d2">
+        <div class="specimen">
+          <div class="specimen-row">
+            <div class="specimen-role">Display Hero<small>Playfair Display · Black 900 / Italic accent</small></div>
+            <div class="specimen-example ex-hero">Only <span>1 in 5</span></div>
+            <div class="specimen-meta">88–128px · LH 1.0<br>Tracking −0.02em<br>Headlines only</div>
+          </div>
+          <div class="specimen-row">
+            <div class="specimen-role">Section Heading<small>Playfair Display · SemiBold Italic</small></div>
+            <div class="specimen-example ex-heading">Meet Kuya Juan</div>
+            <div class="specimen-meta">40–56px · LH 1.1<br>Tracking −0.01em</div>
+          </div>
+          <div class="specimen-row">
+            <div class="specimen-role">Impact / Data<small>Bebas Neue · Regular</small></div>
+            <div class="specimen-example ex-impact">200+ Families</div>
+            <div class="specimen-meta">40–72px · LH 1.0<br>Tracking 0.04em<br>Stats only</div>
+          </div>
+          <div class="specimen-row">
+            <div class="specimen-role">Labels / UI Caps<small>Montserrat · SemiBold, all caps</small></div>
+            <div class="specimen-example ex-label">Why It Matters</div>
+            <div class="specimen-meta">11–13px · LH 1.6<br>Tracking 0.3em<br>Uppercase only</div>
+          </div>
+          <div class="specimen-row">
+            <div class="specimen-role">Body Copy<small>Montserrat · Regular 400</small></div>
+            <div class="specimen-example ex-body">Let's make sure your family is the one that is.</div>
+            <div class="specimen-meta">15–18px · LH 1.6<br>Paragraphs, captions</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CHAPTER 02 — COLOR ================= -->
+<section class="chapter" id="ch02">
+  <div class="ghost-word" id="gw2">TONE</div>
+  <div class="wrap">
+    <div class="eyebrow reveal">Chapter 02 · The Palette</div>
+    <h2 class="chapter-title reveal d1">Warmth in the dark.</h2>
+    <div class="swatch-grid">
+      <div class="swatch reveal d1">
+        <div class="swatch-fill" style="background:var(--obsidian);"></div>
+        <div class="swatch-info"><div class="swatch-name">Obsidian</div><div class="swatch-hex">#0B0807</div><div class="swatch-use">Base background across every page.</div></div>
+      </div>
+      <div class="swatch reveal d2">
+        <div class="swatch-fill" style="background:var(--obsidian-soft);"></div>
+        <div class="swatch-info"><div class="swatch-name">Obsidian Soft</div><div class="swatch-hex">#170F0F</div><div class="swatch-use">Cards, panels, raised surfaces.</div></div>
+      </div>
+      <div class="swatch reveal d3">
+        <div class="swatch-fill" style="background:var(--ember);"></div>
+        <div class="swatch-info"><div class="swatch-name">Ember</div><div class="swatch-hex">#C41E3A</div><div class="swatch-use">Primary CTA, buttons, active states.</div></div>
+      </div>
+      <div class="swatch reveal d4">
+        <div class="swatch-fill" style="background:var(--ember-bright);"></div>
+        <div class="swatch-info"><div class="swatch-name">Ember Bright</div><div class="swatch-hex">#FF4D5E</div><div class="swatch-use">Italic accent words, glow highlights.</div></div>
+      </div>
+      <div class="swatch reveal d1">
+        <div class="swatch-fill" style="background:var(--ember-deep);"></div>
+        <div class="swatch-info"><div class="swatch-name">Ember Deep</div><div class="swatch-hex">#5C0C1D</div><div class="swatch-use">Gradient shadow, glow falloff.</div></div>
+      </div>
+      <div class="swatch reveal d2">
+        <div class="swatch-fill" style="background:var(--bone);"></div>
+        <div class="swatch-info"><div class="swatch-name">Bone</div><div class="swatch-hex">#F4EEE7</div><div class="swatch-use">Primary text on dark surfaces.</div></div>
+      </div>
+      <div class="swatch reveal d3">
+        <div class="swatch-fill" style="background:var(--ash);"></div>
+        <div class="swatch-info"><div class="swatch-name">Ash</div><div class="swatch-hex">#AE9E97</div><div class="swatch-use">Secondary copy, descriptions.</div></div>
+      </div>
+      <div class="swatch reveal d4">
+        <div class="swatch-fill" style="background:var(--ash-dim);"></div>
+        <div class="swatch-info"><div class="swatch-name">Ash Dim</div><div class="swatch-hex">#7E706A</div><div class="swatch-use">Captions, meta, disabled states.</div></div>
+      </div>
+    </div>
+
+    <div class="glow-demo reveal">
+      <a class="btn btn-primary">Protect Your Family Today</a>
+      <p>Ember → Ember Deep radial glow, 60–90% ellipse, pulses every 2.6s</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CHAPTER 03 — TYPE DETAIL ================= -->
+<section class="chapter" id="ch03">
+  <div class="ghost-word" id="gw3">VOICE</div>
+  <div class="wrap">
+    <div class="eyebrow reveal">Chapter 03 · Typography</div>
+    <h2 class="chapter-title reveal d1">Three faces, one voice.</h2>
+
+    <div class="type-block reveal">
+      <div class="type-alpha">Aa Bb Cc</div>
+      <div class="weight-row">
+        <span style="font-weight:400;">Regular</span>
+        <span style="font-weight:700;">Bold</span>
+        <span style="font-weight:900;">Black</span>
+        <span class="type-alpha italic" style="font-size:34px;">Italic</span>
+      </div>
+      <div class="type-caption">PLAYFAIR DISPLAY — Display &amp; heading face. High-contrast serif for headlines; italic reserved for the single word that carries the emotional weight of the line.</div>
+    </div>
+
+    <div class="type-block reveal d1">
+      <div class="impact-demo">0123 <em>456+</em> 789</div>
+      <div class="type-caption">BEBAS NEUE — Reserved exclusively for numerals: statistics, counters, and impact figures. Never used for prose.</div>
+    </div>
+
+    <div class="type-block reveal d2">
+      <div class="caps-demo">Protection · Education · Growth · Security</div>
+      <div class="type-caption">MONTSERRAT — UI labels, navigation, badges (uppercase, 0.3em tracking) and body copy (sentence case, regular weight).</div>
+    </div>
+
+    <ul class="rules-list reveal d3">
+      <li>Italic is a spotlight, not a style — use it on one phrase per headline, never the whole line.</li>
+      <li>Uppercase tracking never drops below 0.25em; tight caps read as generic UI, not this brand.</li>
+      <li>Body copy stays Ash, never full white — full-contrast white is reserved for headings only.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= CHAPTER 04 — LOGO ================= -->
+<section class="chapter" id="ch04">
+  <div class="ghost-word" id="gw4">MARK</div>
+  <div class="wrap">
+    <div class="eyebrow reveal">Chapter 04 · Logo &amp; Mark</div>
+    <h2 class="chapter-title reveal d1">A shield, drawn once.</h2>
+    <div class="logo-stage">
+      <div class="mark-frame reveal d1">
+        <svg id="shieldSvg" width="200" height="230" viewBox="0 0 200 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path id="shieldPath" d="M100 14 L178 46 L178 112 C178 168 146 202 100 220 C54 202 22 168 22 112 L22 46 Z"
+                stroke="#FF4D5E" stroke-width="2.5" stroke-linejoin="round"/>
+          <text x="100" y="128" text-anchor="middle" font-family="Playfair Display" font-style="italic" font-weight="700" font-size="52" fill="#F4EEE7" opacity="0" id="shieldText">KJ</text>
+        </svg>
+      </div>
+      <div class="reveal d2">
+        <div class="wordmark" style="margin-bottom:24px;">Kuya Juan<span class="dot">.</span></div>
+        <div class="clearspace-note">
+          <b>Clearspace</b> — keep an empty margin equal to the shield's own width on every side; nothing else enters that zone.<br><br>
+          <b>Minimum size</b> — 28px tall in digital contexts; below that, use the shield mark alone without the wordmark.<br><br>
+          <b>Never</b> — recolor the shield, rotate it, or set the wordmark in anything but Playfair Display Italic.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CHAPTER 05 — VOICE ================= -->
+<section class="chapter" id="ch05">
+  <div class="ghost-word" id="gw5">WORDS</div>
+  <div class="wrap">
+    <div class="eyebrow reveal">Chapter 05 · Voice &amp; Tone</div>
+    <h2 class="chapter-title reveal d1">Speaks like the eldest sibling.</h2>
+
+    <div class="voice-card reveal d1">
+      <div class="pull-quote">
+        <p>"A licensed professional working in financial services and education — dedicated to helping families achieve protection, growth, and long-term security through service, not sales pressure."</p>
+      </div>
+      <div class="voice-attrib">— Brand Positioning Statement</div>
+    </div>
+
+    <div class="voice-principles">
+      <div class="vp reveal d1"><h4>Protective</h4><p>Leads with what the family stands to lose, then offers the plan that keeps them standing — never fear alone.</p></div>
+      <div class="vp reveal d2"><h4>Plainspoken</h4><p>No insurance jargon. "Loss of an income earner," not "mortality risk exposure."</p></div>
+      <div class="vp reveal d3"><h4>Warm</h4><p>Signs off like a Kuya would — direct, personal, on your side of the table.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CHAPTER 06 — UI COMPONENTS ================= -->
+<section class="chapter" id="ch06">
+  <div class="ghost-word" id="gw6">SYSTEM</div>
+  <div class="wrap">
+    <div class="eyebrow reveal">Chapter 06 · UI Components</div>
+    <h2 class="chapter-title reveal d1">The building blocks.</h2>
+
+    <div class="component-grid">
+      <div class="comp-card reveal d1">
+        <div class="comp-label">Buttons</div>
+        <div class="btn-row">
+          <a class="btn btn-primary">Plan With Kuya Juan</a>
+          <a class="btn btn-ghost">Meet Kuya Juan</a>
+        </div>
+      </div>
+      <div class="comp-card reveal d2">
+        <div class="comp-label">Category Badges</div>
+        <div class="badge-row">
+          <span class="badge">Protection</span>
+          <span class="badge">Education</span>
+          <span class="badge">Growth</span>
+          <span class="badge">Security</span>
+        </div>
+      </div>
+      <div class="comp-card reveal d3">
+        <div class="comp-label">Stat Blocks</div>
+        <div class="stat-row">
+          <div class="stat"><div class="num">200+</div><div class="lbl">Families Protected</div></div>
+          <div class="stat"><div class="num">50+</div><div class="lbl">Licensed Advisors</div></div>
+          <div class="stat"><div class="num">30+</div><div class="lbl">Partner Institutions</div></div>
+        </div>
+      </div>
+      <div class="comp-card reveal d4">
+        <div class="comp-label">Navigation</div>
+        <div class="mini-nav">
+          <div class="brand">Kuya Juan.</div>
+          <div class="links"><span>About</span><span>Services</span><span>Team</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CHAPTER 07 — APPLICATIONS ================= -->
+<section class="chapter" id="ch07" style="border-bottom:none;">
+  <div class="ghost-word" id="gw7">PROOF</div>
+  <div class="wrap">
+    <div class="eyebrow reveal">Chapter 07 · Applications</div>
+    <h2 class="chapter-title reveal d1">The system, in the wild.</h2>
+    <div class="app-grid">
+      <div class="app-card app-1 reveal d1">
+        <div class="app-tag">Home · Hero</div>
+        <div class="app-title">Only <em style="color:var(--ember-bright);">1 in 5</em> families are ready.</div>
+      </div>
+      <div class="app-card app-2 reveal d2">
+        <div class="app-tag">About</div>
+        <div class="app-title">Meet Kuya Juan</div>
+      </div>
+      <div class="app-card app-3 reveal d3">
+        <div class="app-tag">Services</div>
+        <div class="app-title">Financial Kuya</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wordmark">Kuya Juan<span class="dot" style="color:var(--ember);">.</span></div>
+  <p>Brand Guidelines — Edition No. 01 · 2026</p>
+</footer>
+
+<script>
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- Scroll reveal ---- */
+  var revealEls = document.querySelectorAll('.reveal');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.15, rootMargin:'0px 0px -60px 0px'});
+  revealEls.forEach(function(el){ io.observe(el); });
+
+  /* ---- Ghost word parallax ---- */
+  var ghosts = Array.prototype.slice.call(document.querySelectorAll('.ghost-word'));
+  function updateParallax(){
+    if(reduceMotion) return;
+    var vh = window.innerHeight;
+    ghosts.forEach(function(g){
+      var rect = g.parentElement.getBoundingClientRect();
+      var progress = (vh - rect.top) / (vh + rect.height);
+      var offset = (progress - 0.5) * 80;
+      g.style.transform = 'translate(-50%, calc(-50% + ' + offset.toFixed(1) + 'px))';
+    });
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function(){
+    if(!ticking){
+      window.requestAnimationFrame(function(){ updateParallax(); ticking = false; });
+      ticking = true;
+    }
+  }, {passive:true});
+  updateParallax();
+
+  /* ---- Chapter nav: show after cover, highlight active ---- */
+  var nav = document.getElementById('chapterNav');
+  var navButtons = nav.querySelectorAll('button');
+  var chapters = ['#ch01','#ch02','#ch03','#ch04','#ch05','#ch06','#ch07'].map(function(id){ return document.querySelector(id); });
+
+  navButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var target = document.querySelector(btn.getAttribute('data-target'));
+      if(target) target.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth'});
+    });
+  });
+
+  var navIo = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      var idx = chapters.indexOf(e.target);
+      if(e.isIntersecting){
+        navButtons.forEach(function(b){ b.classList.remove('active'); });
+        if(navButtons[idx]) navButtons[idx].classList.add('active');
+      }
+    });
+  }, {threshold:0.5});
+  chapters.forEach(function(c){ if(c) navIo.observe(c); });
+
+  window.addEventListener('scroll', function(){
+    nav.classList.toggle('show', window.scrollY > window.innerHeight * 0.6);
+  }, {passive:true});
+
+  /* ---- SVG shield line-draw ---- */
+  var shieldPath = document.getElementById('shieldPath');
+  var shieldText = document.getElementById('shieldText');
+  var len = shieldPath.getTotalLength();
+  shieldPath.style.strokeDasharray = len;
+  shieldPath.style.strokeDashoffset = len;
+  shieldPath.style.transition = 'stroke-dashoffset 1.8s cubic-bezier(.2,.7,.3,1)';
+  shieldText.style.transition = 'opacity 1s ease .9s';
+
+  var shieldIo = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        shieldPath.style.strokeDashoffset = 0;
+        shieldText.style.opacity = 1;
+        shieldIo.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.4});
+  shieldIo.observe(document.getElementById('shieldSvg'));
+
+  /* ---- Cover mini shield (small static-drawn icon) ---- */
+  var coverMark = document.getElementById('coverMark');
+  coverMark.innerHTML = '<svg width="52" height="60" viewBox="0 0 200 230" fill="none" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M100 14 L178 46 L178 112 C178 168 146 202 100 220 C54 202 22 168 22 112 L22 46 Z" stroke="#FF4D5E" stroke-width="4"/></svg>';
+})();
+</script>
+</body>
+</html>

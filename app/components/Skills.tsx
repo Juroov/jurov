@@ -1,7 +1,5 @@
 // Server Component
-// No eyebrow — section 3, budget is Experience + Commissions
-// Bento grid with visual variation: 2 cells get tinted BG
-// Icons replaced with inline SVGs (no library dependency)
+import { CodeIcon, PenToolIcon, GearIcon, BriefcaseIcon } from "./SvgIcons";
 
 const frontendSkills = [
   "React", "Next.js", "TypeScript", "JavaScript",
@@ -9,19 +7,19 @@ const frontendSkills = [
 ];
 
 const designItems = [
-  { label: "Figma"             },
-  { label: "Wireframing"       },
-  { label: "Prototyping"       },
-  { label: "Responsive Design" },
-  { label: "Design Systems"    },
+  "Figma",
+  "Wireframing",
+  "Prototyping",
+  "Responsive Design",
+  "Design Systems",
 ];
 
 const toolItems = [
-  { label: "VS Code"               },
-  { label: "Git & GitHub"          },
-  { label: "AntiGravity"           },
-  { label: "Notion"                },
-  { label: "Microsoft 365 & Canva" },
+  "VS Code",
+  "Git & GitHub",
+  "AntiGravity",
+  "Notion",
+  "Microsoft 365 & Canva",
 ];
 
 const professionalSkills = [
@@ -33,254 +31,217 @@ const professionalSkills = [
   "Problem Solving",
 ];
 
-// Removed inline SVG icons for editorial typographic marks
+const categories = [
+  {
+    num: "01",
+    title: "Web & Frontend Development",
+    icon: CodeIcon,
+    description: "Building responsive, performant frontends with modern frameworks. From component architecture to API integration and deployment.",
+    items: frontendSkills,
+    isList: false,
+  },
+  {
+    num: "02",
+    title: "UI/UX Design",
+    icon: PenToolIcon,
+    description: null,
+    items: designItems,
+    isList: true,
+  },
+  {
+    num: "03",
+    title: "Tools & Version Control",
+    icon: GearIcon,
+    description: null,
+    items: toolItems,
+    isList: true,
+  },
+  {
+    num: "04",
+    title: "Professional Skills",
+    icon: BriefcaseIcon,
+    description: null,
+    items: professionalSkills,
+    isList: false,
+  },
+];
 
 export default function Skills() {
   return (
     <section
       id="skills"
       style={{
-        padding: "120px 24px",
-        background: "var(--surface)",
+        padding: "120px 6%",
+        background: "var(--bg)",
         borderTop: "1px solid var(--border)",
       }}
     >
-      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 64 }}>
-          <h2
-            className="reveal clip-wipe"
-            style={{
-              fontSize: "clamp(2rem, 4vw, 3rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.03em",
-              color: "var(--text-primary)",
-              fontFamily: "var(--font-inter)",
-              marginBottom: 8,
-              display: "inline-block",
-            }}
-          >
-            What I bring to the{" "}
-            <span
-              style={{
-                fontFamily: "var(--font-playfair)",
-                fontStyle: "italic",
-                fontWeight: 900,
-                color: "var(--accent)",
-              }}
-            >
-              table.
-            </span>
-          </h2>
-          {/* SVG stroke-draw underline */}
-          <svg className="heading-underline-svg" viewBox="0 0 400 8" preserveAspectRatio="none"
-            style={{ maxWidth: 340, height: 8, margin: "0 auto" }} aria-hidden="true">
-            <path className="heading-underline-path" d="M 2 4 Q 100 2 200 4 Q 300 6 398 4"
-              vectorEffect="non-scaling-stroke" pathLength="1" />
-          </svg>
-        </div>
-
-        {/* Bento grid — varied backgrounds */}
-        <div
-          className="grid gap-6"
+      <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto" }}>
+        
+        <h2
+          className="reveal clip-wipe"
           style={{
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gridTemplateRows: "auto auto",
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(3rem, 7vw, 5rem)",
+            fontWeight: 900,
+            fontStyle: "italic",
+            letterSpacing: "-0.02em",
+            color: "var(--text-primary)",
+            marginBottom: 80,
+            textShadow: "var(--headline-glow)",
           }}
         >
-          {/* Frontend Dev — spans 2 cols */}
-          <div
-            className="reveal card col-span-3 md:col-span-2"
-            style={{
-              padding: "48px 52px",
-              borderRadius: 32,
-              background: "var(--bg-card)",
-              position: "relative",
-            }}
-          >
-            <div
-              style={{
-                fontFamily: "var(--font-playfair)",
-                fontStyle: "italic",
-                fontWeight: 900,
-                fontSize: 48,
-                color: "var(--watermark)",
-                lineHeight: 1,
-                marginBottom: 20,
-              }}
-            >
-              01
-            </div>
-            <h3
-              style={{
-                fontSize: 20,
-                fontWeight: 700,
-                letterSpacing: "-0.02em",
-                color: "var(--text-primary)",
-                marginBottom: 8,
-              }}
-            >
-              Web &amp; Frontend Development
-            </h3>
-            <p
-              style={{
-                fontSize: 13,
-                color: "var(--text-body)",
-                lineHeight: 1.7,
-                marginBottom: 24,
-                maxWidth: "48ch",
-              }}
-            >
-              Building responsive, performant frontends with modern frameworks.
-              From component architecture to API integration and deployment.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {frontendSkills.map((s) => (
-                <span key={s} className="tag">
-                  {s}
-                </span>
-              ))}
-            </div>
+          What I bring to the{" "}
+          <span className="headline-accent">
+            table.
+          </span>
+        </h2>
+
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+          {/* Left column */}
+          <div className="flex-1 flex flex-col gap-16">
+            {categories.filter((_, i) => i % 2 === 0).map((cat) => {
+              const Icon = cat.icon;
+              return (
+                <div
+                  key={cat.num}
+                  className={`row-reveal row-reveal-d${parseInt(cat.num)}`}
+                >
+                  {/* Ghost watermark numeral */}
+                  <div
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontStyle: "italic",
+                      fontWeight: 900,
+                      fontSize: 80,
+                      color: "var(--watermark)",
+                      lineHeight: 1,
+                      marginBottom: 16,
+                      userSelect: "none",
+                    }}
+                    aria-hidden="true"
+                  >
+                    {cat.num}
+                  </div>
+                  
+                  {/* Icon + Title row */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+                    <div className="icon-box">
+                      <Icon />
+                    </div>
+                    <h3
+                      style={{
+                        fontFamily: "var(--font-ui)",
+                        fontSize: 32,
+                        fontWeight: 500,
+                        color: "var(--text-primary)",
+                      }}
+                    >
+                      {cat.title}
+                    </h3>
+                  </div>
+
+                  {cat.description && (
+                    <p
+                      style={{
+                        fontFamily: "var(--font-ui)",
+                        fontSize: 20,
+                        color: "var(--text-secondary)",
+                        lineHeight: 1.6,
+                        marginBottom: 32,
+                        maxWidth: "50ch",
+                      }}
+                    >
+                      {cat.description}
+                    </p>
+                  )}
+                  
+                  {cat.isList ? (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                      {cat.items.map((d) => (
+                        <div key={d} style={{ fontFamily: "var(--font-ui)", fontSize: 20, color: "var(--text-secondary)" }}>
+                          — {d}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div style={{ fontFamily: "var(--font-ui)", fontSize: 18, color: "var(--text-primary)" }}>
+                      {cat.items.map((s, i) => (
+                        <span key={s}>
+                          {s}{i < cat.items.length - 1 ? ", " : ""}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
-          {/* UI/UX Design — white */}
-          <div
-            className="reveal reveal-delay-1 card col-span-3 md:col-span-1"
-            style={{ padding: "48px 40px", borderRadius: 32, background: "var(--bg-card-2)", border: "1px solid var(--border)" }}
-          >
-            <div
-              style={{
-                fontFamily: "var(--font-playfair)",
-                fontStyle: "italic",
-                fontWeight: 900,
-                fontSize: 48,
-                color: "var(--watermark)",
-                lineHeight: 1,
-                marginBottom: 20,
-              }}
-            >
-              02
-            </div>
-            <h3
-              style={{
-                fontSize: 18,
-                fontWeight: 700,
-                letterSpacing: "-0.02em",
-                color: "var(--text-primary)",
-                marginBottom: 16,
-              }}
-            >
-              UI/UX Design
-            </h3>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              {designItems.map((d) => (
+          {/* Right column */}
+          <div className="flex-1 flex flex-col gap-16">
+            {categories.filter((_, i) => i % 2 === 1).map((cat) => {
+              const Icon = cat.icon;
+              return (
                 <div
-                  key={d.label}
-                  className="flex items-center gap-3"
+                  key={cat.num}
+                  className={`row-reveal row-reveal-d${parseInt(cat.num)}`}
                 >
                   <div
                     style={{
-                      width: 6, height: 6,
-                      borderRadius: "50%",
-                      background: "var(--text-body)",
-                      flexShrink: 0,
+                      fontFamily: "var(--font-display)",
+                      fontStyle: "italic",
+                      fontWeight: 900,
+                      fontSize: 80,
+                      color: "var(--watermark)",
+                      lineHeight: 1,
+                      marginBottom: 16,
+                      userSelect: "none",
                     }}
-                  />
-                  <span style={{ fontSize: 13, color: "var(--text-body)", fontWeight: 500 }}>
-                    {d.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
+                    aria-hidden="true"
+                  >
+                    {cat.num}
+                  </div>
+                  
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+                    <div className="icon-box">
+                      <Icon />
+                    </div>
+                    <h3
+                      style={{
+                        fontFamily: "var(--font-ui)",
+                        fontSize: 32,
+                        fontWeight: 500,
+                        color: "var(--text-primary)",
+                      }}
+                    >
+                      {cat.title}
+                    </h3>
+                  </div>
 
-          {/* Tools — tinted zinc */}
-          <div
-            className="reveal card col-span-3 md:col-span-1"
-            style={{
-              padding: "48px 40px",
-              borderRadius: 32,
-              background: "var(--bg-card)",
-            }}
-          >
-            <div
-              style={{
-                fontFamily: "var(--font-playfair)",
-                fontStyle: "italic",
-                fontWeight: 900,
-                fontSize: 48,
-                color: "var(--watermark)",
-                lineHeight: 1,
-                marginBottom: 20,
-              }}
-            >
-              03
-            </div>
-            <h3
-              style={{
-                fontSize: 18,
-                fontWeight: 700,
-                letterSpacing: "-0.02em",
-                color: "var(--text-primary)",
-                marginBottom: 16,
-              }}
-            >
-              Tools &amp; Version Control
-            </h3>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              {toolItems.map((t) => (
-                <div key={t.label} className="flex items-center gap-3">
-                  <div
-                    style={{
-                      width: 6, height: 6,
-                      borderRadius: "50%",
-                      background: "var(--text-body)",
-                      flexShrink: 0,
-                    }}
-                  />
-                  <span style={{ fontSize: 13, color: "var(--text-body)", fontWeight: 500 }}>
-                    {t.label}
-                  </span>
+                  {cat.isList ? (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                      {cat.items.map((d) => (
+                        <div key={d} style={{ fontFamily: "var(--font-ui)", fontSize: 20, color: "var(--text-secondary)" }}>
+                          — {d}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div style={{ fontFamily: "var(--font-ui)", fontSize: 18, color: "var(--text-primary)", maxWidth: "50ch", lineHeight: 1.6 }}>
+                      {cat.items.map((s, i) => (
+                        <span key={s}>
+                          {s}{i < cat.items.length - 1 ? ", " : ""}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Professional skills — spans 2 cols */}
-          <div
-            className="reveal reveal-delay-1 card col-span-3 md:col-span-2"
-            style={{ padding: "48px 52px", borderRadius: 32, background: "var(--bg-card-2)" }}
-          >
-            <div
-              style={{
-                fontFamily: "var(--font-playfair)",
-                fontStyle: "italic",
-                fontWeight: 900,
-                fontSize: 48,
-                color: "var(--watermark)",
-                lineHeight: 1,
-                marginBottom: 20,
-              }}
-            >
-              04
-            </div>
-            <h3
-              style={{
-                fontSize: 18,
-                fontWeight: 700,
-                letterSpacing: "-0.02em",
-                color: "var(--text-primary)",
-                marginBottom: 20,
-              }}
-            >
-              Professional Skills
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {professionalSkills.map((s) => (
-                <span key={s} className="tag">{s}</span>
-              ))}
-            </div>
+              );
+            })}
           </div>
         </div>
+
       </div>
     </section>
   );

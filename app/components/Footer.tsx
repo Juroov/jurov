@@ -4,37 +4,38 @@ export default function Footer() {
   return (
     <footer
       style={{
-        padding: "32px 24px",
+        padding: "48px 6%",
         borderTop: "1px solid var(--border)",
-        background: "var(--surface)",
+        background: "var(--bg)",
       }}
     >
       <div
         style={{
-          maxWidth: 1200,
+          maxWidth: 1400,
+          width: "100%",
           margin: "0 auto",
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
           flexWrap: "wrap",
-          gap: 12,
+          gap: 16,
         }}
       >
         <p
           style={{
-            fontSize: 12,
-            color: "var(--text-label)",
-            fontFamily: "var(--font-geist-mono)",
+            fontFamily: "var(--font-ui)",
+            fontSize: 14,
+            color: "var(--text-secondary)",
           }}
         >
           © {year} Lorrenz Amarille
         </p>
         <p
           style={{
-            fontSize: 12,
-            color: "var(--text-label)",
-            fontFamily: "var(--font-geist-mono)",
+            fontFamily: "var(--font-ui)",
+            fontSize: 14,
+            color: "var(--text-secondary)",
           }}
         >
           Built with Next.js &amp; Tailwind v4

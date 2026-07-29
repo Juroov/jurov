@@ -146,7 +146,7 @@ export default function Navbar() {
                 <span
                   style={{
                     color: "var(--accent)",
-                    fontFamily: "var(--font-geist-mono)",
+                    fontFamily: "var(--font-ui)",
                     fontSize: 13,
                     fontWeight: 700,
                     letterSpacing: "-0.02em",
@@ -158,7 +158,7 @@ export default function Navbar() {
               <span
                 className="hidden sm:block"
                 style={{
-                  fontFamily: "var(--font-geist-sans)",
+                  fontFamily: "var(--font-ui)",
                   fontSize: 14,
                   fontWeight: 600,
                   color: "var(--text-primary)",
@@ -240,35 +240,10 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center gap-3">
-              <div
-                className="hidden sm:flex items-center gap-2"
-                style={{
-                  background: "var(--accent-glow)",
-                  border: "1px solid var(--border)",
-                  padding: "6px 12px",
-                  borderRadius: 999,
-                }}
-              >
-                <div
-                  className="status-dot"
-                  style={{
-                    background: "var(--accent)",
-                    width: 7, height: 7,
-                    borderRadius: "50%",
-                    flexShrink: 0,
-                  }}
-                />
-                <span
-                  style={{
-                    color: "var(--accent)",
-                    fontSize: 10,
-                    fontWeight: 700,
-                    letterSpacing: "0.06em",
-                    textTransform: "uppercase",
-                    fontFamily: "var(--font-geist-mono)",
-                  }}
-                >
-                  Open
+              {/* Nav badge — sweep pill, no status dot */}
+              <div className="hidden sm:block">
+                <span className="nav-badge">
+                  Open for Work
                 </span>
               </div>
               {/* Theme toggle — inline SVG icons */}
@@ -285,7 +260,7 @@ export default function Navbar() {
               </a>
               <button
                 id="menuBtn"
-                className="lg:hidden flex items-center justify-center transition-colors bg-white dark:bg-zinc-900"
+                className="lg:hidden flex items-center justify-center transition-colors"
                 onClick={() => setMenuOpen(true)}
                 aria-label="Open menu"
                 style={{
@@ -294,6 +269,7 @@ export default function Navbar() {
                   border: "1px solid var(--border-strong)",
                   cursor: "pointer",
                   color: "var(--text-primary)",
+                  background: "var(--bg-card)",
                 }}
               >
                 <IconHamburger />
@@ -318,7 +294,7 @@ export default function Navbar() {
       >
         <button
           onClick={() => setMenuOpen(false)}
-          className="absolute flex items-center justify-center bg-black/5 dark:bg-white/10"
+          className="absolute flex items-center justify-center"
           aria-label="Close menu"
           style={{
             top: 20, right: 24,
@@ -327,6 +303,7 @@ export default function Navbar() {
             border: "none",
             cursor: "pointer",
             color: "var(--text-primary)",
+            background: "var(--accent-glow)",
           }}
         >
           <IconClose />
@@ -339,7 +316,7 @@ export default function Navbar() {
               fontSize: 28,
               fontWeight: 600,
               color: "var(--text-primary)",
-              fontFamily: "var(--font-geist-sans)",
+              fontFamily: "var(--font-ui)",
               background: "none",
               border: "none",
               cursor: "pointer",

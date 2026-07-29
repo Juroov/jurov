@@ -1,5 +1,5 @@
 // Server Component
-// EYEBROW #1 — Experience section gets one (section 4 of 7)
+import { BriefcaseIcon, TeamIcon, EventIcon, GameIcon } from "./SvgIcons";
 
 type Role = {
   title: string;
@@ -8,6 +8,7 @@ type Role = {
   bullets?: string[];
   blurb?: string;
   tags?: string[];
+  icon: React.ComponentType;
 };
 
 const roles: Role[] = [
@@ -15,6 +16,7 @@ const roles: Role[] = [
     title: "UI/UX and Frontend Development Intern",
     company: "PRIME Philippines",
     period: "May 2026 — Jul 2026",
+    icon: BriefcaseIcon,
     bullets: [
       "Developed responsive frontend interfaces for ArgoNavis, an Intelligent Fleet and Mobility Management System, using Next.js and modern frontend tools.",
       "Built and maintained a reusable design system with modular components and full dual-theme (Light & Dark Mode) support.",
@@ -28,6 +30,7 @@ const roles: Role[] = [
     title: "Partnership Lead — External",
     company: "Microsoft Student Community, Bulacan State University",
     period: "Jul 2025 — Apr 2026",
+    icon: TeamIcon,
     blurb:
       "Coordinated strategic partnerships and brand visibility initiatives for the Membership ID Program, fostering tech community growth and collaboration with external organizations.",
   },
@@ -35,6 +38,7 @@ const roles: Role[] = [
     title: "Volunteer Coordinator",
     company: "DEVCON Manila",
     period: "Apr 2025",
+    icon: EventIcon,
     blurb:
       "Orchestrated logistics and managed volunteer teams during technical conferences, ensuring smooth event operations and attendee support.",
   },
@@ -42,6 +46,7 @@ const roles: Role[] = [
     title: "Game Agent",
     company: "Yield Guild Games Philippines Workforce",
     period: "2023 — 2024",
+    icon: GameIcon,
     blurb:
       "Executed daily operations and optimized digital asset management strategies within a fast-paced Web3 gaming environment.",
   },
@@ -52,135 +57,84 @@ export default function Experience() {
     <section
       id="experience"
       style={{
-        padding: "120px 24px",
+        padding: "120px 6%",
         background: "var(--bg)",
         borderTop: "1px solid var(--border)",
       }}
     >
-      <div style={{ maxWidth: 800, margin: "0 auto" }}>
-        {/* EYEBROW — one of 3 total */}
-        <p
-          className="reveal"
-          style={{
-            fontSize: 11,
-            fontWeight: 700,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: "var(--accent)",
-            fontFamily: "var(--font-inter)",
-            marginBottom: 16,
-          }}
-        >
-          Experience
-        </p>
-
+      <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto" }}>
+        
         <h2
-          className="reveal reveal-delay-1"
+          className="reveal clip-wipe"
           style={{
-            fontSize: "clamp(2rem, 4vw, 3rem)",
-            fontWeight: 700,
-            letterSpacing: "-0.03em",
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(3rem, 7vw, 5rem)",
+            fontWeight: 900,
+            fontStyle: "italic",
+            letterSpacing: "-0.02em",
             color: "var(--text-primary)",
-            fontFamily: "var(--font-inter)",
-            textShadow: "0 0 40px var(--accent-glow)",
-            marginBottom: 8,
+            marginBottom: 64,
+            textShadow: "var(--headline-glow)",
           }}
         >
           Where I&apos;ve{" "}
-          <span
-            style={{
-              fontFamily: "var(--font-playfair)",
-              fontStyle: "italic",
-              fontWeight: 900,
-              color: "var(--accent)",
-              textShadow: "0 0 50px var(--accent-glow)",
-            }}
-          >
+          <span className="headline-accent">
             worked.
           </span>
         </h2>
-        {/* SVG stroke-draw underline */}
-        <svg className="heading-underline-svg" viewBox="0 0 300 8" preserveAspectRatio="none"
-          style={{ maxWidth: 240, height: 8, marginBottom: 48 }} aria-hidden="true">
-          <path className="heading-underline-path" d="M 2 4 Q 75 2 150 4 Q 225 6 298 4"
-            vectorEffect="non-scaling-stroke" pathLength="1" />
-        </svg>
 
-        <div className="timeline-track" style={{ paddingLeft: 48 }}>
-          {roles.map((role, i) => (
-            <div
-              key={i}
-              className={`reveal ${i > 0 ? `reveal-delay-${Math.min(i, 3)}` : ""}`}
-              style={{
-                position: "relative",
-                paddingBottom: i < roles.length - 1 ? 40 : 0,
-              }}
-            >
-              {/* Animated SVG timeline dot */}
+        <div className="flex flex-col gap-12">
+          {roles.map((role, i) => {
+            const Icon = role.icon;
+            return (
               <div
+                key={i}
+                className={`reveal ${i > 0 ? `reveal-delay-${Math.min(i, 3)}` : ""}`}
                 style={{
-                  position: "absolute",
-                  left: -47,
-                  top: 6,
-                  width: 30,
-                  height: 30,
+                  position: "relative",
+                  paddingBottom: i < roles.length - 1 ? 48 : 0,
+                  borderBottom: i < roles.length - 1 ? "1px solid var(--border)" : "none",
                   display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  flexDirection: "column",
+                  gap: 16
                 }}
               >
-                <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
-                  <circle cx="15" cy="15" r="13" fill="var(--accent-glow)" stroke="var(--border)" strokeWidth="1.5" />
-                  <circle cx="15" cy="15" r="4" fill="var(--accent)">
-                    <animate attributeName="r" values="4;6;4" dur="2.5s" repeatCount="indefinite"
-                      calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
-                    <animate attributeName="opacity" values="1;0.6;1" dur="2.5s" repeatCount="indefinite"
-                      calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
-                  </circle>
-                </svg>
-              </div>
-
-              <div className="card" style={{ padding: "24px 28px", background: "var(--bg-card)" }}>
-                <div
-                  className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2"
-                  style={{ marginBottom: 16 }}
-                >
-                  <div>
-                    <h3
-                      style={{
-                        fontSize: 16,
-                        fontWeight: 700,
-                        color: "var(--text-primary)",
-                        fontFamily: "var(--font-inter)",
-                        letterSpacing: "-0.01em",
-                        marginBottom: 3,
-                      }}
-                    >
-                      {role.title}
-                    </h3>
-                    <p
-                      style={{
-                        fontSize: 13,
-                        fontWeight: 600,
-                        color: "var(--accent)",
-                        fontFamily: "var(--font-inter)",
-                      }}
-                    >
-                      {role.company}
-                    </p>
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
+                    <div className="icon-box" style={{ marginTop: 2 }}>
+                      <Icon />
+                    </div>
+                    <div>
+                      <h3
+                        style={{
+                          fontFamily: "var(--font-ui)",
+                          fontSize: 24,
+                          fontWeight: 600,
+                          color: "var(--text-primary)",
+                          marginBottom: 4,
+                        }}
+                      >
+                        {role.title}
+                      </h3>
+                      <p
+                        style={{
+                          fontFamily: "var(--font-ui)",
+                          fontSize: 18,
+                          fontStyle: "italic",
+                          color: "var(--text-secondary)",
+                        }}
+                      >
+                        {role.company}
+                      </p>
+                    </div>
                   </div>
                   <span
                     style={{
-                      fontSize: 11,
-                      fontWeight: 600,
-                      color: "var(--text-faint)",
-                      background: "var(--bg-card-2)",
-                      border: "1px solid var(--border)",
-                      padding: "4px 10px",
-                      borderRadius: 6,
-                      whiteSpace: "nowrap",
-                      flexShrink: 0,
-                      fontFamily: "var(--font-geist-mono)",
+                      fontFamily: "var(--font-display)",
+                      fontSize: 16,
+                      fontStyle: "italic",
+                      fontWeight: 700,
+                      color: "var(--accent)",
                     }}
                   >
                     {role.period}
@@ -188,24 +142,23 @@ export default function Experience() {
                 </div>
 
                 {role.bullets && (
-                  <ul style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 20 }}>
+                  <ul style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 8 }}>
                     {role.bullets.map((b, j) => (
-                      <li key={j} className="flex gap-2.5" style={{ fontSize: 13, color: "var(--text-secondary)", fontFamily: "var(--font-inter)", lineHeight: 1.7 }}>
-                        <span style={{ color: "var(--accent)", opacity: 0.6, marginTop: 5, flexShrink: 0 }}>•</span>
-                        {b}
+                      <li key={j} style={{ fontFamily: "var(--font-ui)", fontSize: 18, color: "var(--text-primary)", lineHeight: 1.6, maxWidth: "65ch" }}>
+                        — {b}
                       </li>
                     ))}
                   </ul>
                 )}
 
                 {role.blurb && (
-                  <p style={{ fontSize: 13, color: "var(--text-secondary)", fontFamily: "var(--font-inter)", lineHeight: 1.7 }}>
+                  <p style={{ fontFamily: "var(--font-ui)", fontSize: 18, color: "var(--text-primary)", lineHeight: 1.6, maxWidth: "65ch", marginTop: 8 }}>
                     {role.blurb}
                   </p>
                 )}
 
                 {role.tags && (
-                  <div className="flex flex-wrap gap-2" style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
+                  <div style={{ marginTop: 8 }}>
                     {role.tags.map((t) => (
                       <span key={t} className="tag">
                         {t}
@@ -214,8 +167,8 @@ export default function Experience() {
                   </div>
                 )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

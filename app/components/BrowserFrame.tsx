@@ -144,7 +144,7 @@ export function BrowserFrame({
               style={{
                 fontSize: 10.5,
                 color: "var(--text-secondary)",
-                fontFamily: "var(--font-geist-mono)",
+                fontFamily: "var(--font-inter)",
                 letterSpacing: "0.01em",
                 overflow: "hidden",
                 textOverflow: "ellipsis",

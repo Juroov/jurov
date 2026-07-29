@@ -3,10 +3,8 @@
 import { useEffect, useRef } from "react";
 
 /**
- * AmbientGlow — fixed radial glow that parallax-drifts as the user scrolls.
- * Uses rAF + IntersectionObserver-free approach: reads window.scrollY inside
- * a single rAF loop that only runs while in the document. No React state,
- * no scroll event listeners on the main thread — just a rAF tick.
+ * AmbientGlow — single soft radial glow that parallax-drifts with scroll.
+ * No radar, grid, or concentric-circle decorations — depth from glow only.
  */
 export default function AmbientGlow() {
   const glowRef = useRef<HTMLDivElement>(null);
@@ -21,10 +19,10 @@ export default function AmbientGlow() {
     const tick = () => {
       raf = requestAnimationFrame(tick);
       const y = window.scrollY;
-      if (Math.abs(y - lastY) < 1) return; // skip if not moved
+      if (Math.abs(y - lastY) < 1) return;
       lastY = y;
       if (glowRef.current) {
-        glowRef.current.style.transform = `translateY(${y * 0.12}px)`;
+        glowRef.current.style.transform = `translateY(${y * 0.15}px)`;
       }
     };
 
@@ -38,35 +36,19 @@ export default function AmbientGlow() {
       aria-hidden="true"
       style={{
         position: "fixed",
-        top: "-25%",
+        top: "-20%",
         left: "50%",
-        width: "1000px",
-        height: "1000px",
-        marginLeft: "-500px",
+        width: "1100px",
+        height: "1100px",
+        marginLeft: "-550px",
         background:
-          "radial-gradient(circle, var(--accent-warm-glow) 0%, transparent 65%)",
+          "radial-gradient(circle, var(--accent-glow) 0%, transparent 65%)",
         zIndex: 0,
         pointerEvents: "none",
         opacity: 0.55,
         willChange: "transform",
-        // Second, smaller accent glow offset to the left for depth
+        transition: "opacity 900ms cubic-bezier(0.4, 0, 0.2, 1)",
       }}
-    >
-      {/* Secondary offset glow for depth */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: "30%",
-          left: "-30%",
-          width: "600px",
-          height: "600px",
-          background:
-            "radial-gradient(circle, var(--accent-subtle) 0%, transparent 70%)",
-          opacity: 0.5,
-          pointerEvents: "none",
-        }}
-      />
-    </div>
+    />
   );
 }

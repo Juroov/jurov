@@ -89,7 +89,7 @@ export function ProjectPreviewSVG({
             style={{
               fontSize: 11,
               color: "var(--text-muted)",
-              fontFamily: "var(--font-geist-mono)",
+              fontFamily: "var(--font-inter)",
               letterSpacing: "0.02em",
             }}
           >
@@ -335,7 +335,7 @@ export function ProjectPreviewSVG({
           <rect x="346" y="338" width="140" height="22" rx="5"
             fill="rgba(0,0,0,0.55)" />
           <text x="357" y="353"
-            fontFamily="var(--font-geist-mono)"
+            fontFamily="var(--font-inter)"
             fontSize="9"
             fill="white"
             letterSpacing="0.06em"

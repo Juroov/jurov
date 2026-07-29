@@ -53,7 +53,7 @@ export default function MarqueeStrip() {
               fontSize: 12,
               fontWeight: 600,
               color: "var(--text-secondary)",
-              fontFamily: "var(--font-inter)",
+              fontFamily: "var(--font-ui)",
               flexShrink: 0,
               letterSpacing: "0.015em",
             }}
