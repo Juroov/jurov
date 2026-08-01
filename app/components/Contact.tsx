@@ -46,7 +46,7 @@ export default function Contact() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
+
     const subject = encodeURIComponent(`Project Inquiry from ${form.name} (Budget: ${form.budget || "N/A"})`);
     const body = encodeURIComponent(
       `Name: ${form.name}\n` +
@@ -54,7 +54,7 @@ export default function Contact() {
       `Budget: ${form.budget || "N/A"}\n\n` +
       `Message:\n${form.message}`
     );
-    
+
     const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=amarillelorrenz@gmail.com&su=${subject}&body=${body}`;
     window.open(gmailUrl, "_blank", "noopener,noreferrer");
 
@@ -134,29 +134,69 @@ export default function Contact() {
                 or a browser automation script — fill out the form or reach out directly.
               </p>
 
-              <div className="reveal reveal-delay-2 flex flex-col gap-6">
+              {/* Social links with wave hover */}
+              <div
+                className="reveal reveal-delay-2"
+                style={{ display: "flex", flexDirection: "column", gap: 16, marginBottom: 48 }}
+              >
                 {socialLinks.map(({ label, href }) => (
                   <a
                     key={label}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group"
+                    className="nav-link"
                     style={{
                       textDecoration: "none",
-                      color: "var(--text-primary)",
                       fontFamily: "var(--font-display)",
-                      fontSize: 24,
+                      fontSize: 22,
                       fontWeight: 700,
                       fontStyle: "italic",
-                      transition: "color 0.2s ease",
+                      letterSpacing: ".02em",
+                      textTransform: "none",
                     }}
-                    onMouseOver={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--accent)")}
-                    onMouseOut={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-primary)")}
                   >
-                    {label} ↗
+                    <WaveText text={`${label} ↗`} />
                   </a>
                 ))}
+              </div>
+
+              {/* Shield signature close */}
+              <div className="reveal reveal-delay-3" style={{ opacity: 0.4 }}>
+                <svg
+                  width="60"
+                  height="70"
+                  viewBox="0 0 200 230"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M100 14 L178 46 L178 112 C178 168 146 202 100 220 C54 202 22 168 22 112 L22 46 Z"
+                    stroke="var(--accent)"
+                    strokeWidth="3"
+                    strokeLinejoin="round"
+                    fill="none"
+                  />
+                  <text
+                    x="100"
+                    y="128"
+                    textAnchor="middle"
+                    fontFamily="Playfair Display, serif"
+                    fontStyle="italic"
+                    fontWeight="700"
+                    fontSize="52"
+                    fill="var(--text-faint)"
+                  >
+                    KJ
+                  </text>
+                </svg>
+              </div>
+
+              {/* Glow-pulse CTA */}
+              <div className="reveal reveal-delay-2" style={{ marginTop: 40 }}>
+                <a href="#contact" className="btn-brand" style={{ fontSize: 14, padding: "18px 40px" }}>
+                  Hire Me
+                </a>
               </div>
             </div>
 

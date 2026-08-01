@@ -22,9 +22,13 @@ const projects = [
     title: "Kuya Juan — Financial Advisor Portfolio",
     type: "Frontend · Commission",
     url: "https://clients-portfolio.vercel.app/",
+<<<<<<< Updated upstream
     accentColor: "var(--accent)",
     themeBg: "var(--bg-card)",
     fallbackImage: "/real-juan.png",
+=======
+    images: ["/real-juan.png", "/real-juan-why.png", "/real-juan-how.png"],
+>>>>>>> Stashed changes
     description:
       "A professional marketing site built to convert visitors into consultation bookings, showcasing services, credentials, and client testimonials.",
     role: "Designed and built the full landing page — from wireframe to deployed. Focused on trust signals, warm visual hierarchy, and mobile-first responsiveness.",
@@ -49,8 +53,76 @@ function ProjectCard({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
+<<<<<<< Updated upstream
       <div style={{ position: "relative", maxWidth: "60ch" }}>
         <div style={{ paddingTop: 4 }}>
+=======
+      <div
+        ref={trackRef}
+        className="carousel-track"
+        style={{ transform: `translateX(-${current * 100}%)` }}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
+        {images.map((src, i) => (
+          <div key={i} className="carousel-slide">
+            <img
+              src={src}
+              alt={`${title} screenshot ${i + 1}`}
+              loading={i === 0 ? "eager" : "lazy"}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Prev/Next buttons */}
+      {current > 0 && (
+        <button className="carousel-btn prev" onClick={prev} aria-label="Previous slide">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      )}
+      {current < images.length - 1 && (
+        <button className="carousel-btn next" onClick={next} aria-label="Next slide">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      )}
+
+      {/* Dots */}
+      <div className="carousel-dots">
+        {images.map((_, i) => (
+          <button
+            key={i}
+            className={`carousel-dot ${i === current ? "active" : ""}`}
+            onClick={() => goTo(i)}
+            aria-label={`Go to slide ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Project card ── */
+function ProjectCard({ project }: { project: (typeof projects)[0] }) {
+  return (
+    <div className="reveal" style={{ position: "relative" }}>
+      <div
+        className="flex flex-col lg:flex-row gap-12 lg:gap-16"
+        style={{ alignItems: "flex-start" }}
+      >
+        {/* Image carousel */}
+        <div className="flex-1" style={{ minWidth: 0 }}>
+          <ImageCarousel images={project.images} title={project.title} />
+        </div>
+
+        {/* Text content */}
+        <div className="flex-1" style={{ paddingTop: 8 }}>
+>>>>>>> Stashed changes
           <p
             style={{
               fontFamily: "var(--font-ui)",
