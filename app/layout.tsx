@@ -3,6 +3,8 @@ import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import SmoothScroll from "./components/SmoothScroll";
+import { WaveNavigatorProvider } from "./components/WaveNavigator";
+import IntroSequence from "./components/IntroSequence";
 
 const playfair = Playfair_Display({
   variable: "--font-display",
@@ -37,6 +39,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+<<<<<<< Updated upstream
       className={`${playfair.variable} ${inter.variable} scroll-smooth`}
       suppressHydrationWarning
     >
@@ -60,6 +63,17 @@ export default function RootLayout({
         <ThemeProvider>
           <SmoothScroll>{children}</SmoothScroll>
         </ThemeProvider>
+=======
+      data-scroll-behavior="smooth"
+      className={`${playfair.variable} ${montserrat.variable} ${bebasNeue.variable}`}
+      data-theme="dark"
+    >
+      <body>
+        <IntroSequence />
+        <WaveNavigatorProvider>
+          <SmoothScroll>{children}</SmoothScroll>
+        </WaveNavigatorProvider>
+>>>>>>> Stashed changes
       </body>
     </html>
   );

@@ -484,6 +484,359 @@ body {
   transform: translateY(0);
 }
 
+<<<<<<< Updated upstream
+=======
+/* ═══════════════════════════════════════════════════════════════
+   IMAGE CAROUSEL
+   ═══════════════════════════════════════════════════════════════ */
+.carousel-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  /* Borderless — no outline, background matches site */
+  background: transparent;
+  /* Fixed aspect ratio so images always fill the frame */
+  aspect-ratio: 16 / 10;
+  /* Kill browser/Tailwind blue focus ring */
+  outline: none;
+}
+.carousel-container:focus {
+  outline: none;
+}
+.carousel-container:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.carousel-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.6s var(--ease-luxury);
+}
+.carousel-slide {
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: top center;
+  /* No inner border-radius — container clips cleanly */
+  border-radius: 0;
+  transition: transform 0.5s var(--ease-luxury);
+}
+.carousel-slide:hover img {
+  transform: scale(1.025);
+}
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--bg-card) 90%, transparent);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--hairline);
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 0.2s ease, transform 0.2s var(--ease-spring);
+}
+.carousel-btn:hover {
+  background: var(--accent);
+  transform: translateY(-50%) scale(1.1);
+}
+.carousel-btn.prev { left: 16px; }
+.carousel-btn.next { right: 16px; }
+.carousel-dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 14px 0 0;
+}
+.carousel-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s var(--ease-spring), width 0.2s ease;
+}
+.carousel-dot.active {
+  width: 20px;
+  border-radius: 3px;
+  background: var(--accent-bright);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INTRO SEQUENCE
+   ═══════════════════════════════════════════════════════════════ */
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.intro-overlay.fade-out {
+  animation: fadeOut 0.8s var(--ease-luxury) forwards;
+}
+@keyframes fadeOut {
+  to { opacity: 0; pointer-events: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION COMMON
+   ═══════════════════════════════════════════════════════════════ */
+.section-wrap {
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION OVERLAY — SVG CURTAIN PULL-DOWN
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Overlay keyframes ── */
+@keyframes overlayCurtainIn {
+  from { transform: translateY(-100%); }
+  to   { transform: translateY(0); }
+}
+@keyframes overlayCurtainOut {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-100%); }
+}
+@keyframes overlayContentIn {
+  from { opacity: 0; transform: translateY(60px); filter: blur(12px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+@keyframes overlayContentOut {
+  from { opacity: 1; transform: translateY(0);    filter: blur(0); }
+  to   { opacity: 0; transform: translateY(40px); filter: blur(8px); }
+}
+@keyframes cornerDraw {
+  from { stroke-dashoffset: 120; }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* ── Root overlay container ── */
+.section-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+}
+.section-overlay.is-open {
+  pointer-events: auto;
+}
+
+/* ── SVG wave curtain ── */
+.overlay-curtain-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  z-index: 1;
+  transform: translateY(-100%);
+  transition: transform 0s;
+}
+.section-overlay.is-open .overlay-curtain-svg,
+.section-overlay.is-leaving .overlay-curtain-svg {
+  transform: translateY(0);
+}
+
+/* ── Content pane — fixed fills viewport, scrolls naturally ── */
+.overlay-content-pane {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100svh;
+  max-height: 100svh;
+  background: var(--bg-card);
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 2;
+  /* Start hidden above the viewport */
+  transform: translateY(-100%);
+  /* NO will-change here — it creates a stacking context that traps fixed children */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.section-overlay.is-open .overlay-content-pane {
+  animation: overlayCurtainIn 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+.section-overlay.is-leaving .overlay-content-pane {
+  animation: overlayCurtainOut 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+/* Top spacer — pushes content clear of the fixed close button */
+.overlay-top-spacer { height: 76px; }
+
+/* ── Section content inside the overlay ── */
+.overlay-section-content {
+  opacity: 0;
+  transform: translateY(60px);
+  filter: blur(12px);
+}
+.section-overlay.is-open .overlay-section-content {
+  animation: overlayContentIn 0.7s var(--ease-luxury) 0.35s forwards;
+}
+.section-overlay.is-leaving .overlay-section-content {
+  animation: overlayContentOut 0.4s var(--ease-luxury) forwards;
+}
+
+/* ── Close button — fixed at top-right, never scrolls away, no overlap ── */
+.overlay-close-btn {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 10002;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-ui), 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  padding: 10px 20px;
+  cursor: pointer;
+  /* Hidden until overlay opens */
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.35s var(--ease-luxury), transform 0.35s var(--ease-luxury), border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+.section-overlay.is-open .overlay-close-btn {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition-delay: 0.5s, 0.5s, 0s, 0s, 0s;
+}
+/* Button rendered at Hero level — always visible & clickable when present */
+.overlay-close-btn.is-visible {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translateY(0) !important;
+  transition-delay: 0s !important;
+}
+.section-overlay.is-leaving .overlay-close-btn {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition-delay: 0s;
+}
+.overlay-close-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+.overlay-close-btn svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+/* ── Corner accent SVGs ── */
+.overlay-corner-accent {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  z-index: 10001;
+  opacity: 0;
+  overflow: visible;
+  /* Must be below the close button z-index (10002) but above content (2) */
+}
+.overlay-corner-accent.top-left  { top: 16px; left: 16px; }
+/* Right accent shifted left of the close button */
+.overlay-corner-accent.top-right { top: 16px; right: 140px; }
+
+.section-overlay.is-open .overlay-corner-accent {
+  opacity: 1;
+  transition: opacity 0.4s 0.5s ease;
+}
+.section-overlay.is-leaving .overlay-corner-accent {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.corner-draw {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+}
+.section-overlay.is-open .corner-draw {
+  animation: cornerDraw 0.8s var(--ease-luxury) 0.6s forwards;
+}
+
+/* ── Custom scrollbar inside overlay ── */
+.overlay-content-pane::-webkit-scrollbar { width: 3px; }
+.overlay-content-pane::-webkit-scrollbar-track { background: transparent; }
+.overlay-content-pane::-webkit-scrollbar-thumb { background: var(--accent-glow); border-radius: 2px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   WAVE TEXT — Reusable letter-wave on hover
+   ═══════════════════════════════════════════════════════════════ */
+.wave-text {
+  display: inline-flex;
+}
+.wave-text .wave-letter {
+  display: inline-block;
+  transition: transform 0.3s var(--ease-spring);
+}
+.wave-text:hover .wave-letter,
+.hero-section-btn:hover .wave-letter,
+.nav-wordmark-wave:hover .wave-letter {
+  animation: letterWave 0.4s var(--ease-spring) forwards;
+}
+
+/* ── Lorrenz wordmark wave in nav ── */
+.nav-wordmark-wave {
+  display: inline-flex;
+}
+.nav-wordmark-wave .wave-letter {
+  display: inline-block;
+  transition: transform 0.3s var(--ease-spring);
+}
+
+/* ── Hero section buttons — active state ── */
+.hero-section-btn.is-active {
+  border-color: var(--accent) !important;
+  color: var(--accent-bright) !important;
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+/* ── Hero name wave ── */
+.hero-name-wave .wave-text .wave-letter {
+  display: inline-block;
+  transition: transform 0.3s var(--ease-spring);
+}
+.hero-name-wave:hover .wave-letter {
+  animation: letterWave 0.4s var(--ease-spring) forwards;
+}
+
+>>>>>>> Stashed changes
 /* ─── REDUCED MOTION ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .reveal { transition: opacity .4s ease; transform: none !important; filter: none !important; }
@@ -505,4 +858,56 @@ body {
     transition: none !important;
   }
   * { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE TRANSITIONS — SVG WaveTransitionOverlay handles the curtain.
+   These rules handle page-enter content animation only.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Keep navbar anchored during any view transitions ── */
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) { display: none; }
+::view-transition-new(site-header) { animation: none; }
+
+/* Suppress default browser cross-fade during SVG-driven navigation */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* ── Section page enter — content fades + rises after the wave lifts ── */
+@keyframes overlayContentIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.section-page-enter {
+  /* Wave triggers router push at 0.75s, so content fades in slightly after that */
+  animation: overlayContentIn 0.8s var(--ease-luxury) 0.1s both;
+}
+
+/* ─── SECTION BACK BUTTON ────────────────────────────────────── */
+.section-back-btn {
+  animation: overlayContentIn 0.5s var(--ease-luxury) 0.3s both;
+}
+
+/* ─── WAVE OVERLAY BLUR ──────────────────────────────────────── */
+@keyframes waveBlur {
+  0% { filter: blur(0px); opacity: 0; }
+  20% { opacity: 1; }
+  50% { filter: blur(4px); } /* Peak blur at max velocity */
+  80% { opacity: 1; }
+  100% { filter: blur(0px); opacity: 0; }
+}
+
