@@ -1,68 +1,66 @@
-// Server Component
+// Skills section — Badge/level bar system with SVG category icons
 import { CodeIcon, PenToolIcon, GearIcon, BriefcaseIcon } from "./SvgIcons";
 
-const frontendSkills = [
-  "React", "Next.js", "TypeScript", "JavaScript",
-  "HTML / CSS", "Tailwind CSS", "Supabase",
-];
+type Skill = {
+  name: string;
+  level: number; // 0–100
+};
 
-const designItems = [
-  "Figma",
-  "Wireframing",
-  "Prototyping",
-  "Responsive Design",
-  "Design Systems",
-];
-
-const toolItems = [
-  "VS Code",
-  "Git & GitHub",
-  "AntiGravity",
-  "Notion",
-  "Microsoft 365 & Canva",
-];
-
-const professionalSkills = [
-  "Agile Development",
-  "Software Development Lifecycle",
-  "Technical Documentation",
-  "Business Proposal Development",
-  "Project Coordination",
-  "Problem Solving",
-];
-
-const categories = [
+const categories: {
+  num: string;
+  title: string;
+  icon: React.ComponentType;
+  skills: Skill[];
+}[] = [
   {
     num: "01",
-    title: "Web & Frontend Development",
+    title: "Frontend",
     icon: CodeIcon,
-    description: "Building responsive, performant frontends with modern frameworks. From component architecture to API integration and deployment.",
-    items: frontendSkills,
-    isList: false,
+    skills: [
+      { name: "React", level: 88 },
+      { name: "Next.js", level: 85 },
+      { name: "TypeScript", level: 80 },
+      { name: "JavaScript", level: 90 },
+      { name: "HTML / CSS", level: 92 },
+      { name: "Tailwind CSS", level: 88 },
+      { name: "Supabase", level: 72 },
+    ],
   },
   {
     num: "02",
-    title: "UI/UX Design",
+    title: "Design",
     icon: PenToolIcon,
-    description: null,
-    items: designItems,
-    isList: true,
+    skills: [
+      { name: "Figma", level: 85 },
+      { name: "Wireframing", level: 82 },
+      { name: "Prototyping", level: 78 },
+      { name: "Responsive Design", level: 90 },
+      { name: "Design Systems", level: 80 },
+    ],
   },
   {
     num: "03",
-    title: "Tools & Version Control",
+    title: "Tools",
     icon: GearIcon,
-    description: null,
-    items: toolItems,
-    isList: true,
+    skills: [
+      { name: "VS Code", level: 92 },
+      { name: "Git & GitHub", level: 85 },
+      { name: "AntiGravity", level: 88 },
+      { name: "Notion", level: 78 },
+      { name: "Microsoft 365", level: 80 },
+    ],
   },
   {
     num: "04",
-    title: "Professional Skills",
+    title: "Professional",
     icon: BriefcaseIcon,
-    description: null,
-    items: professionalSkills,
-    isList: false,
+    skills: [
+      { name: "Agile / SDLC", level: 78 },
+      { name: "Technical Docs", level: 82 },
+      { name: "Project Coordination", level: 80 },
+      { name: "Problem Solving", level: 88 },
+      { name: "Business Proposals", level: 75 },
+    ],
   },
 ];
 
@@ -71,18 +69,23 @@ export default function Skills() {
     <section
       id="skills"
       style={{
-        padding: "120px 6%",
+        padding: "140px 6%",
         background: "var(--bg)",
         borderTop: "1px solid var(--border)",
+        position: "relative",
+        overflow: "hidden",
+        isolation: "isolate",
       }}
     >
-      <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto" }}>
-        
+      {/* Ghost watermark */}
+      <div className="ghost-word" aria-hidden="true">SKILLS</div>
+
+      <div style={{ maxWidth: 1180, width: "100%", margin: "0 auto", position: "relative", zIndex: 1 }}>
         <h2
-          className="reveal clip-wipe"
+          className="clip-wipe"
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(3rem, 7vw, 5rem)",
+            fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
             fontWeight: 900,
             fontStyle: "italic",
             letterSpacing: "-0.02em",
@@ -92,156 +95,110 @@ export default function Skills() {
           }}
         >
           What I bring to the{" "}
-          <span className="headline-accent">
-            table.
-          </span>
+          <span className="headline-accent">table.</span>
         </h2>
 
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
-          {/* Left column */}
-          <div className="flex-1 flex flex-col gap-16">
-            {categories.filter((_, i) => i % 2 === 0).map((cat) => {
-              const Icon = cat.icon;
-              return (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 480px), 1fr))",
+            gap: 64,
+          }}
+        >
+          {categories.map((cat) => {
+            const Icon = cat.icon;
+            return (
+              <div
+                key={cat.num}
+                className={`row-reveal row-reveal-d${parseInt(cat.num)}`}
+              >
+                {/* Oversized Bebas Neue category numeral */}
                 <div
-                  key={cat.num}
-                  className={`row-reveal row-reveal-d${parseInt(cat.num)}`}
+                  style={{
+                    fontFamily: "var(--font-impact), 'Bebas Neue', sans-serif",
+                    fontSize: 64,
+                    color: "var(--accent-bright)",
+                    lineHeight: 1,
+                    marginBottom: 8,
+                    textShadow: "0 0 20px var(--accent-glow)",
+                  }}
+                  aria-hidden="true"
                 >
-                  {/* Ghost watermark numeral */}
-                  <div
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontStyle: "italic",
-                      fontWeight: 900,
-                      fontSize: 80,
-                      color: "var(--watermark)",
-                      lineHeight: 1,
-                      marginBottom: 16,
-                      userSelect: "none",
-                    }}
-                    aria-hidden="true"
-                  >
-                    {cat.num}
-                  </div>
-                  
-                  {/* Icon + Title row */}
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
-                    <div className="icon-box">
-                      <Icon />
-                    </div>
-                    <h3
-                      style={{
-                        fontFamily: "var(--font-ui)",
-                        fontSize: 32,
-                        fontWeight: 500,
-                        color: "var(--text-primary)",
-                      }}
-                    >
-                      {cat.title}
-                    </h3>
-                  </div>
-
-                  {cat.description && (
-                    <p
-                      style={{
-                        fontFamily: "var(--font-ui)",
-                        fontSize: 20,
-                        color: "var(--text-secondary)",
-                        lineHeight: 1.6,
-                        marginBottom: 32,
-                        maxWidth: "50ch",
-                      }}
-                    >
-                      {cat.description}
-                    </p>
-                  )}
-                  
-                  {cat.isList ? (
-                    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                      {cat.items.map((d) => (
-                        <div key={d} style={{ fontFamily: "var(--font-ui)", fontSize: 20, color: "var(--text-secondary)" }}>
-                          — {d}
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div style={{ fontFamily: "var(--font-ui)", fontSize: 18, color: "var(--text-primary)" }}>
-                      {cat.items.map((s, i) => (
-                        <span key={s}>
-                          {s}{i < cat.items.length - 1 ? ", " : ""}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                  {cat.num}
                 </div>
-              );
-            })}
-          </div>
 
-          {/* Right column */}
-          <div className="flex-1 flex flex-col gap-16">
-            {categories.filter((_, i) => i % 2 === 1).map((cat) => {
-              const Icon = cat.icon;
-              return (
+                {/* Icon + Title */}
                 <div
-                  key={cat.num}
-                  className={`row-reveal row-reveal-d${parseInt(cat.num)}`}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    marginBottom: 28,
+                  }}
                 >
-                  <div
+                  <div className="icon-box">
+                    <Icon />
+                  </div>
+                  <h3
                     style={{
-                      fontFamily: "var(--font-display)",
-                      fontStyle: "italic",
-                      fontWeight: 900,
-                      fontSize: 80,
-                      color: "var(--watermark)",
-                      lineHeight: 1,
-                      marginBottom: 16,
-                      userSelect: "none",
+                      fontFamily: "var(--font-ui)",
+                      fontSize: 22,
+                      fontWeight: 600,
+                      color: "var(--text-primary)",
+                      letterSpacing: ".02em",
                     }}
-                    aria-hidden="true"
                   >
-                    {cat.num}
-                  </div>
-                  
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
-                    <div className="icon-box">
-                      <Icon />
-                    </div>
-                    <h3
-                      style={{
-                        fontFamily: "var(--font-ui)",
-                        fontSize: 32,
-                        fontWeight: 500,
-                        color: "var(--text-primary)",
-                      }}
-                    >
-                      {cat.title}
-                    </h3>
-                  </div>
-
-                  {cat.isList ? (
-                    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                      {cat.items.map((d) => (
-                        <div key={d} style={{ fontFamily: "var(--font-ui)", fontSize: 20, color: "var(--text-secondary)" }}>
-                          — {d}
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div style={{ fontFamily: "var(--font-ui)", fontSize: 18, color: "var(--text-primary)", maxWidth: "50ch", lineHeight: 1.6 }}>
-                      {cat.items.map((s, i) => (
-                        <span key={s}>
-                          {s}{i < cat.items.length - 1 ? ", " : ""}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                    {cat.title}
+                  </h3>
                 </div>
-              );
-            })}
-          </div>
+
+                {/* Skill bars */}
+                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                  {cat.skills.map((skill) => (
+                    <div key={skill.name}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "baseline",
+                          marginBottom: 6,
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontFamily: "var(--font-ui)",
+                            fontSize: 13,
+                            fontWeight: 500,
+                            color: "var(--text-secondary)",
+                            letterSpacing: ".04em",
+                          }}
+                        >
+                          {skill.name}
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: "var(--font-impact), 'Bebas Neue', sans-serif",
+                            fontSize: 18,
+                            color: "var(--accent-bright)",
+                            textShadow: "0 0 8px var(--accent-glow)",
+                          }}
+                        >
+                          {skill.level}
+                        </span>
+                      </div>
+                      <div className="skill-bar-track">
+                        <div
+                          className="skill-bar-fill"
+                          style={{ width: `${skill.level}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
-
       </div>
     </section>
   );

@@ -1,21 +1,27 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Playfair_Display, Montserrat, Bebas_Neue } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "./components/ThemeProvider";
 import SmoothScroll from "./components/SmoothScroll";
 
 const playfair = Playfair_Display({
   variable: "--font-display",
   subsets: ["latin"],
   style: ["normal", "italic"],
-  weight: ["700", "900"],
+  weight: ["400", "500", "600", "700", "900"],
   display: "swap",
 });
 
-const inter = Inter({
+const montserrat = Montserrat({
   variable: "--font-ui",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const bebasNeue = Bebas_Neue({
+  variable: "--font-impact",
+  subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
@@ -37,29 +43,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${inter.variable} scroll-smooth`}
-      suppressHydrationWarning
+      className={`${playfair.variable} ${montserrat.variable} ${bebasNeue.variable}`}
+      data-theme="dark"
     >
-      {/* Prevent dark-mode flash — reads localStorage before first paint */}
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(){
-                try{
-                  var s=localStorage.getItem('theme');
-                  var m=window.matchMedia('(prefers-color-scheme:dark)').matches;
-                  document.documentElement.setAttribute('data-theme', s||(m?'dark':'light'));
-                }catch(e){}
-              })();
-            `,
-          }}
-        />
-      </head>
-      <body className="min-h-screen antialiased">
-        <ThemeProvider>
-          <SmoothScroll>{children}</SmoothScroll>
-        </ThemeProvider>
+      <body>
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   );
