@@ -3,6 +3,23 @@
 import { useState, useRef, FormEvent } from "react";
 import { SignatureDividerSvg } from "./SvgIcons";
 
+/* ── Wave text helper — staggered letter animation on hover ── */
+function WaveText({ text, className = "" }: { text: string; className?: string }) {
+  return (
+    <span className={`wave-text ${className}`}>
+      {text.split("").map((ch, i) => (
+        <span
+          key={i}
+          className="wave-letter"
+          style={{ animationDelay: `${i * 0.04}s` }}
+        >
+          {ch === " " ? "\u00A0" : ch}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 type FormState = {
   name: string;
   email: string;

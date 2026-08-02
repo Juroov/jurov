@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "./components/ThemeProvider";
 import SmoothScroll from "./components/SmoothScroll";
 import { WaveNavigatorProvider } from "./components/WaveNavigator";
 import IntroSequence from "./components/IntroSequence";
@@ -39,33 +38,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-<<<<<<< Updated upstream
-      className={`${playfair.variable} ${inter.variable} scroll-smooth`}
-      suppressHydrationWarning
-    >
-      {/* Prevent dark-mode flash — reads localStorage before first paint */}
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(){
-                try{
-                  var s=localStorage.getItem('theme');
-                  var m=window.matchMedia('(prefers-color-scheme:dark)').matches;
-                  document.documentElement.setAttribute('data-theme', s||(m?'dark':'light'));
-                }catch(e){}
-              })();
-            `,
-          }}
-        />
-      </head>
-      <body className="min-h-screen antialiased">
-        <ThemeProvider>
-          <SmoothScroll>{children}</SmoothScroll>
-        </ThemeProvider>
-=======
       data-scroll-behavior="smooth"
-      className={`${playfair.variable} ${montserrat.variable} ${bebasNeue.variable}`}
+      className={`${playfair.variable} ${inter.variable}`}
       data-theme="dark"
     >
       <body>
@@ -73,7 +47,6 @@ export default function RootLayout({
         <WaveNavigatorProvider>
           <SmoothScroll>{children}</SmoothScroll>
         </WaveNavigatorProvider>
->>>>>>> Stashed changes
       </body>
     </html>
   );

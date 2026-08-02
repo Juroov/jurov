@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════
    KUYA JUAN "NOIR SERIF" DESIGN SYSTEM — CSS TOKENS
@@ -484,8 +484,6 @@ body {
   transform: translateY(0);
 }
 
-<<<<<<< Updated upstream
-=======
 /* ═══════════════════════════════════════════════════════════════
    IMAGE CAROUSEL
    ═══════════════════════════════════════════════════════════════ */
@@ -836,7 +834,6 @@ body {
   animation: letterWave 0.4s var(--ease-spring) forwards;
 }
 
->>>>>>> Stashed changes
 /* ─── REDUCED MOTION ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .reveal { transition: opacity .4s ease; transform: none !important; filter: none !important; }

@@ -1,7 +1,6 @@
 // Server Component
 import { CodeIcon, PenToolIcon, GearIcon, BriefcaseIcon } from "./SvgIcons";
 
-<<<<<<< Updated upstream
 const frontendSkills = [
   "React", "Next.js", "TypeScript", "JavaScript",
   "HTML / CSS", "Tailwind CSS", "Supabase",
@@ -33,87 +32,37 @@ const professionalSkills = [
 ];
 
 const categories = [
-=======
-const categories: {
-  num: string;
-  title: string;
-  icon: React.ComponentType;
-  skills: string[];
-}[] = [
->>>>>>> Stashed changes
   {
     num: "01",
     title: "Web & Frontend Development",
     icon: CodeIcon,
-<<<<<<< Updated upstream
     description: "Building responsive, performant frontends with modern frameworks. From component architecture to API integration and deployment.",
     items: frontendSkills,
     isList: false,
-=======
-    skills: [
-      "React",
-      "Next.js",
-      "TypeScript",
-      "JavaScript",
-      "HTML / CSS",
-      "Tailwind CSS",
-      "Supabase",
-    ],
->>>>>>> Stashed changes
   },
   {
     num: "02",
     title: "UI/UX Design",
     icon: PenToolIcon,
-<<<<<<< Updated upstream
     description: null,
     items: designItems,
     isList: true,
-=======
-    skills: [
-      "Figma",
-      "Wireframing",
-      "Prototyping",
-      "Responsive Design",
-      "Design Systems",
-    ],
->>>>>>> Stashed changes
   },
   {
     num: "03",
     title: "Tools & Version Control",
     icon: GearIcon,
-<<<<<<< Updated upstream
     description: null,
     items: toolItems,
     isList: true,
-=======
-    skills: [
-      "VS Code",
-      "Git & GitHub",
-      "AntiGravity",
-      "Notion",
-      "Microsoft 365",
-    ],
->>>>>>> Stashed changes
   },
   {
     num: "04",
     title: "Professional Skills",
     icon: BriefcaseIcon,
-<<<<<<< Updated upstream
     description: null,
     items: professionalSkills,
     isList: false,
-=======
-    skills: [
-      "Agile / SDLC",
-      "Technical Docs",
-      "Project Coordination",
-      "Problem Solving",
-      "Business Proposals",
-    ],
->>>>>>> Stashed changes
   },
 ];
 
@@ -172,7 +121,6 @@ export default function Skills() {
                     }}
                     aria-hidden="true"
                   >
-<<<<<<< Updated upstream
                     {cat.num}
                   </div>
                   
@@ -180,43 +128,6 @@ export default function Skills() {
                   <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
                     <div className="icon-box">
                       <Icon />
-=======
-                    {cat.title}
-                  </h3>
-                </div>
-
-                {/* Skills List */}
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "10px 16px" }}>
-                  {cat.skills.map((skill) => (
-                    <div
-                      key={skill}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 8,
-                      }}
-                    >
-                      <span
-                        style={{
-                          width: 4,
-                          height: 4,
-                          borderRadius: "50%",
-                          background: "var(--accent)",
-                          boxShadow: "0 0 6px var(--accent)",
-                        }}
-                      />
-                      <span
-                        style={{
-                          fontFamily: "var(--font-ui)",
-                          fontSize: 15,
-                          fontWeight: 500,
-                          color: "var(--text-secondary)",
-                          letterSpacing: ".02em",
-                        }}
-                      >
-                        {skill}
-                      </span>
->>>>>>> Stashed changes
                     </div>
                     <h3
                       style={{
@@ -249,7 +160,7 @@ export default function Skills() {
                     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                       {cat.items.map((d) => (
                         <div key={d} style={{ fontFamily: "var(--font-ui)", fontSize: 20, color: "var(--text-secondary)" }}>
-                          — {d}
+                          ΓÇö {d}
                         </div>
                       ))}
                     </div>
@@ -312,7 +223,7 @@ export default function Skills() {
                     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                       {cat.items.map((d) => (
                         <div key={d} style={{ fontFamily: "var(--font-ui)", fontSize: 20, color: "var(--text-secondary)" }}>
-                          — {d}
+                          ΓÇö {d}
                         </div>
                       ))}
                     </div>
