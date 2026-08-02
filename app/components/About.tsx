@@ -32,36 +32,37 @@ export default function About() {
 
       <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto", position: "relative", zIndex: 1 }}>
         {/* Headline */}
-        <h2
-          className="clip-wipe"
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(3rem, 7vw, 5rem)",
-            fontWeight: 900,
-            fontStyle: "italic",
-            letterSpacing: "-0.02em",
-            lineHeight: 1,
-            color: "var(--text-primary)",
-            marginBottom: 64,
-            textShadow: "var(--headline-glow)",
-          }}
-        >
-          I build things that
-          <br />
-          people actually{" "}
-          <span className="headline-accent">
-            use.
-          </span>
-        </h2>
+        <div className="section-reveal" style={{ marginBottom: 64 }}>
+          <h2
+            className="clip-wipe"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(3rem, 7vw, 5rem)",
+              fontWeight: 900,
+              fontStyle: "italic",
+              letterSpacing: "-0.02em",
+              lineHeight: 1,
+              color: "var(--text-primary)",
+              textShadow: "var(--headline-glow)",
+            }}
+          >
+            I build things that
+            <br />
+            people actually{" "}
+            <span className="headline-accent">
+              use.
+            </span>
+          </h2>
+        </div>
 
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-32">
           {/* Fact bullets */}
           <div className="reveal flex-1" style={{ maxWidth: "60ch" }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <div className="stagger-children" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               {facts.map((f, i) => (
                 <div
                   key={i}
-                  className={`row-reveal row-reveal-d${i + 1}`}
+                  className="stagger-item"
                   style={{
                     display: "flex",
                     alignItems: "flex-start",
@@ -91,7 +92,7 @@ export default function About() {
                 Bachelor of Science in Computer Engineering
               </p>
               <p style={{ fontFamily: "var(--font-ui)", fontSize: 16, color: "var(--text-secondary)", fontStyle: "italic" }}>
-                Bulacan State University · 2022 – Present
+                Bulacan State University · 2023 – Present
               </p>
               <p style={{ fontFamily: "var(--font-ui)", fontSize: 14, color: "var(--accent)", fontStyle: "italic", marginTop: 8 }}>
                 In Progress
@@ -101,9 +102,9 @@ export default function About() {
 
           {/* Stats with Bebas Neue numerals */}
           <div className="reveal flex-1 flex flex-col gap-12">
-            <div className="grid grid-cols-2 gap-x-8 gap-y-12">
+            <div className="stagger-children grid grid-cols-2 gap-x-8 gap-y-12">
               {stats.map((s, i) => (
-                <div key={s.label} className={`row-reveal row-reveal-d${i + 1}`}>
+                <div key={s.label} className="stagger-item">
                   <p className="impact-number" style={{ marginBottom: 8 }}>
                     {s.value}
                   </p>

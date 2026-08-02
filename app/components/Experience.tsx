@@ -107,24 +107,25 @@ export default function Experience() {
 
       <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto", position: "relative", zIndex: 1 }}>
 
-        <h2
-          className="reveal clip-wipe"
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(3rem, 7vw, 5rem)",
-            fontWeight: 900,
-            fontStyle: "italic",
-            letterSpacing: "-0.02em",
-            color: "var(--text-primary)",
-            marginBottom: 64,
-            textShadow: "var(--headline-glow)",
-          }}
-        >
-          Where I&apos;ve{" "}
-          <span className="headline-accent">
-            worked.
-          </span>
-        </h2>
+        <div className="section-reveal" style={{ marginBottom: 64 }}>
+          <h2
+            className="clip-wipe"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(3rem, 7vw, 5rem)",
+              fontWeight: 900,
+              fontStyle: "italic",
+              letterSpacing: "-0.02em",
+              color: "var(--text-primary)",
+              textShadow: "var(--headline-glow)",
+            }}
+          >
+            Where I&apos;ve{" "}
+            <span className="headline-accent">
+              worked.
+            </span>
+          </h2>
+        </div>
 
         {/* Timeline container */}
         <div
@@ -153,12 +154,15 @@ export default function Experience() {
             />
           </svg>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+          <div
+            className="stagger-children"
+            style={{ display: "flex", flexDirection: "column", gap: 0 }}
+          >
             {roles.map((role, i) => (
               <div
                 key={i}
                 data-timeline-entry
-                className={`reveal ${i > 0 ? `reveal-delay-${Math.min(i, 3)}` : ""}`}
+                className="stagger-item"
                 style={{
                   position: "relative",
                   paddingBottom: i < roles.length - 1 ? 64 : 0,

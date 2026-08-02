@@ -70,10 +70,10 @@ export default function Footer() {
             fontFamily="Playfair Display, serif"
             fontStyle="italic"
             fontWeight="700"
-            fontSize="60"
-            fill="var(--text-faint)"
+            fontSize="56"
+            fill="#F4EEE7"
           >
-            KJ
+            LA
           </text>
         </svg>
       </div>

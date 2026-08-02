@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import BackgroundLabel from "./BackgroundLabel";
 import { SignatureDividerSvg } from "./SvgIcons";
+import ScrollWaveCurtain from "./ScrollWaveCurtain";
 
 const projects = [
   {
@@ -89,7 +90,7 @@ function ImageCarousel({ images }: { images: string[] }) {
           if (e.key === "ArrowLeft") { prev(); resetAutoplay(); }
           if (e.key === "ArrowRight") { next(); resetAutoplay(); }
         }}
-        style={{ border: "1px solid var(--border)", borderRadius: 14 }}
+        style={{ borderRadius: 14, outline: "none" }}
       >
         <div
           className="carousel-track"
@@ -255,16 +256,17 @@ export default function Projects() {
     <section
       id="projects"
       style={{
-        padding: "120px 6%",
+        padding: "80px 6%",
         background: "var(--bg)",
         borderTop: "1px solid var(--border)",
-        overflow: "visible",
         position: "relative",
+        overflow: "hidden",
       }}
     >
+      <ScrollWaveCurtain color="var(--bg)" />
       <BackgroundLabel text="PROOF" />
 
-      <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto", overflow: "visible", position: "relative", zIndex: 1 }}>
+      <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto", position: "relative", zIndex: 1 }}>
 
         <div style={{ marginBottom: 96 }}>
           <h2

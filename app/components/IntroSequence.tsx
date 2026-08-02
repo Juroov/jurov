@@ -61,7 +61,7 @@ export default function IntroSequence() {
             animation: "shieldDraw 1.5s cubic-bezier(0.22,1,0.36,1) forwards",
           }}
         />
-        {/* "KJ" letters — fade in after shield draws (delay 1.2s) */}
+        {/* "LA" letters — fade in after shield draws (delay 1.2s) */}
         <text
           x="100"
           y="132"
@@ -76,7 +76,7 @@ export default function IntroSequence() {
             animation: "kjFadeIn 0.6s ease 1.2s forwards",
           }}
         >
-          KJ
+          LA
         </text>
       </svg>
     </div>

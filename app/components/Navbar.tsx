@@ -3,9 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 
 const links = [
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Skills" },
-  { href: "#experience", label: "Experience" },
   { href: "#projects", label: "Projects" },
   { href: "#contact", label: "Contact" },
 ];
@@ -103,15 +100,19 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        className="fixed top-0 left-0 right-0 z-50"
         style={{
           viewTransitionName: "site-header",
           background: scrolled
-            ? "color-mix(in srgb, var(--bg-card) 92%, transparent)"
+            ? "color-mix(in srgb, var(--bg-card) 88%, transparent)"
             : "transparent",
-          backdropFilter: scrolled ? "blur(20px)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
+          backdropFilter: scrolled ? "blur(22px) saturate(180%)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(22px) saturate(180%)" : "none",
           borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
+          transition:
+            "background 0.55s cubic-bezier(0.22,1,0.36,1), " +
+            "backdrop-filter 0.55s cubic-bezier(0.22,1,0.36,1), " +
+            "border-color 0.55s cubic-bezier(0.22,1,0.36,1)",
         }}
       >
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
@@ -199,14 +200,15 @@ export default function Navbar() {
 
       {/* Mobile fullscreen menu */}
       <div
-        className="fixed inset-0 z-[60] flex flex-col items-center justify-center transition-all duration-400"
+        className="fixed inset-0 z-[60] flex flex-col items-center justify-center"
         style={{
-          background: "color-mix(in srgb, var(--bg) 97%, transparent)",
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
+          background: "color-mix(in srgb, var(--bg) 96%, transparent)",
+          backdropFilter: "blur(28px) saturate(160%)",
+          WebkitBackdropFilter: "blur(28px) saturate(160%)",
           opacity: menuOpen ? 1 : 0,
           pointerEvents: menuOpen ? "auto" : "none",
           gap: 32,
+          transition: "opacity 0.4s cubic-bezier(0.22,1,0.36,1)",
         }}
         ref={menuRef}
       >
@@ -226,7 +228,7 @@ export default function Navbar() {
         >
           <IconClose />
         </button>
-        {links.map((l) => (
+        {links.map((l, i) => (
           <button
             key={l.href}
             onClick={() => handleMobileLink(l.href)}
@@ -240,6 +242,13 @@ export default function Navbar() {
               cursor: "pointer",
               letterSpacing: "-0.03em",
               transition: "color 0.2s ease",
+              // Cascade in when menu opens
+              opacity: menuOpen ? 1 : 0,
+              transform: menuOpen ? "translateY(0)" : "translateY(20px)",
+              transitionProperty: "opacity, transform, color",
+              transitionDuration: menuOpen ? "0.55s" : "0.2s",
+              transitionDelay: menuOpen ? `${i * 0.06 + 0.1}s` : "0s",
+              transitionTimingFunction: "cubic-bezier(0.16,1,0.3,1)",
             }}
             onMouseOver={(e) =>
               ((e.target as HTMLButtonElement).style.color = "var(--accent)")
@@ -251,7 +260,16 @@ export default function Navbar() {
             {l.label}
           </button>
         ))}
-        <a href="#contact" className="btn-primary" onClick={() => setMenuOpen(false)}>
+        <a
+          href="#contact"
+          className="btn-primary"
+          onClick={() => setMenuOpen(false)}
+          style={{
+            opacity: menuOpen ? 1 : 0,
+            transform: menuOpen ? "translateY(0)" : "translateY(20px)",
+            transition: `opacity 0.55s cubic-bezier(0.16,1,0.3,1) ${menuOpen ? links.length * 0.06 + 0.14 : 0}s, transform 0.55s cubic-bezier(0.16,1,0.3,1) ${menuOpen ? links.length * 0.06 + 0.14 : 0}s`,
+          }}
+        >
           Hire me
         </a>
       </div>

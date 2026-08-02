@@ -66,13 +66,35 @@ export default function Commissions() {
     >
       <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto", position: "relative", zIndex: 1 }}>
 
-        <div className="flex flex-col md:flex-row gap-12">
+        {/* Section heading */}
+        <div className="section-reveal reveal" style={{ marginBottom: 64 }}>
+          <h2
+            className="clip-wipe"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
+              fontWeight: 900,
+              fontStyle: "italic",
+              letterSpacing: "-0.02em",
+              color: "var(--text-primary)",
+              textShadow: "var(--headline-glow)",
+            }}
+          >
+            Open for{" "}
+            <span style={{ color: "var(--accent-bright)", textShadow: "0 0 40px var(--accent-glow)" }}>
+              commissions.
+            </span>
+          </h2>
+        </div>
+
+        {/* Staggered tier cards */}
+        <div className="stagger-children flex flex-col md:flex-row gap-12">
           {tiers.map((tier, i) => {
             const Icon = tier.icon;
             return (
               <div
                 key={tier.title}
-                className={`row-reveal ${i > 0 ? `row-reveal-d${i}` : ""} flex-1`}
+                className="stagger-item flex-1"
                 style={{
                   display: "flex",
                   flexDirection: "column",

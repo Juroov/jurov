@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { CodeIcon, PenToolIcon, GearIcon, BriefcaseIcon } from "./SvgIcons";
 
 const categories = [
@@ -57,31 +56,11 @@ const categories = [
   },
 ];
 
-function CategoryCard({ cat, index }: { cat: typeof categories[0]; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          obs.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.2 }
-    );
-    obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
-
+function CategoryCard({ cat }: { cat: typeof categories[0] }) {
   const Icon = cat.icon;
 
   return (
-    <div
-      ref={ref}
-      className={`row-reveal row-reveal-d${(index % 4) + 1}`}
-    >
+    <div className="stagger-item">
       {/* Ghost watermark numeral */}
       <div
         style={{
@@ -117,18 +96,38 @@ function CategoryCard({ cat, index }: { cat: typeof categories[0]; index: number
 
       {/* Skill tags */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-        {cat.skills.map((skill) => (
-          <span key={skill} className="skill-tag" style={{
-            fontFamily: "var(--font-ui)",
-            fontSize: "13px",
-            fontWeight: 500,
-            letterSpacing: ".02em",
-            padding: "8px 16px",
-            borderRadius: "100px",
-            background: "rgba(196,30,58,0.12)",
-            border: "1px solid rgba(196,30,58,0.35)",
-            color: "var(--accent-bright)",
-          }}>
+        {cat.skills.map((skill, si) => (
+          <span
+            key={skill}
+            className="skill-tag"
+            style={{
+              fontFamily: "var(--font-ui)",
+              fontSize: "13px",
+              fontWeight: 500,
+              letterSpacing: ".02em",
+              padding: "8px 16px",
+              borderRadius: "100px",
+              background: "rgba(196,30,58,0.12)",
+              border: "1px solid rgba(196,30,58,0.35)",
+              color: "var(--accent-bright)",
+              // Micro-stagger on tag appearance (pure CSS delay via variable)
+              opacity: 0,
+              transform: "translateY(6px) scale(0.96)",
+              transition: `opacity 0.5s cubic-bezier(0.16,1,0.3,1) ${0.05 + si * 0.04}s, transform 0.5s cubic-bezier(0.16,1,0.3,1) ${0.05 + si * 0.04}s`,
+            }}
+            ref={(el) => {
+              if (!el) return;
+              // Small micro-observe: reveal tags when card becomes visible
+              const obs = new IntersectionObserver(([entry]) => {
+                if (entry.isIntersecting) {
+                  el.style.opacity = "1";
+                  el.style.transform = "translateY(0) scale(1)";
+                  obs.disconnect();
+                }
+              }, { threshold: 0.1 });
+              obs.observe(el);
+            }}
+          >
             {skill}
           </span>
         ))}
@@ -156,28 +155,29 @@ export default function Skills() {
 
       <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto", position: "relative", zIndex: 1 }}>
         
-        <h2
-          className="reveal clip-wipe"
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(3rem, 7vw, 5rem)",
-            fontWeight: 900,
-            fontStyle: "italic",
-            letterSpacing: "-0.02em",
-            color: "var(--text-primary)",
-            marginBottom: 80,
-            textShadow: "var(--headline-glow)",
-          }}
-        >
-          What I bring to the{" "}
-          <span className="headline-accent">
-            table.
-          </span>
-        </h2>
+        <div className="section-reveal reveal" style={{ marginBottom: 80 }}>
+          <h2
+            className="clip-wipe"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(3rem, 7vw, 5rem)",
+              fontWeight: 900,
+              fontStyle: "italic",
+              letterSpacing: "-0.02em",
+              color: "var(--text-primary)",
+              textShadow: "var(--headline-glow)",
+            }}
+          >
+            What I bring to the{" "}
+            <span className="headline-accent">
+              table.
+            </span>
+          </h2>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+        <div className="stagger-children grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
           {categories.map((cat, i) => (
-            <CategoryCard key={cat.num} cat={cat} index={i} />
+            <CategoryCard key={cat.num} cat={cat} />
           ))}
         </div>
       </div>

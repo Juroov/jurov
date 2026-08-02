@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useRef, FormEvent } from "react";
+import { useState, useRef, FormEvent, useEffect } from "react";
 import BackgroundLabel from "./BackgroundLabel";
+import ScrollWaveCurtain from "./ScrollWaveCurtain";
 
 /* ── Wave text helper ── */
 function WaveText({ text, className = "" }: { text: string; className?: string }) {
@@ -105,14 +106,15 @@ export default function Contact() {
     <section
       id="contact"
       style={{
-        padding: "140px 6%",
-        background: "var(--bg)",
+        padding: "80px 6% 120px",
+        background: "var(--bg-card)",
         borderTop: "1px solid var(--border)",
         position: "relative",
-        overflow: "hidden",
+        overflow: "hidden", // Important for curtain
       }}
     >
-      <BackgroundLabel text="CONNECT" />
+      <ScrollWaveCurtain color="var(--bg)" delay={100} />
+      <BackgroundLabel text="HELLO" />
 
       <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto", position: "relative", zIndex: 1 }}>
         <div className="grid lg:grid-cols-[1fr_1fr] gap-16 lg:gap-32 items-start">
@@ -196,15 +198,15 @@ export default function Contact() {
                 />
                 <text
                   x="100"
-                  y="128"
+                  y="132"
                   textAnchor="middle"
                   fontFamily="Playfair Display, serif"
                   fontStyle="italic"
                   fontWeight="700"
-                  fontSize="52"
-                  fill="var(--text-faint)"
+                  fontSize="56"
+                  fill="#F4EEE7"
                 >
-                  KJ
+                  LA
                 </text>
               </svg>
             </div>

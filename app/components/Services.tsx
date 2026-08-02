@@ -1,6 +1,7 @@
 "use client";
 
 import BackgroundLabel from "./BackgroundLabel";
+import ScrollWaveCurtain from "./ScrollWaveCurtain";
 
 const services = [
   {
@@ -31,13 +32,13 @@ export default function Services() {
     <section
       id="services"
       style={{
-        padding: "120px 6%",
+        padding: "80px 6%",
         background: "var(--bg)",
-        borderTop: "1px solid var(--border)",
         position: "relative",
-        overflow: "hidden",
+        overflow: "hidden", // Important for curtain
       }}
     >
+      <ScrollWaveCurtain color="var(--bg-card)" />
       <BackgroundLabel text="SERVICES" />
 
       <div
@@ -49,7 +50,7 @@ export default function Services() {
           zIndex: 1,
         }}
       >
-        <div className="reveal">
+        <div className="section-reveal reveal">
           <div className="eyebrow" style={{ marginBottom: 24 }}>
             What I Do
           </div>
@@ -71,6 +72,7 @@ export default function Services() {
         </div>
 
         <div
+          className="stagger-children"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
@@ -91,7 +93,7 @@ export default function Services() {
             return (
               <div
                 key={svc.id}
-                className={`reveal reveal-delay-${index + 1} brand-card`}
+                className="stagger-item brand-card"
                 style={{
                   aspectRatio: "4/5",
                   background: bgStyle,
@@ -122,6 +124,7 @@ export default function Services() {
                     fontFamily: "var(--font-impact), 'Bebas Neue', sans-serif",
                     fontSize: "4rem",
                     color: "var(--accent-bright)", // Ember Bright per brandbook stats
+                    textShadow: "var(--accent-text-glow)",
                     lineHeight: 1,
                     letterSpacing: "0.04em",
                     marginBottom: "auto", // Pushes the rest to the bottom
@@ -152,6 +155,7 @@ export default function Services() {
                     fontWeight: 700,
                     fontStyle: "italic",
                     color: "var(--text-primary)", // Bone
+                    textShadow: "var(--headline-glow-ivory, 0 0 40px rgba(244,238,231,0.08), 0 0 80px rgba(244,238,231,0.04))",
                     lineHeight: 1.1,
                     marginBottom: 16,
                   }}
