@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Playfair_Display, Montserrat, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
 import { WaveNavigatorProvider } from "./components/WaveNavigator";
@@ -13,10 +13,17 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
-const inter = Inter({
+const montserrat = Montserrat({
   variable: "--font-ui",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
+const bebasNeue = Bebas_Neue({
+  variable: "--font-impact",
+  subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
@@ -39,7 +46,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${playfair.variable} ${inter.variable}`}
+      className={`${playfair.variable} ${montserrat.variable} ${bebasNeue.variable}`}
       data-theme="dark"
     >
       <body>

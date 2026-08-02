@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useWaveNavigator } from "./WaveNavigator";
+import BackgroundLabel from "./BackgroundLabel";
 
 /* ── Wave text helper — staggered letter animation on hover ── */
 function WaveText({ text, className = "" }: { text: string; className?: string }) {
@@ -60,10 +61,12 @@ export default function Hero() {
         flexDirection: "column",
         alignItems: "center",
         position: "relative",
+        overflow: "hidden",
         zIndex: 1,
         gap: 0,
       }}
     >
+      <BackgroundLabel text="WHY" />
       <div
         ref={contentRef}
         style={{
@@ -142,8 +145,8 @@ export default function Hero() {
           ) : (
             <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
               {([
-                { label: "About",      href: "/about",      delay: 0 },
-                { label: "Skills",     href: "/skills",     delay: 0.1 },
+                { label: "About", href: "/about", delay: 0 },
+                { label: "Skills", href: "/skills", delay: 0.1 },
                 { label: "Experience", href: "/experience", delay: 0.2 },
               ]).map((item) => (
                 <button

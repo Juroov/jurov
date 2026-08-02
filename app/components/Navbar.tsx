@@ -1,60 +1,47 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useTheme } from "./ThemeProvider";
 
 const links = [
-  { href: "#about",       label: "About"       },
-  { href: "#skills",      label: "Skills"       },
-  { href: "#experience",  label: "Experience"   },
-  { href: "#projects",    label: "Projects"     },
-  { href: "#commissions", label: "Commissions"  },
+  { href: "#about", label: "About" },
+  { href: "#skills", label: "Skills" },
+  { href: "#experience", label: "Experience" },
+  { href: "#projects", label: "Projects" },
+  { href: "#contact", label: "Contact" },
 ];
 
-// Inline SVG hamburger icon
+/* ── Wave text helper ── */
+function WaveText({ text, className = "" }: { text: string; className?: string }) {
+  return (
+    <span className={`wave-text ${className}`}>
+      {text.split("").map((ch, i) => (
+        <span
+          key={i}
+          className="wave-letter"
+          style={{ animationDelay: `${i * 0.04}s` }}
+        >
+          {ch === " " ? "\u00A0" : ch}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 function IconHamburger() {
   return (
     <svg width="17" height="14" viewBox="0 0 17 14" fill="none" aria-hidden="true">
-      <line x1="0" y1="1.5" x2="17" y2="1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-      <line x1="0" y1="7"   x2="17" y2="7"   stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-      <line x1="0" y1="12.5" x2="17" y2="12.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+      <line x1="0" y1="1.5" x2="17" y2="1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <line x1="0" y1="7" x2="17" y2="7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <line x1="0" y1="12.5" x2="17" y2="12.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }
 
-// Morphing X close icon
 function IconClose() {
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-      <line x1="3" y1="3" x2="15" y2="15" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-      <line x1="15" y1="3" x2="3" y2="15" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-    </svg>
-  );
-}
-
-// Sun icon (for dark mode — click to switch to light)
-function IconSun() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-      <circle cx="7.5" cy="7.5" r="3" fill="currentColor"/>
-      <line x1="7.5" y1="0.5"  x2="7.5" y2="2.5"  stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="7.5" y1="12.5" x2="7.5" y2="14.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="0.5"  y1="7.5" x2="2.5"  y2="7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="12.5" y1="7.5" x2="14.5" y2="7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="2.7" y1="2.7"  x2="4.1"  y2="4.1"  stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="10.9" y1="10.9" x2="12.3" y2="12.3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="10.9" y1="4.1"  x2="12.3" y2="2.7"  stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="2.7" y1="12.3"  x2="4.1"  y2="10.9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-    </svg>
-  );
-}
-
-// Moon icon (for light mode — click to switch to dark)
-function IconMoon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-      <path d="M13 9.5a6 6 0 0 1-7.5-7.5A6 6 0 1 0 13 9.5z"
-        fill="currentColor"/>
+      <line x1="3" y1="3" x2="15" y2="15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <line x1="15" y1="3" x2="3" y2="15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }
@@ -63,7 +50,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState("");
-  const { theme, toggle } = useTheme();
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -130,81 +116,21 @@ export default function Navbar() {
       >
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
           <div className="flex items-center justify-between" style={{ height: "64px" }}>
-            {/* Logo */}
+            {/* Wordmark "Lorrenz." */}
             <a
               href="#"
-              className="flex items-center gap-2.5 group"
-              style={{ textDecoration: "none" }}
+              className="nav-wordmark-wave"
+              style={{
+                textDecoration: "none",
+                fontFamily: "var(--font-display)",
+                fontSize: 20,
+                fontWeight: 700,
+                fontStyle: "italic",
+                color: "var(--text-primary)",
+                letterSpacing: "-0.02em",
+              }}
             >
-              <div
-                className="flex items-center justify-center transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3"
-                style={{
-                  width: 32, height: 32,
-                  background: "var(--bg-card)",
-                  borderRadius: 8,
-                }}
-              >
-                <span
-                  style={{
-                    color: "var(--accent)",
-                    fontFamily: "var(--font-ui)",
-                    fontSize: 13,
-                    fontWeight: 700,
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  LA
-                </span>
-              </div>
-              <span
-                className="hidden sm:block"
-                style={{
-                  fontFamily: "var(--font-ui)",
-                  fontSize: 14,
-                  fontWeight: 600,
-                  color: "var(--text-primary)",
-                  letterSpacing: "-0.02em",
-                  position: "relative",
-                }}
-              >
-                Lorrenz Amarille
-                {/* Pen-stroke SVG underline — draws in on group hover */}
-                <svg
-                  viewBox="0 0 120 4"
-                  aria-hidden="true"
-                  style={{
-                    position: "absolute",
-                    bottom: -3, left: 0,
-                    width: "100%", height: 4,
-                    overflow: "visible",
-                    opacity: 0,
-                    transition: "opacity 0.25s ease",
-                  }}
-                  className="group-hover:[opacity:1]!"
-                >
-                  <path
-                    d="M 0 2 Q 30 1 60 2 Q 90 3 120 2"
-                    fill="none"
-                    stroke="var(--accent)"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeDasharray="120"
-                    strokeDashoffset="120"
-                    style={{ transition: "none" }}
-                  >
-                    <animate
-                      attributeName="stroke-dashoffset"
-                      from="120" to="0"
-                      dur="0.45s"
-                      fill="freeze"
-                      begin="indefinite"
-                      id="logo-underline-anim"
-                      calcMode="spline"
-                      keySplines="0.22 1 0.36 1"
-                    />
-                  </path>
-                </svg>
-              </span>
+              <WaveText text="Lorrenz." />
             </a>
 
             {/* Desktop nav */}
@@ -221,7 +147,7 @@ export default function Navbar() {
                     position: "relative",
                   }}
                 >
-                  {l.label}
+                  <WaveText text={l.label} />
                   {active === l.href.slice(1) && (
                     <span
                       aria-hidden="true"
@@ -241,21 +167,12 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center gap-3">
-              {/* Nav badge — sweep pill, no status dot */}
+              {/* Nav badge */}
               <div className="hidden sm:block">
                 <span className="nav-badge">
                   Open for Work
                 </span>
               </div>
-              {/* Theme toggle — inline SVG icons */}
-              <button
-                onClick={toggle}
-                className="theme-toggle"
-                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-                style={{ color: "var(--text-muted)" }}
-              >
-                {theme === 'dark' ? <IconSun /> : <IconMoon />}
-              </button>
               <a href="#contact" className="btn-primary hidden sm:inline-flex" style={{ padding: "8px 18px", fontSize: 12 }}>
                 Hire me
               </a>

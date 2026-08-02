@@ -1,16 +1,17 @@
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import Services from "./components/Services";
+import MarqueeStrip from "./components/MarqueeStrip";
 import Projects from "./components/Projects";
+import Services from "./components/Services";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import ScrollReveal from "./components/ScrollReveal";
-import Cursor       from "./components/Cursor";
-import AmbientGlow  from "./components/AmbientGlow";
+import Cursor from "./components/Cursor";
 
 export default function Home() {
   return (
-    <>      {/* Client-only utilities (isolated leaves) */}
+    <>
+      {/* Client-only utilities (isolated leaves) */}
       <Cursor />
       <ScrollReveal />
 
@@ -20,8 +21,9 @@ export default function Home() {
       {/* Page sections */}
       <main>
         <Hero />
-        <Services />
+        <MarqueeStrip />
         <Projects />
+        <Services />
         <Contact />
       </main>
 

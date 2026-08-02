@@ -1,5 +1,7 @@
 "use client";
 
+import BackgroundLabel from "./BackgroundLabel";
+
 const services = [
   {
     id: "01",
@@ -29,89 +31,14 @@ export default function Services() {
     <section
       id="services"
       style={{
-        padding: "140px 6%",
+        padding: "120px 6%",
         background: "var(--bg)",
         borderTop: "1px solid var(--border)",
         position: "relative",
         overflow: "hidden",
-        isolation: "isolate",
       }}
     >
-      {/* Animated SVG Background (Liquid Contour Lines) */}
-      <svg
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          zIndex: -1,
-          opacity: 0.15,
-          pointerEvents: "none",
-        }}
-        viewBox="0 0 1000 1000"
-        preserveAspectRatio="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <linearGradient id="svc-wave-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0" />
-            <stop offset="30%" stopColor="var(--accent)" stopOpacity="0.8" />
-            <stop offset="70%" stopColor="var(--accent-bright)" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
-          </linearGradient>
-          <filter id="svc-blur">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
-          </filter>
-        </defs>
-
-        <g filter="url(#svc-blur)">
-          {/* Wave 1 */}
-          <path fill="none" stroke="url(#svc-wave-grad)" strokeWidth="3">
-            <animate
-              attributeName="d"
-              dur="18s"
-              repeatCount="indefinite"
-              values="M -200,600 C 200,200 800,800 1200,400;
-                      M -200,400 C 400,900 600,100 1200,600;
-                      M -200,600 C 200,200 800,800 1200,400"
-              calcMode="spline"
-              keySplines="0.4 0 0.6 1; 0.4 0 0.6 1"
-            />
-          </path>
-          {/* Wave 2 */}
-          <path fill="none" stroke="url(#svc-wave-grad)" strokeWidth="1.5" opacity="0.6">
-            <animate
-              attributeName="d"
-              dur="24s"
-              repeatCount="indefinite"
-              values="M -200,300 C 300,700 700,100 1200,500;
-                      M -200,500 C 100,100 900,800 1200,300;
-                      M -200,300 C 300,700 700,100 1200,500"
-              calcMode="spline"
-              keySplines="0.4 0 0.6 1; 0.4 0 0.6 1"
-            />
-          </path>
-          {/* Wave 3 */}
-          <path fill="none" stroke="url(#svc-wave-grad)" strokeWidth="1" opacity="0.4">
-            <animate
-              attributeName="d"
-              dur="32s"
-              repeatCount="indefinite"
-              values="M -200,800 C 400,400 600,900 1200,200;
-                      M -200,200 C 200,800 800,300 1200,800;
-                      M -200,800 C 400,400 600,900 1200,200"
-              calcMode="spline"
-              keySplines="0.4 0 0.6 1; 0.4 0 0.6 1"
-            />
-          </path>
-        </g>
-      </svg>
-
-      {/* Ghost watermark */}
-      <div className="ghost-word" aria-hidden="true">
-        SERVICES
-      </div>
+      <BackgroundLabel text="SERVICES" />
 
       <div
         style={{

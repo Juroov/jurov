@@ -1,5 +1,6 @@
 // Server Component
 import { WebsiteIcon, FigmaIcon, BotIcon } from "./SvgIcons";
+import BackgroundLabel from "./BackgroundLabel";
 
 type Tier = {
   title: string;
@@ -14,7 +15,7 @@ const tiers: Tier[] = [
     title: "Website Design & Build",
     icon: WebsiteIcon,
     description:
-      "Responsive landing pages, portfolios, business websites, and basic web applications using React, Next.js, or plain HTML/CSS/JS.",
+      "Responsive landing pages, portfolios, business websites, and basic web applications.",
     startingAt: "₱1,500",
     features: [
       "Responsive mobile-first layout",
@@ -56,44 +57,14 @@ export default function Commissions() {
     <section
       id="commissions"
       style={{
-        padding: "120px 6%",
+        padding: "64px 6%",
         background: "var(--bg)",
         borderTop: "1px solid var(--border)",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
-      <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto" }}>
-
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-12" style={{ marginBottom: 96 }}>
-          <h2
-            className="reveal clip-wipe"
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(3rem, 7vw, 5rem)",
-              fontWeight: 900,
-              fontStyle: "italic",
-              letterSpacing: "-0.02em",
-              color: "var(--text-primary)",
-              textShadow: "var(--headline-glow)",
-            }}
-          >
-            What I can build{" "}
-            <span className="headline-accent">
-              for you.
-            </span>
-          </h2>
-          <p
-            className="reveal reveal-delay-1"
-            style={{
-              fontFamily: "var(--font-ui)",
-              fontSize: 20,
-              color: "var(--text-secondary)",
-              maxWidth: "38ch",
-              lineHeight: 1.6,
-            }}
-          >
-            I take on freelance commissions to build real skills while delivering real results.
-          </p>
-        </div>
+      <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto", position: "relative", zIndex: 1 }}>
 
         <div className="flex flex-col md:flex-row gap-12">
           {tiers.map((tier, i) => {
@@ -109,16 +80,18 @@ export default function Commissions() {
                   paddingTop: 32,
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
-                  <div className="icon-box">
+                <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
+                  <div className="icon-box" style={{ background: "rgba(196,30,58,0.1)", border: "1px solid rgba(196,30,58,0.3)" }}>
                     <Icon />
                   </div>
                   <h3
                     style={{
-                      fontFamily: "var(--font-ui)",
-                      fontSize: 28,
-                      fontWeight: 500,
+                      fontFamily: "var(--font-display)",
+                      fontSize: 32,
+                      fontWeight: 800,
                       color: "var(--text-primary)",
+                      letterSpacing: "-0.01em",
+                      lineHeight: 1.1,
                     }}
                   >
                     {tier.title}
@@ -128,20 +101,21 @@ export default function Commissions() {
                 <p
                   style={{
                     fontFamily: "var(--font-ui)",
-                    fontSize: 18,
+                    fontSize: 16,
                     color: "var(--text-secondary)",
-                    lineHeight: 1.6,
-                    marginBottom: 32,
+                    lineHeight: 1.7,
+                    marginBottom: 36,
                     flex: 1,
                   }}
                 >
                   {tier.description}
                 </p>
 
-                <ul style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 40 }}>
+                <ul style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 48 }}>
                   {tier.features.map((f) => (
-                    <li key={f} style={{ fontFamily: "var(--font-ui)", fontSize: 16, color: "var(--text-primary)" }}>
-                      — {f}
+                    <li key={f} style={{ fontFamily: "var(--font-ui)", fontSize: 15, color: "var(--text-secondary)", display: "flex", alignItems: "flex-start", gap: 10 }}>
+                      <span style={{ color: "var(--accent)" }}>—</span>
+                      <span>{f}</span>
                     </li>
                   ))}
                 </ul>
@@ -155,17 +129,25 @@ export default function Commissions() {
                     justifyContent: "space-between",
                   }}
                 >
-                  <span style={{ fontFamily: "var(--font-ui)", fontSize: 14, color: "var(--text-faint)", fontStyle: "italic" }}>
+                  <span style={{ 
+                    fontFamily: "var(--font-ui)", 
+                    fontSize: 11, 
+                    fontWeight: 600, 
+                    letterSpacing: "0.24em", 
+                    textTransform: "uppercase", 
+                    color: "var(--text-faint)" 
+                  }}>
                     Starting from
                   </span>
                   <span
                     style={{
                       fontFamily: "var(--font-display)",
-                      fontSize: 24,
+                      fontSize: 28,
                       fontWeight: 900,
                       fontStyle: "italic",
                       color: "var(--accent)",
                       textShadow: "0 0 20px var(--accent-glow)",
+                      letterSpacing: "-0.02em",
                     }}
                   >
                     {tier.startingAt}

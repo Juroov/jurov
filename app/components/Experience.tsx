@@ -1,14 +1,13 @@
-// Server Component
-import { BriefcaseIcon, TeamIcon, EventIcon, GameIcon } from "./SvgIcons";
+"use client";
+
+import { useEffect, useRef } from "react";
 
 type Role = {
   title: string;
   company: string;
   period: string;
-  bullets?: string[];
-  blurb?: string;
-  tags?: string[];
-  icon: React.ComponentType;
+  outcome: string;
+  outcomeNumber: string;
 };
 
 const roles: Role[] = [
@@ -16,43 +15,80 @@ const roles: Role[] = [
     title: "UI/UX and Frontend Development Intern",
     company: "PRIME Philippines",
     period: "May 2026 — Jul 2026",
-    icon: BriefcaseIcon,
-    bullets: [
-      "Developed responsive frontend interfaces for ArgoNavis, an Intelligent Fleet and Mobility Management System, using Next.js and modern frontend tools.",
-      "Built and maintained a reusable design system with modular components and full dual-theme (Light & Dark Mode) support.",
-      "Collaborated with backend developers to integrate APIs and ensure seamless data flow and performance.",
-      "Participated in Agile meetings, project reviews, and SDLC discussions to align implementation with business requirements.",
-      "Assisted in deploying role-based access control and advanced error-handling mechanisms.",
-    ],
-    tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Agile/SDLC"],
+    outcome: "Built design system for ArgoNavis fleet platform",
+    outcomeNumber: "1",
   },
   {
     title: "Partnership Lead — External",
-    company: "Microsoft Student Community, Bulacan State University",
+    company: "Microsoft Student Community, BulSU",
     period: "Jul 2025 — Apr 2026",
-    icon: TeamIcon,
-    blurb:
-      "Coordinated strategic partnerships and brand visibility initiatives for the Membership ID Program, fostering tech community growth and collaboration with external organizations.",
+    outcome: "Led external partnerships for 200+ members",
+    outcomeNumber: "200+",
   },
   {
     title: "Volunteer Coordinator",
     company: "DEVCON Manila",
     period: "Apr 2025",
-    icon: EventIcon,
-    blurb:
-      "Orchestrated logistics and managed volunteer teams during technical conferences, ensuring smooth event operations and attendee support.",
+    outcome: "Coordinated 30+ volunteers across 2 conferences",
+    outcomeNumber: "30+",
   },
   {
     title: "Game Agent",
-    company: "Yield Guild Games Philippines Workforce",
+    company: "Yield Guild Games Philippines",
     period: "2023 — 2024",
-    icon: GameIcon,
-    blurb:
-      "Executed daily operations and optimized digital asset management strategies within a fast-paced Web3 gaming environment.",
+    outcome: "Managed digital assets across 12-month engagement",
+    outcomeNumber: "12",
   },
 ];
 
 export default function Experience() {
+  const timelineRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!timelineRef.current) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
+
+    // SVG line draw on scroll
+    const svgLine = timelineRef.current.querySelector<SVGLineElement>(".timeline-svg-line");
+    const dots = timelineRef.current.querySelectorAll<SVGCircleElement>(".timeline-dot");
+
+    const lineObs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && svgLine) {
+          svgLine.classList.add("is-visible");
+          lineObs.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (timelineRef.current) lineObs.observe(timelineRef.current);
+
+    // Dot observers
+    const dotObservers: IntersectionObserver[] = [];
+    dots.forEach((dot) => {
+      const parentEntry = dot.closest("[data-timeline-entry]");
+      if (!parentEntry) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            dot.classList.add("is-visible");
+            obs.unobserve(entry.target);
+          }
+        },
+        { threshold: 0.5 }
+      );
+      obs.observe(parentEntry);
+      dotObservers.push(obs);
+    });
+
+    return () => {
+      lineObs.disconnect();
+      dotObservers.forEach((o) => o.disconnect());
+    };
+  }, []);
+
   return (
     <section
       id="experience"
@@ -60,10 +96,17 @@ export default function Experience() {
         padding: "120px 6%",
         background: "var(--bg)",
         borderTop: "1px solid var(--border)",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
-      <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto" }}>
-        
+      {/* Ghost watermark */}
+      <div className="ghost-word" aria-hidden="true">
+        EXPERIENCE
+      </div>
+
+      <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto", position: "relative", zIndex: 1 }}>
+
         <h2
           className="reveal clip-wipe"
           style={{
@@ -83,92 +126,126 @@ export default function Experience() {
           </span>
         </h2>
 
-        <div className="flex flex-col gap-12">
-          {roles.map((role, i) => {
-            const Icon = role.icon;
-            return (
+        {/* Timeline container */}
+        <div
+          ref={timelineRef}
+          style={{ position: "relative", paddingLeft: 48 }}
+        >
+          {/* SVG timeline line */}
+          <svg
+            style={{
+              position: "absolute",
+              left: 15,
+              top: 0,
+              width: 2,
+              height: "100%",
+              overflow: "visible",
+            }}
+            aria-hidden="true"
+          >
+            <line
+              className="timeline-svg-line"
+              x1="1" y1="0"
+              x2="1" y2="100%"
+              stroke="var(--border-strong)"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+            {roles.map((role, i) => (
               <div
                 key={i}
+                data-timeline-entry
                 className={`reveal ${i > 0 ? `reveal-delay-${Math.min(i, 3)}` : ""}`}
                 style={{
                   position: "relative",
-                  paddingBottom: i < roles.length - 1 ? 48 : 0,
-                  borderBottom: i < roles.length - 1 ? "1px solid var(--border)" : "none",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 16
+                  paddingBottom: i < roles.length - 1 ? 64 : 0,
                 }}
               >
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-                  <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
-                    <div className="icon-box" style={{ marginTop: 2 }}>
-                      <Icon />
-                    </div>
-                    <div>
-                      <h3
-                        style={{
-                          fontFamily: "var(--font-ui)",
-                          fontSize: 24,
-                          fontWeight: 600,
-                          color: "var(--text-primary)",
-                          marginBottom: 4,
-                        }}
-                      >
-                        {role.title}
-                      </h3>
-                      <p
-                        style={{
-                          fontFamily: "var(--font-ui)",
-                          fontSize: 18,
-                          fontStyle: "italic",
-                          color: "var(--text-secondary)",
-                        }}
-                      >
-                        {role.company}
-                      </p>
-                    </div>
+                {/* SVG dot */}
+                <svg
+                  style={{
+                    position: "absolute",
+                    left: -41,
+                    top: 6,
+                    width: 14,
+                    height: 14,
+                    overflow: "visible",
+                  }}
+                  aria-hidden="true"
+                >
+                  <circle
+                    className="timeline-dot"
+                    cx="7" cy="7" r="6"
+                    fill="var(--accent)"
+                    style={{
+                      transitionDelay: `${0.3 + i * 0.2}s`,
+                      filter: "drop-shadow(0 0 6px var(--accent-glow))",
+                    }}
+                  />
+                </svg>
+
+                {/* Role content */}
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4" style={{ marginBottom: 12 }}>
+                  <div>
+                    <h3
+                      style={{
+                        fontFamily: "var(--font-ui)",
+                        fontSize: 22,
+                        fontWeight: 600,
+                        color: "var(--text-primary)",
+                        marginBottom: 4,
+                      }}
+                    >
+                      {role.title}
+                    </h3>
+                    <p
+                      style={{
+                        fontFamily: "var(--font-ui)",
+                        fontSize: 16,
+                        fontStyle: "italic",
+                        color: "var(--text-secondary)",
+                      }}
+                    >
+                      {role.company}
+                    </p>
                   </div>
                   <span
                     style={{
                       fontFamily: "var(--font-display)",
-                      fontSize: 16,
+                      fontSize: 14,
                       fontStyle: "italic",
                       fontWeight: 700,
                       color: "var(--accent)",
+                      whiteSpace: "nowrap",
                     }}
                   >
                     {role.period}
                   </span>
                 </div>
 
-                {role.bullets && (
-                  <ul style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 8 }}>
-                    {role.bullets.map((b, j) => (
-                      <li key={j} style={{ fontFamily: "var(--font-ui)", fontSize: 18, color: "var(--text-primary)", lineHeight: 1.6, maxWidth: "65ch" }}>
-                        — {b}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                {role.blurb && (
-                  <p style={{ fontFamily: "var(--font-ui)", fontSize: 18, color: "var(--text-primary)", lineHeight: 1.6, maxWidth: "65ch", marginTop: 8 }}>
-                    {role.blurb}
+                {/* Outcome line with impact number */}
+                <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginTop: 8 }}>
+                  <span className="impact-number" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
+                    {role.outcomeNumber}
+                  </span>
+                  <p
+                    style={{
+                      fontFamily: "var(--font-ui)",
+                      fontSize: 16,
+                      color: "var(--text-secondary)",
+                      lineHeight: 1.5,
+                      maxWidth: "50ch",
+                    }}
+                  >
+                    {role.outcome}
                   </p>
-                )}
-
-                {role.tags && (
-                  <div style={{ marginTop: 8 }}>
-                    {role.tags.map((t) => (
-                      <span key={t} className="tag">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                )}
+                </div>
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </div>
     </section>

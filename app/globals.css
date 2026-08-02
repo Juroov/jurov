@@ -1,30 +1,32 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════
    KUYA JUAN "NOIR SERIF" DESIGN SYSTEM — CSS TOKENS
-   Dark-first. Single crimson accent. Playfair Display + Inter.
+   TRUE BLACK. Single Ember accent. Playfair Display + Montserrat + Bebas Neue.
    ═══════════════════════════════════════════════════════════════ */
 
-/* ─── DARK MODE TOKENS (DEFAULT) ─────────────────────────────── */
+/* ─── DARK MODE TOKENS (PERMANENT — NO LIGHT MODE) ───────────── */
 :root {
-  --bg:           #0A0707;
-  --bg-card:      #170B0D;
-  --bg-card-2:    #1f0e10;
-  --text-primary: #F7F3EF;
-  --text-secondary:#9A938F;
-  --text-faint:   #5a5450;
-  --accent:       #D92D42;
-  --accent-glow:  rgba(217,45,66,0.40);
+  --bg:           #000000;
+  --bg-card:      #120D0D;
+  --bg-card-2:    #1a1212;
+  --text-primary: #F4EEE7;
+  --text-secondary:#AE9E97;
+  --text-faint:   #7E706A;
+  --accent:       #C41E3A;
+  --accent-glow:  rgba(255,77,94,0.40);
+  --accent-bright:#FF4D5E;
+  --accent-deep:  #5C0C1D;
   --accent-soft:  #EF8FA0;
-  --border:       rgba(217,45,66,0.22);
-  --border-strong:rgba(217,45,66,0.45);
-  --watermark:    rgba(217,45,66,0.06);
-  --rule:         rgba(247,243,239,0.07);
+  --border:       rgba(196,30,58,0.22);
+  --border-strong:rgba(196,30,58,0.45);
+  --watermark:    rgba(196,30,58,0.06);
+  --rule:         rgba(244,238,231,0.07);
 
   --shadow-card:   0 1px 3px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.2);
   --shadow-hover:  0 4px 24px rgba(0,0,0,0.5), 0 1px 6px rgba(0,0,0,0.25);
 
-  /* Headline emphasis — mode-specific */
+  /* Headline emphasis */
   --headline-glow: 0 0 60px var(--accent-glow);
   --headline-underline-opacity: 0;
 
@@ -42,31 +44,6 @@
   --dur-fast:   220ms;
 }
 
-/* ─── LIGHT MODE TOKENS ──────────────────────────────────────── */
-[data-theme="light"] {
-  --bg:           #FAF6F1;
-  --bg-card:      #FBF0EF;
-  --bg-card-2:    #F5E8E8;
-  --text-primary: #1C1512;
-  --text-secondary:#746A64;
-  --text-faint:   #B0A8A3;
-  --accent:       #B5182C;
-  --accent-glow:  rgba(181,24,44,0.15);
-  --accent-soft:  #C97186;
-  --border:       rgba(181,24,44,0.16);
-  --border-strong:rgba(181,24,44,0.40);
-  --watermark:    rgba(181,24,44,0.05);
-  --rule:         rgba(28,21,18,0.07);
-
-  /* Light needs real shadow — card bg ≈ page bg */
-  --shadow-card:   0 18px 34px rgba(28,21,18,0.10), 0 4px 10px rgba(181,24,44,0.07);
-  --shadow-hover:  0 24px 44px rgba(28,21,18,0.14), 0 6px 14px rgba(181,24,44,0.10);
-
-  /* Headline emphasis — ink underline instead of glow */
-  --headline-glow: none;
-  --headline-underline-opacity: 1;
-}
-
 @theme inline {
   --color-background: var(--bg);
   --color-foreground:  var(--text-primary);
@@ -80,18 +57,16 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--text-primary);
-  font-family: var(--font-ui), 'Inter', system-ui, sans-serif;
+  font-family: var(--font-ui), 'Montserrat', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  transition: background var(--dur-luxury) var(--ease-luxury), color var(--dur-luxury) var(--ease-luxury);
 }
 
 /* ─── SCROLLBAR ──────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.10); border-radius: 2px; }
-[data-theme="dark"] ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 2px; }
 
 /* ─── LAYOUT TOKENS ──────────────────────────────────────────── */
 :root {
@@ -144,6 +119,44 @@ body {
 @keyframes underline-draw {
   from { transform: scaleX(0); }
   to   { transform: scaleX(1); }
+}
+
+/* ── Letter-by-letter wave ── */
+@keyframes letterWave {
+  0%   { transform: translateY(0); }
+  40%  { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+/* ── Glow-pulse CTA ── */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(255,77,94,0.3), 0 0 60px rgba(196,30,58,0.15); }
+  50%      { box-shadow: 0 0 30px rgba(255,77,94,0.5), 0 0 80px rgba(196,30,58,0.25); }
+}
+
+/* ── Shield draw ── */
+@keyframes shieldDraw {
+  from { stroke-dashoffset: 600; }
+  to   { stroke-dashoffset: 0; }
+}
+@keyframes kjFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes shieldShrink {
+  from { transform: scale(1); opacity: 1; }
+  to   { transform: scale(0.6); opacity: 0; }
+}
+
+/* ── Level bar fill ── */
+@keyframes levelFill {
+  from { width: 0%; }
+}
+
+/* ── Timeline dot ── */
+@keyframes dotLight {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -204,15 +217,14 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   HEADLINE ACCENT — mode-aware emphasis
-   Dark: text-shadow glow.  Light: ink underline that draws in.
+   HEADLINE ACCENT — Ember Bright glow emphasis
    ═══════════════════════════════════════════════════════════════ */
 .headline-accent {
   position: relative;
   display: inline-block;
-  color: var(--accent);
+  color: var(--accent-bright);
   font-style: italic;
-  text-shadow: var(--headline-glow);
+  text-shadow: 0 0 40px var(--accent-glow);
 }
 .headline-accent::after {
   content: '';
@@ -227,7 +239,6 @@ body {
   opacity: var(--headline-underline-opacity);
   transition: transform 0.8s var(--ease-luxury);
 }
-/* Only in light mode: underline draws in when parent is revealed */
 .reveal.visible .headline-accent::after,
 .clip-wipe.is-visible .headline-accent::after,
 .is-visible .headline-accent::after {
@@ -285,20 +296,19 @@ body {
 .card:hover { box-shadow:var(--shadow-hover); transform:translateY(-3px); }
 
 /* ─── NAV LINK ───────────────────────────────────────────────── */
-.nav-link { position:relative; color:var(--text-secondary); font-size:11px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; transition:color .2s ease; font-family: var(--font-ui), 'Inter', sans-serif; }
+.nav-link { position:relative; color:var(--text-secondary); font-size:11px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; transition:color .2s ease; font-family: var(--font-ui), 'Montserrat', sans-serif; }
 .nav-link::after { content:''; position:absolute; bottom:-4px; left:50%; width:0; height:1.5px; background:var(--accent); border-radius:1px; transition:width .25s var(--ease-luxury), left .25s var(--ease-luxury); }
 .nav-link:hover { color:var(--text-primary); }
 .nav-link:hover::after { width:100%; left:0; }
 
 /* ═══════════════════════════════════════════════════════════════
-   NAV BADGE — sweep pill (replaces status-dot "● Open" pattern)
-   Scale + blur focus-pull on load, slow light-sweep every ~4.5s.
+   NAV BADGE — sweep pill
    ═══════════════════════════════════════════════════════════════ */
 .nav-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: var(--font-ui), 'Inter', sans-serif;
+  font-family: var(--font-ui), 'Montserrat', sans-serif;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -309,13 +319,11 @@ body {
   padding: 6px 14px;
   position: relative;
   overflow: hidden;
-  /* Focus-pull entry */
   opacity: 0;
   transform: scale(0.88);
   filter: blur(4px);
   animation: focus-pull 0.9s var(--ease-luxury) 0.5s both;
 }
-/* Light sweep shimmer */
 .nav-badge::after {
   content: '';
   position: absolute;
@@ -331,17 +339,74 @@ body {
 .btn-primary, .btn-outline {
   display: inline-flex; align-items: center; gap: 8px;
   background: transparent; color: var(--text-primary);
-  font-family: var(--font-ui), 'Inter', sans-serif;
+  font-family: var(--font-ui), 'Montserrat', sans-serif;
   font-size: 15px; font-weight: 600; font-style: italic;
   padding: 4px 0; border-bottom: 1px solid var(--border-strong); text-decoration: none;
   transition: color .2s ease, border-color .2s ease;
 }
 .btn-primary:hover, .btn-outline:hover { color: var(--accent); border-color: var(--accent); }
 
+/* ── Brand CTA button ── */
+.btn-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-ui), 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 16px 36px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.3s var(--ease-spring), box-shadow 0.3s var(--ease-luxury), background 0.2s ease;
+  box-shadow: 0 0 20px rgba(255,77,94,0.3), 0 0 60px rgba(196,30,58,0.15);
+}
+.btn-brand:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(255,77,94,0.4), 0 0 80px rgba(196,30,58,0.2);
+  background: var(--accent-bright);
+}
+
+/* ── Ghost CTA button ── */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-ui), 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 28px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.3s var(--ease-spring), box-shadow 0.3s var(--ease-luxury), border-color 0.2s ease, color 0.2s ease;
+}
+.btn-ghost:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  color: var(--accent-bright);
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+
+/* ── Glow-pulse CTA ── */
+.btn-glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
 /* ─── TAGS (Converted to Comma-Separated Text) ───────────────── */
 .tag {
   display: inline;
-  font-family: var(--font-ui), 'Inter', sans-serif;
+  font-family: var(--font-ui), 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: 500;
   color: var(--text-secondary);
@@ -362,41 +427,14 @@ body {
   animation: shimmer 1.6s ease-in-out infinite;
 }
 
-/* ─── BROWSER FRAME ──────────────────────────────────────────── */
-.browser-chrome {
-  background: #1C1C1E;
-  padding: 10px 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-[data-theme="dark"] .browser-chrome { background: #0A0A0C; }
-
-/* ─── THEME TOGGLE ───────────────────────────────────────────── */
-.theme-toggle {
-  width: 36px; height: 36px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  transition: background .2s ease, border-color .2s ease, transform .15s ease;
-  flex-shrink: 0;
-}
-.theme-toggle:hover { background: var(--bg); transform: scale(1.05); }
-
 /* ─── BACK TO TOP ────────────────────────────────────────────── */
 .back-to-top { opacity:0; pointer-events:none; transition:all .35s var(--ease-luxury); }
 .back-to-top.visible { opacity:1; pointer-events:auto; }
-.back-to-top:hover { background:rgba(0,0,0,0.06); transform:translateY(-2px); }
-[data-theme="dark"] .back-to-top:hover { background:rgba(255,255,255,0.06); }
+.back-to-top:hover { background:rgba(255,255,255,0.06); transform:translateY(-2px); }
 
 /* ═══════════════════════════════════════════════════════════════
    SVG ICON DRAW UTILITIES
-   Hand-drawn stroke icons that draw in on scroll.
    ═══════════════════════════════════════════════════════════════ */
-
-/* Icon container — accent glow bg, hover tilt + glow ring */
 .icon-box {
   width: 48px; height: 48px;
   border-radius: 11px;
@@ -427,7 +465,7 @@ body {
   stroke-linejoin: round;
 }
 
-/* Draw-in SVG class — paths start hidden, revealed by ScrollReveal JS */
+/* Draw-in SVG class */
 .draw-svg path,
 .draw-svg circle,
 .draw-svg polyline,
@@ -485,17 +523,35 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   GHOST WORD WATERMARK
+   ═══════════════════════════════════════════════════════════════ */
+.ghost-word {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-display), 'Playfair Display', serif;
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(140px, 24vw, 420px);
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(244, 238, 231, 0.06); /* Bone / White theme outline */
+  white-space: nowrap;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.02em;
+}
+
+/* ═══════════════════════════════════════════════════════════════
    IMAGE CAROUSEL
    ═══════════════════════════════════════════════════════════════ */
 .carousel-container {
   position: relative;
   overflow: hidden;
   border-radius: 14px;
-  /* Borderless — no outline, background matches site */
   background: transparent;
-  /* Fixed aspect ratio so images always fill the frame */
   aspect-ratio: 16 / 10;
-  /* Kill browser/Tailwind blue focus ring */
   outline: none;
 }
 .carousel-container:focus {
@@ -522,7 +578,6 @@ body {
   display: block;
   object-fit: cover;
   object-position: top center;
-  /* No inner border-radius — container clips cleanly */
   border-radius: 0;
   transition: transform 0.5s var(--ease-luxury);
 }
@@ -537,7 +592,7 @@ body {
   border-radius: 50%;
   background: color-mix(in srgb, var(--bg-card) 90%, transparent);
   backdrop-filter: blur(12px);
-  border: 1px solid var(--hairline);
+  border: 1px solid var(--border);
   color: var(--text-primary);
   cursor: pointer;
   display: flex;
@@ -656,7 +711,7 @@ body {
   transform: translateY(0);
 }
 
-/* ── Content pane — fixed fills viewport, scrolls naturally ── */
+/* ── Content pane ── */
 .overlay-content-pane {
   position: fixed;
   top: 0;
@@ -670,9 +725,7 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 2;
-  /* Start hidden above the viewport */
   transform: translateY(-100%);
-  /* NO will-change here — it creates a stacking context that traps fixed children */
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
 }
@@ -683,7 +736,6 @@ body {
   animation: overlayCurtainOut 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
 }
 
-/* Top spacer — pushes content clear of the fixed close button */
 .overlay-top-spacer { height: 76px; }
 
 /* ── Section content inside the overlay ── */
@@ -699,7 +751,7 @@ body {
   animation: overlayContentOut 0.4s var(--ease-luxury) forwards;
 }
 
-/* ── Close button — fixed at top-right, never scrolls away, no overlap ── */
+/* ── Close button ── */
 .overlay-close-btn {
   position: fixed;
   top: 20px;
@@ -721,7 +773,6 @@ body {
   border-radius: 100px;
   padding: 10px 20px;
   cursor: pointer;
-  /* Hidden until overlay opens */
   opacity: 0;
   pointer-events: none;
   transform: translateY(-8px);
@@ -733,7 +784,6 @@ body {
   transform: translateY(0);
   transition-delay: 0.5s, 0.5s, 0s, 0s, 0s;
 }
-/* Button rendered at Hero level — always visible & clickable when present */
 .overlay-close-btn.is-visible {
   opacity: 1 !important;
   pointer-events: auto !important;
@@ -766,10 +816,8 @@ body {
   z-index: 10001;
   opacity: 0;
   overflow: visible;
-  /* Must be below the close button z-index (10002) but above content (2) */
 }
 .overlay-corner-accent.top-left  { top: 16px; left: 16px; }
-/* Right accent shifted left of the close button */
 .overlay-corner-accent.top-right { top: 16px; right: 140px; }
 
 .section-overlay.is-open .overlay-corner-accent {
@@ -834,13 +882,57 @@ body {
   animation: letterWave 0.4s var(--ease-spring) forwards;
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   SKILL LEVEL BARS
+   ═══════════════════════════════════════════════════════════════ */
+.level-bar-track {
+  width: 100%;
+  height: 4px;
+  background: var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.level-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent-deep), var(--accent), var(--accent-bright));
+  transition: width 1.2s var(--ease-luxury);
+}
+.level-bar-fill.is-visible {
+  animation: levelFill 1.2s var(--ease-luxury) forwards;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SVG TIMELINE
+   ═══════════════════════════════════════════════════════════════ */
+.timeline-svg-line {
+  stroke: var(--border-strong);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  transition: stroke-dashoffset 2s var(--ease-luxury);
+}
+.timeline-svg-line.is-visible {
+  stroke-dashoffset: 0;
+}
+.timeline-dot {
+  fill: var(--accent);
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.5s var(--ease-spring), opacity 0.5s var(--ease-luxury);
+}
+.timeline-dot.is-visible {
+  transform: scale(1);
+  opacity: 1;
+}
+
 /* ─── REDUCED MOTION ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .reveal { transition: opacity .4s ease; transform: none !important; filter: none !important; }
   .reveal.visible { opacity:1; }
   .heading-underline-path { animation: none !important; stroke-dashoffset: 0; }
   .animate-fade-up, .animate-fade-in { animation: fadeIn .4s ease forwards; }
-  /* Luxury motion — disable on reduced-motion */
   .clip-wipe, .clip-wipe.is-visible { clip-path: none !important; opacity: 1; }
   .row-reveal { opacity: 1; transform: none !important; transition: none !important; filter: none !important; }
   .pill-sweep.is-visible::after { animation: none !important; }
@@ -854,6 +946,10 @@ body {
     stroke-dashoffset: 0 !important;
     transition: none !important;
   }
+  .level-bar-fill { animation: none !important; }
+  .timeline-svg-line { stroke-dashoffset: 0 !important; transition: none !important; }
+  .timeline-dot { transform: scale(1) !important; opacity: 1 !important; transition: none !important; }
+  .btn-glow-pulse { animation: none !important; }
   * { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
   ::view-transition-old(*),
   ::view-transition-new(*),
@@ -865,7 +961,6 @@ body {
 
 /* ═══════════════════════════════════════════════════════════════
    PAGE TRANSITIONS — SVG WaveTransitionOverlay handles the curtain.
-   These rules handle page-enter content animation only.
    ═══════════════════════════════════════════════════════════════ */
 
 /* ── Keep navbar anchored during any view transitions ── */
@@ -883,14 +978,8 @@ body {
   mix-blend-mode: normal;
 }
 
-/* ── Section page enter — content fades + rises after the wave lifts ── */
-@keyframes overlayContentIn {
-  from { opacity: 0; transform: translateY(40px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
+/* ── Section page enter ── */
 .section-page-enter {
-  /* Wave triggers router push at 0.75s, so content fades in slightly after that */
   animation: overlayContentIn 0.8s var(--ease-luxury) 0.1s both;
 }
 
@@ -903,8 +992,35 @@ body {
 @keyframes waveBlur {
   0% { filter: blur(0px); opacity: 0; }
   20% { opacity: 1; }
-  50% { filter: blur(4px); } /* Peak blur at max velocity */
+  50% { filter: blur(4px); }
   80% { opacity: 1; }
   100% { filter: blur(0px); opacity: 0; }
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   BRAND-CARD (Services-style cards, kept for section pages)
+   ═══════════════════════════════════════════════════════════════ */
+.brand-card {
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1), border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* ── Eyebrow ── */
+.eyebrow {
+  font-family: var(--font-ui), 'Montserrat', sans-serif;
+  font-size: 11px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   IMPACT NUMERALS — Bebas Neue oversized stats
+   ═══════════════════════════════════════════════════════════════ */
+.impact-number {
+  font-family: var(--font-impact), 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 6vw, 5rem);
+  color: var(--accent-bright);
+  line-height: 0.9;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 30px var(--accent-glow);
+}

@@ -1,0 +1,155 @@
+# Design Improvement Implementation — Gap Analysis & Plan
+
+## Gap Analysis: What's Already Done vs. What's Missing
+
+After scanning every component, the CSS, and the layout against the referenced implementation plan, here is the status:
+
+### ✅ Already Implemented
+| Item | Status |
+|------|--------|
+| IntroSequence overlay (basic) | Done — but missing shield SVG draw animation |
+| Hero CTA split (Know More → 3 buttons) | Done |
+| Wave transition system (WaveNavigator + WaveTransitionOverlay) | Done — **RETAIN** |
+| ScrollReveal with luxury classes | Done |
+| SmoothScroll (Lenis) | Done |
+| Custom cursor | Done |
+| SVG stroke draw-in icons | Done |
+| Carousel CSS classes | Done in CSS — not yet used in Projects |
+| Section overlay system | Done in CSS |
+| Signature divider SVG | Done |
+| Ghost-word watermark classes | Done in CSS (only used in Services) |
+
+### ❌ Missing / Needs Work
+
+| # | Item | Description |
+|---|------|-------------|
+| 1 | **Font system: Montserrat + Bebas Neue** | `layout.tsx` still imports Inter. Need Montserrat as `--font-ui` and Bebas Neue as `--font-impact` |
+| 2 | **CSS token overhaul** | Tokens still use old values. Need TRUE BLACK `#000`, Ember `#C41E3A`, Ember Bright `#FF4D5E`, Ember Deep `#5C0C1D`, Bone `#F4EEE7`, Ash `#AE9E97`, Ash Dim `#7E706A`. Remove light mode block. |
+| 3 | **IntroSequence: Shield SVG draw** | Currently just shows "Lorrenz." text. Needs shield SVG with stroke-dasharray draw animation + "KJ" letters fade |
+| 4 | **Navbar simplification** | Still imports ThemeProvider, has theme toggle, old links (includes "Commissions"). Need: remove toggle, update links, add wave text on hover, wordmark "Lorrenz." |
+| 5 | **About section restructure** | Still has long bio paragraphs. Needs: fact bullets only, Bebas Neue stat numerals with glow, ghost watermark "ABOUT" |
+| 6 | **Skills section: badge/level system** | Currently comma-separated tags and list. Needs: level bars (0-100% Ember gradient), ghost watermark "SKILLS", Bebas Neue category numbers |
+| 7 | **Experience section: SVG timeline** | Currently flat list with border-bottom. Needs: vertical SVG line draw on scroll, dot fill animation, ONE outcome line per entry, Bebas Neue numbers, ghost watermark "EXPERIENCE" |
+| 8 | **Projects section: image carousel** | Still using BrowserFrame hover preview. Needs: real image carousel with prev/next, dots, swipe, ghost watermark "PROOF" |
+| 9 | **Contact section: emphasized CTA** | Missing glow-pulse CTA, ghost watermark "CONNECT", larger scale. The existing form is good — keep it |
+| 10 | **Footer simplification** | Missing Playfair italic wordmark, shield SVG mark |
+| 11 | **page.tsx assembly** | Still includes Services, AmbientGlow. Needs new order: Hero → About → Skills → Experience → Projects → Contact → Footer |
+| 12 | **CSS additions** | Missing: ghost-word styles, letterWave keyframe, glow-pulse CTA keyframe, button hover lift, `--font-impact` variable, `--accent-bright`/`--accent-deep` vars |
+| 13 | **Delete unused components** | ThemeProvider, MarqueeStrip, Commissions, BrowserFrame, ProjectPreviewSVG, Services, AmbientGlow, HeroSVG — no longer needed |
+
+---
+
+## Proposed Changes
+
+> [!IMPORTANT]
+> The wave transition system (WaveNavigator, WaveTransitionOverlay) and the section-based routing (`(sections)/`) are **retained unchanged**. All changes target the main page components and styling.
+
+### Phase 1: Foundation (CSS + Layout)
+
+#### [MODIFY] [layout.tsx](file:///c:/Users/Lorrenz/Desktop/jurov/app/layout.tsx)
+- Replace `Inter` with `Montserrat` + `Bebas_Neue`
+- Wire `--font-ui` → Montserrat, `--font-impact` → Bebas Neue
+- Keep Playfair Display, SmoothScroll, WaveNavigatorProvider, IntroSequence
+
+#### [MODIFY] [globals.css](file:///c:/Users/Lorrenz/Desktop/jurov/app/globals.css)
+- Overwrite `:root` tokens to TRUE BLACK palette
+- Remove `[data-theme="light"]` block
+- Add `--font-impact`, `--accent-bright`, `--accent-deep` variables
+- Add ghost-word watermark styles
+- Add `@keyframes letterWave` for letter-by-letter hover
+- Add `@keyframes glowPulse` for CTA button
+- Add `.btn-brand` hover lift styles
+- Keep all existing animation utilities, overlay, wave text, carousel CSS
+
+---
+
+### Phase 2: IntroSequence Upgrade
+
+#### [MODIFY] [IntroSequence.tsx](file:///c:/Users/Lorrenz/Desktop/jurov/app/components/IntroSequence.tsx)
+- Replace "Lorrenz." text with SVG shield that draws its outline via stroke-dasharray
+- "KJ" letters fade in inside the shield
+- Shield scales down + fades as content appears beneath
+
+---
+
+### Phase 3: Navbar Simplification
+
+#### [MODIFY] [Navbar.tsx](file:///c:/Users/Lorrenz/Desktop/jurov/app/components/Navbar.tsx)
+- Remove ThemeProvider import + theme toggle
+- Update links: About · Skills · Experience · Projects · Contact
+- Replace logo with wordmark "Lorrenz." using wave text hover
+- Montserrat uppercase tracked labels
+
+---
+
+### Phase 4: Section Components
+
+#### [MODIFY] [About.tsx](file:///c:/Users/Lorrenz/Desktop/jurov/app/components/About.tsx)
+- Rewrite to fact-bullet format (4 bullets, no paragraphs)
+- Bebas Neue oversized stat numerals in Ember Bright with text-glow
+- Ghost watermark "ABOUT"
+
+#### [MODIFY] [Skills.tsx](file:///c:/Users/Lorrenz/Desktop/jurov/app/components/Skills.tsx)
+- Badge grid with level bars (Ember gradient fill)
+- Categories: Frontend · Design · Tools · Professional
+- Ghost watermark "SKILLS"
+- Oversized Bebas Neue category numbers
+
+#### [MODIFY] [Experience.tsx](file:///c:/Users/Lorrenz/Desktop/jurov/app/components/Experience.tsx)
+- Vertical SVG timeline layout
+- SVG line draws on scroll, dots light up on viewport enter
+- ONE outcome line per entry with Bebas Neue outcome numbers
+- Ghost watermark "EXPERIENCE"
+
+#### [MODIFY] [Projects.tsx](file:///c:/Users/Lorrenz/Desktop/jurov/app/components/Projects.tsx)
+- Replace BrowserFrame with real image carousel
+- Use actual images: `/real-hakot.png`, `/real-juan.png`, etc.
+- Prev/next arrows, dot indicators, touch/swipe
+- Ghost watermark "PROOF"
+
+#### [MODIFY] [Contact.tsx](file:///c:/Users/Lorrenz/Desktop/jurov/app/components/Contact.tsx)
+- Larger scale headline "Message Me" in Playfair Display
+- Glow-pulse CTA button
+- Ghost watermark "CONNECT"
+- Keep existing form + social links
+
+#### [MODIFY] [Footer.tsx](file:///c:/Users/Lorrenz/Desktop/jurov/app/components/Footer.tsx)
+- Wordmark: "Lorrenz." in Playfair Display Italic
+- Shield SVG mark
+- Small copyright
+
+---
+
+### Phase 5: Page Assembly
+
+#### [MODIFY] [page.tsx](file:///c:/Users/Lorrenz/Desktop/jurov/app/page.tsx)
+- New order: Hero → About → Skills → Experience → Projects → Contact → Footer
+- Remove Services, AmbientGlow, MarqueeStrip imports
+
+---
+
+### Phase 6: Cleanup
+
+#### Components to leave but stop importing:
+- Services.tsx, AmbientGlow.tsx, BrowserFrame.tsx, MarqueeStrip.tsx, Commissions.tsx, ProjectPreviewSVG.tsx, HeroSVG.tsx — will not be imported but files remain for safety
+
+#### [MODIFY] [ThemeProvider.tsx](file:///c:/Users/Lorrenz/Desktop/jurov/app/components/ThemeProvider.tsx)
+- Keep file but strip `useTheme` export (Navbar will stop importing it)
+
+---
+
+## Verification Plan
+
+### Automated Tests
+- `npm run build` — ensure no TypeScript or build errors
+
+### Manual Verification
+- TRUE BLACK bg, Ember accents, Bone text match spec
+- IntroSequence: shield draws → holds → fades (≈3s)
+- Bebas Neue numbers are oversized, Ember Bright, glowing
+- Image carousel: prev/next, dots, swipe functional
+- SVG timeline draws on scroll, dots light up
+- Letter-by-letter wave on nav hover
+- Ghost watermarks visible at correct positions
+- Wave transition still works for section navigation
+- Mobile responsive
