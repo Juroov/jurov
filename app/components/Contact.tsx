@@ -55,7 +55,19 @@ export default function Contact() {
   const [form, setForm] = useState<FormState>({ name: "", email: "", budget: "", message: "" });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -276,26 +288,91 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div>
+                <div style={{ position: "relative" }} ref={dropdownRef}>
                   <label htmlFor="contact-budget" style={labelStyle}>Budget range</label>
-                  <select
+                  
+                  <div
                     id="contact-budget"
-                    name="budget"
-                    value={form.budget}
-                    onChange={handleChange}
-                    style={{ ...inputStyle, cursor: "pointer" }}
-                    onFocus={(e) => {
-                      e.target.style.borderColor = "var(--accent)";
-                    }}
-                    onBlur={(e) => {
-                      e.target.style.borderColor = "var(--border-strong)";
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    style={{
+                      ...inputStyle,
+                      cursor: "pointer",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      borderColor: isDropdownOpen ? "var(--accent)" : "var(--border-strong)",
                     }}
                   >
-                    <option value="">Select a range...</option>
-                    {budgetOptions.map((o) => (
-                      <option key={o} value={o}>{o}</option>
-                    ))}
-                  </select>
+                    <span style={{ opacity: form.budget ? 1 : 0.5, color: form.budget ? "var(--text-primary)" : "var(--text-secondary)" }}>
+                      {form.budget || "Select a range..."}
+                    </span>
+                    <span style={{ 
+                      transform: isDropdownOpen ? "rotate(180deg)" : "rotate(0deg)", 
+                      transition: "transform 0.2s ease",
+                      fontSize: 12,
+                      color: "var(--text-secondary)" 
+                    }}>
+                      ▼
+                    </span>
+                  </div>
+
+                  {isDropdownOpen && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "100%",
+                        left: 0,
+                        right: 0,
+                        background: "var(--bg-card)",
+                        border: "1px solid var(--border-strong)",
+                        borderRadius: "8px",
+                        marginTop: "8px",
+                        zIndex: 50,
+                        overflow: "hidden",
+                        boxShadow: "0 8px 32px rgba(0,0,0,0.4)"
+                      }}
+                    >
+                      <div
+                        onClick={() => {
+                          setForm(prev => ({ ...prev, budget: "" }));
+                          setIsDropdownOpen(false);
+                        }}
+                        style={{
+                          padding: "14px 16px",
+                          cursor: "pointer",
+                          fontFamily: "var(--font-ui)",
+                          fontSize: 16,
+                          color: "var(--text-secondary)",
+                          transition: "background 0.2s ease",
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.03)")}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                      >
+                        Select a range...
+                      </div>
+                      {budgetOptions.map((o) => (
+                        <div
+                          key={o}
+                          onClick={() => {
+                            setForm(prev => ({ ...prev, budget: o }));
+                            setIsDropdownOpen(false);
+                          }}
+                          style={{
+                            padding: "14px 16px",
+                            cursor: "pointer",
+                            fontFamily: "var(--font-ui)",
+                            fontSize: 16,
+                            color: "var(--text-primary)",
+                            transition: "background 0.2s ease",
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.03)")}
+                          onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                        >
+                          {o}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div>
