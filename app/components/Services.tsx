@@ -9,21 +9,21 @@ const services = [
     title: "Frontend Development",
     description:
       "Building responsive, high-performance, and dynamic user interfaces using React, Next.js, and modern web technologies. I bring designs to life with clean, maintainable code and smooth animations.",
-    price: "Starting at $1,500",
+    price: "Starting at ₱1,500",
   },
   {
     id: "02",
     title: "UI/UX Design",
     description:
       "Crafting intuitive and aesthetically pleasing digital experiences. From initial wireframing and prototyping in Figma to complete, scalable design systems tailored to your brand identity.",
-    price: "Starting at $1,200",
+    price: "Starting at ₱1,200",
   },
   {
     id: "03",
     title: "Web Optimization",
     description:
       "Enhancing website speed, accessibility, and SEO to ensure your platform not only looks incredible but also ranks well and provides a flawless experience across all devices and browsers.",
-    price: "Starting at $800",
+    price: "Starting at ₱800",
   },
 ];
 
