@@ -1,81 +1,97 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import BackgroundLabel from "./BackgroundLabel";
-import { SignatureDividerSvg } from "./SvgIcons";
 import ScrollWaveCurtain from "./ScrollWaveCurtain";
 
+/* ─────────────────────────────────────────────
+   PROJECT DATA
+───────────────────────────────────────────── */
 const projects = [
   {
-    title: "HakotLahat — Smart Garbage Collection System",
+    path: "01",
+    title: "HakotLahat",
+    subtitle: "Smart Garbage Collection System",
     type: "Full-Stack Web App",
     url: "https://www.hakotlahat.com/",
+    tagline: "AI-powered waste management. Photo reports, Gemini Vision, optimised routes.",
     description:
-      "An intelligent municipal waste management platform. Residents submit photo reports, Gemini Vision AI classifies waste, and the system generates optimized collection routes.",
-    role: "Led frontend architecture, designed the full UI system (dark dashboard, map views, resident portal).",
+      "An intelligent platform for municipal waste management. Residents submit photo reports, Gemini Vision AI classifies waste type, and the system generates optimised collection routes — reducing fuel costs and idle time across the city.",
+    role: "Led frontend architecture and designed the full UI system: dark dashboard, map views, and resident portal.",
     tags: ["Next.js", "Supabase", "Gemini AI", "MapLibre", "TypeScript", "Tailwind CSS"],
-    images: [
-      "/real-hakot.png",
-      "/project-hakotlahat.png",
-      "/project-hakotlahat-tall.png",
-    ],
+    badge: "Live · PH",
+    images: ["/real-hakot.png", "/project-hakotlahat.png", "/project-hakotlahat-tall.png"],
+    accent: "#C41E3A",
   },
   {
-    title: "Kuya Juan — Financial Advisor Portfolio",
+    path: "02",
+    title: "Kuya Juan",
+    subtitle: "Financial Advisor Portfolio",
     type: "Frontend · Commission",
     url: "https://clients-portfolio.vercel.app/",
+    tagline: "Marketing site that converts visitors into consultation bookings.",
     description:
-      "A professional marketing site built to convert visitors into consultation bookings, showcasing services, credentials, and client testimonials.",
-    role: "Designed and built the full landing page — from wireframe to deployed.",
+      "A professional marketing site built to convert visitors into consultation bookings — showcasing services, credentials, and client testimonials with a clean, trust-first layout.",
+    role: "Designed and built the full landing page — from wireframe to deployed production.",
     tags: ["Next.js", "Tailwind CSS", "Vercel", "Responsive Design"],
+    badge: "Live · PH",
+    images: ["/real-juan.png", "/real-juan-how.png", "/real-juan-why.png"],
+    accent: "#C41E3A",
+  },
+  {
+    path: "03",
+    title: "FRO Solar",
+    subtitle: "Solar Energy Solutions Company",
+    type: "Frontend · Commission",
+    url: "https://frosolar.vercel.app/",
+    tagline: "Engineered monocrystalline solar & storage. 28 yrs · 175 MW · 7 countries.",
+    description:
+      "A high-converting marketing site for FRO Solar — a Philippine solar engineering firm with 28 years of experience and 175 MW of commissioned capacity. Features an immersive path gallery of four solar systems, live power-flow simulations, and a full certification portal.",
+    role: "Designed and developed the full site — brand direction, interactive system explorer, and deployed production.",
+    tags: ["Next.js", "TypeScript", "Framer Motion", "Vercel", "Responsive Design"],
+    badge: "Live · PH",
     images: [
-      "/real-juan.png",
-      "/real-juan-how.png",
-      "/real-juan-why.png",
-
+      "/frosolar-hero.png",
+      "/frosolar-services.png",
+      "/frosolar-install.png",
+      "/frosolar-paths.png",
     ],
+    accent: "#22C55E",
   },
 ];
 
-/* ── Image Carousel ── */
-function ImageCarousel({ images }: { images: string[] }) {
+/* ─────────────────────────────────────────────
+   IMAGE CAROUSEL
+───────────────────────────────────────────── */
+function ImageCarousel({
+  images,
+  accent,
+}: {
+  images: string[];
+  accent: string;
+}) {
   const [current, setCurrent] = useState(0);
   const touchStart = useRef(0);
   const touchEnd = useRef(0);
   const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const goTo = useCallback((idx: number) => {
-    setCurrent((idx + images.length) % images.length);
-  }, [images.length]);
-
+  const goTo = useCallback(
+    (idx: number) => setCurrent((idx + images.length) % images.length),
+    [images.length]
+  );
   const next = useCallback(() => goTo(current + 1), [current, goTo]);
   const prev = useCallback(() => goTo(current - 1), [current, goTo]);
 
-  // Autoplay
   useEffect(() => {
     autoplayRef.current = setInterval(next, 5000);
-    return () => { if (autoplayRef.current) clearInterval(autoplayRef.current); };
+    return () => {
+      if (autoplayRef.current) clearInterval(autoplayRef.current);
+    };
   }, [next]);
 
-  // Reset autoplay on manual interaction
   const resetAutoplay = () => {
     if (autoplayRef.current) clearInterval(autoplayRef.current);
     autoplayRef.current = setInterval(next, 5000);
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStart.current = e.targetTouches[0].clientX;
-  };
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchEnd.current = e.targetTouches[0].clientX;
-  };
-  const handleTouchEnd = () => {
-    const diff = touchStart.current - touchEnd.current;
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) next();
-      else prev();
-      resetAutoplay();
-    }
   };
 
   return (
@@ -83,9 +99,19 @@ function ImageCarousel({ images }: { images: string[] }) {
       <div
         className="carousel-container"
         tabIndex={0}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
+        onTouchStart={(e) => {
+          touchStart.current = e.targetTouches[0].clientX;
+        }}
+        onTouchMove={(e) => {
+          touchEnd.current = e.targetTouches[0].clientX;
+        }}
+        onTouchEnd={() => {
+          const diff = touchStart.current - touchEnd.current;
+          if (Math.abs(diff) > 50) {
+            diff > 0 ? next() : prev();
+            resetAutoplay();
+          }
+        }}
         onKeyDown={(e) => {
           if (e.key === "ArrowLeft") { prev(); resetAutoplay(); }
           if (e.key === "ArrowRight") { next(); resetAutoplay(); }
@@ -107,7 +133,6 @@ function ImageCarousel({ images }: { images: string[] }) {
           ))}
         </div>
 
-        {/* Prev/Next arrows */}
         <button
           className="carousel-btn prev"
           onClick={() => { prev(); resetAutoplay(); }}
@@ -128,14 +153,18 @@ function ImageCarousel({ images }: { images: string[] }) {
         </button>
       </div>
 
-      {/* Dot indicators */}
       <div className="carousel-dots">
         {images.map((_, i) => (
           <button
             key={i}
-            className={`carousel-dot ${i === current ? "active" : ""}`}
+            className={`carousel-dot${i === current ? " active" : ""}`}
             onClick={() => { goTo(i); resetAutoplay(); }}
             aria-label={`Go to slide ${i + 1}`}
+            style={
+              i === current
+                ? { background: accent, boxShadow: `0 0 8px ${accent}88` }
+                : {}
+            }
           />
         ))}
       </div>
@@ -143,115 +172,119 @@ function ImageCarousel({ images }: { images: string[] }) {
   );
 }
 
-/* ── Individual project card ── */
-function ProjectCard({
+/* ─────────────────────────────────────────────
+   PATH TAB BUTTON
+───────────────────────────────────────────── */
+function PathTab({
   project,
-  index,
+  isActive,
+  onClick,
 }: {
   project: (typeof projects)[0];
-  index: number;
+  isActive: boolean;
+  onClick: () => void;
 }) {
   return (
-    <div
-      className={`reveal ${index > 0 ? "reveal-delay-1" : ""}`}
+    <button
+      className={`pg-tab${isActive ? " pg-tab--active" : ""}`}
+      onClick={onClick}
+      aria-pressed={isActive}
+      style={isActive ? { borderColor: project.accent, color: project.accent } : {}}
     >
-      <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
-        {/* Text content */}
-        <div className="flex-1" style={{ maxWidth: "50ch" }}>
-          <p
-            style={{
-              fontFamily: "var(--font-ui)",
-              fontSize: 14,
-              fontStyle: "italic",
-              color: "var(--text-faint)",
-              marginBottom: 16
-            }}
-          >
-            {project.type}
-          </p>
+      <span className="pg-tab-path" style={isActive ? { color: project.accent } : {}}>
+        {project.path}
+      </span>
+      <span className="pg-tab-info">
+        <span className="pg-tab-title">{project.title}</span>
+        <span className="pg-tab-sub">{project.type}</span>
+      </span>
+      {isActive && (
+        <span
+          className="pg-tab-dot"
+          style={{ background: project.accent, boxShadow: `0 0 6px ${project.accent}` }}
+        />
+      )}
+    </button>
+  );
+}
 
-          <h3
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
-              fontWeight: 700,
-              fontStyle: "italic",
-              letterSpacing: "-0.02em",
-              color: "var(--text-primary)",
-              lineHeight: 1.1,
-              marginBottom: 16,
-              textShadow: "var(--headline-glow)",
-            }}
-          >
-            {project.title}
-          </h3>
+/* ─────────────────────────────────────────────
+   EXPANDED PANEL
+───────────────────────────────────────────── */
+function PathPanel({ project }: { project: (typeof projects)[0] }) {
+  return (
+    <div className="pg-panel">
+      <div className="pg-panel-media">
+        <div
+          className="pg-panel-badge"
+          style={{ borderColor: `${project.accent}55`, color: project.accent }}
+        >
+          <span className="pg-badge-dot" style={{ background: project.accent }} />
+          {project.badge}
+        </div>
+        <ImageCarousel images={project.images} accent={project.accent} />
+      </div>
 
-          <p
-            style={{
-              fontFamily: "var(--font-ui)",
-              fontSize: 16,
-              color: "var(--text-secondary)",
-              lineHeight: 1.6,
-              marginBottom: 16,
-            }}
-          >
-            {project.description}
-          </p>
+      <div className="pg-panel-details">
+        <p className="pg-detail-type">{project.type}</p>
 
-          <p
-            style={{
-              fontFamily: "var(--font-ui)",
-              fontSize: 15,
-              color: "var(--text-primary)",
-              lineHeight: 1.6,
-              marginBottom: 20,
-              fontStyle: "italic",
-            }}
-          >
-            <strong style={{ color: "var(--text-secondary)", fontStyle: "normal", fontWeight: 500 }}>
-              My role:
-            </strong>{" "}
-            {project.role}
-          </p>
+        <h3 className="pg-detail-title">
+          {project.title}
+          <br />
+          <span className="pg-detail-subtitle">{project.subtitle}</span>
+        </h3>
 
-          <div style={{ marginBottom: 24 }}>
-            <span style={{ fontFamily: "var(--font-ui)", fontSize: 14, color: "var(--text-secondary)", marginRight: 6 }}>Stack:</span>
+        <p className="pg-detail-tagline" style={{ color: project.accent }}>
+          {project.tagline}
+        </p>
+
+        <p className="pg-detail-desc">{project.description}</p>
+
+        <div className="pg-detail-role">
+          <span className="pg-role-label">My role</span>
+          {project.role}
+        </div>
+
+        <div className="pg-detail-stack">
+          <span className="pg-stack-label">Stack</span>
+          <div className="pg-tags">
             {project.tags.map((tag) => (
-              <span key={tag} className="tag">
-                {tag}
-              </span>
+              <span key={tag} className="tag">{tag}</span>
             ))}
           </div>
-
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-outline"
-          >
-            Visit live site
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path
-                d="M3 11L11 3M11 3H6M11 3v5"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </a>
         </div>
 
-        {/* Image carousel */}
-        <div className="flex-1" style={{ minWidth: 0 }}>
-          <ImageCarousel images={project.images} />
-        </div>
+        <a
+          href={project.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-outline"
+          style={{ "--btn-accent": project.accent } as React.CSSProperties}
+        >
+          Visit live site
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M3 11L11 3M11 3H6M11 3v5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </a>
       </div>
     </div>
   );
 }
 
+/* ─────────────────────────────────────────────
+   PATH GALLERY — main section
+───────────────────────────────────────────── */
 export default function Projects() {
+  const [activeIdx, setActiveIdx] = useState(0);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const handleTabClick = (i: number) => {
+    setActiveIdx(i);
+    if (panelRef.current && window.innerWidth < 900) {
+      panelRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  };
+
   return (
     <section
       id="projects"
@@ -268,7 +301,7 @@ export default function Projects() {
 
       <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto", position: "relative", zIndex: 1 }}>
 
-        <div style={{ marginBottom: 96 }}>
+        <div style={{ marginBottom: 64 }}>
           <h2
             className="reveal clip-wipe"
             style={{
@@ -285,9 +318,7 @@ export default function Projects() {
             Websites &amp; systems
             <br />
             built from{" "}
-            <span className="headline-accent">
-              scratch.
-            </span>
+            <span className="headline-accent">scratch.</span>
           </h2>
 
           <p
@@ -305,13 +336,30 @@ export default function Projects() {
           </p>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 120 }}>
-          {projects.map((project, i) => (
-            <div key={project.title}>
-              <ProjectCard project={project} index={i} />
-              {i < projects.length - 1 && <SignatureDividerSvg />}
-            </div>
-          ))}
+        {/* PATH GALLERY */}
+        <div className="reveal reveal-delay-1 pg-root">
+          <div className="pg-tabs" role="tablist" aria-label="Projects">
+            {projects.map((p, i) => (
+              <PathTab
+                key={p.path}
+                project={p}
+                isActive={activeIdx === i}
+                onClick={() => handleTabClick(i)}
+              />
+            ))}
+          </div>
+
+          <div className="pg-panel-wrap" ref={panelRef}>
+            {projects.map((p, i) => (
+              <div
+                key={p.path}
+                className={`pg-panel-animated${activeIdx === i ? " pg-panel-animated--visible" : ""}`}
+                aria-hidden={activeIdx !== i}
+              >
+                {activeIdx === i && <PathPanel project={p} />}
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Supporting projects */}
@@ -320,27 +368,10 @@ export default function Projects() {
           style={{ marginTop: 120, paddingTop: 80, borderTop: "1px solid var(--border)" }}
         >
           <div className="flex-1">
-            <p
-              style={{
-                fontFamily: "var(--font-ui)",
-                fontSize: 14,
-                fontStyle: "italic",
-                color: "var(--text-faint)",
-                marginBottom: 12,
-              }}
-            >
+            <p style={{ fontFamily: "var(--font-ui)", fontSize: 14, fontStyle: "italic", color: "var(--text-faint)", marginBottom: 12 }}>
               Automation · Python
             </p>
-            <h3
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: 24,
-                fontWeight: 700,
-                fontStyle: "italic",
-                color: "var(--text-primary)",
-                marginBottom: 12,
-              }}
-            >
+            <h3 style={{ fontFamily: "var(--font-display)", fontSize: 24, fontWeight: 700, fontStyle: "italic", color: "var(--text-primary)", marginBottom: 12 }}>
               Web Automation &amp; Data Scraping Scripts
             </h3>
             <p style={{ fontFamily: "var(--font-ui)", fontSize: 16, color: "var(--text-secondary)", lineHeight: 1.6, maxWidth: "50ch" }}>
@@ -351,35 +382,15 @@ export default function Projects() {
           </div>
 
           <div className="flex-1">
-            <p
-              style={{
-                fontFamily: "var(--font-ui)",
-                fontSize: 14,
-                fontStyle: "italic",
-                color: "var(--text-faint)",
-                marginBottom: 12,
-              }}
-            >
+            <p style={{ fontFamily: "var(--font-ui)", fontSize: 14, fontStyle: "italic", color: "var(--text-faint)", marginBottom: 12 }}>
               Research Paper
             </p>
-            <h3
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: 24,
-                fontWeight: 700,
-                fontStyle: "italic",
-                color: "var(--text-primary)",
-                marginBottom: 12,
-              }}
-            >
+            <h3 style={{ fontFamily: "var(--font-display)", fontSize: 24, fontWeight: 700, fontStyle: "italic", color: "var(--text-primary)", marginBottom: 12 }}>
               <a
                 href="https://doi.org/10.5281/zenodo.19178899"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{
-                  textDecoration: "none",
-                  color: "inherit",
-                }}
+                style={{ textDecoration: "none", color: "inherit" }}
                 className="hover:text-[var(--accent)] transition-colors"
               >
                 &ldquo;Reyal or Fake?&rdquo; ↗
