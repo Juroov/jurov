@@ -116,27 +116,8 @@ export default function Experience() {
         <div
           style={{ position: "relative", paddingLeft: 48 }}
         >
-          {/* SVG timeline line */}
-          <svg
-            style={{
-              position: "absolute",
-              left: 15,
-              top: 0,
-              width: 2,
-              height: "100%",
-              overflow: "visible",
-            }}
-            aria-hidden="true"
-          >
-            <line
-              className="timeline-svg-line"
-              x1="1" y1="0"
-              x2="1" y2="100%"
-              stroke="var(--border-strong)"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
+          {/* Full-height line stays continuous as the timeline grows. */}
+          <div className="timeline-line" aria-hidden="true" />
 
           <div
             className="stagger-children"

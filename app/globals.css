@@ -1640,20 +1640,23 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SVG TIMELINE
+   EXPERIENCE TIMELINE
    ═══════════════════════════════════════════════════════════════ */
-.timeline-svg-line {
-  stroke: var(--border-strong);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  /* Slower, more dramatic draw */
-  transition: stroke-dashoffset 2.4s cubic-bezier(0.22, 1, 0.36, 1);
+.timeline-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 15px;
+  width: 2px;
+  border-radius: 999px;
+  background: var(--border-strong);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 2.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.timeline-svg-line.is-visible {
-  stroke-dashoffset: 0;
+.timeline-line.is-visible {
+  transform: scaleY(1);
 }
 
 .timeline-dot {
@@ -1773,8 +1776,8 @@ body {
     animation: none !important;
   }
 
-  .timeline-svg-line {
-    stroke-dashoffset: 0 !important;
+  .timeline-line {
+    transform: scaleY(1) !important;
     transition: none !important;
   }
 
