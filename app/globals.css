@@ -1642,20 +1642,20 @@ body {
 /* ═══════════════════════════════════════════════════════════════
    EXPERIENCE TIMELINE
    ═══════════════════════════════════════════════════════════════ */
-.timeline-line {
+.timeline-segment {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 15px;
+  top: 13px;
+  bottom: -13px;
+  left: -35px;
   width: 2px;
   border-radius: 999px;
   background: var(--border-strong);
   transform: scaleY(0);
   transform-origin: top;
-  transition: transform 2.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.timeline-line.is-visible {
+.stagger-item.is-visible .timeline-segment {
   transform: scaleY(1);
 }
 
@@ -1776,7 +1776,7 @@ body {
     animation: none !important;
   }
 
-  .timeline-line {
+  .timeline-segment {
     transform: scaleY(1) !important;
     transition: none !important;
   }

@@ -12,7 +12,6 @@ import { useEffect } from "react";
  *   .pill-sweep    → adds .is-visible   (shimmer sweep on kicker pills)
  *   .sig-divider   → adds .is-visible   (signature divider fade-in)
  *   .scroll-indicator → adds .is-visible (scroll hint)
- *   .timeline-line → adds .is-visible (timeline draw)
  *   .draw-svg      → triggers stroke draw-in animation
  *   .stagger-children → staggers direct children with .stagger-item class
  *   .parallax-up   → subtle parallax Y offset on scroll (CSS variable driven)
@@ -39,7 +38,7 @@ export default function ScrollReveal() {
 
     // ── Luxury classes observer ────────────────────────────────
     const luxuryEls = document.querySelectorAll<HTMLElement>(
-      ".clip-wipe, .row-reveal, .pill-sweep, .sig-divider, .scroll-indicator, .timeline-line"
+      ".clip-wipe, .row-reveal, .pill-sweep, .sig-divider, .scroll-indicator"
     );
     const luxuryObs = new IntersectionObserver(
       (entries) => {

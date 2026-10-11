@@ -116,9 +116,6 @@ export default function Experience() {
         <div
           style={{ position: "relative", paddingLeft: 48 }}
         >
-          {/* Full-height line stays continuous as the timeline grows. */}
-          <div className="timeline-line" aria-hidden="true" />
-
           <div
             className="stagger-children"
             style={{ display: "flex", flexDirection: "column", gap: 0 }}
@@ -133,6 +130,14 @@ export default function Experience() {
                   paddingBottom: i < roles.length - 1 ? 64 : 0,
                 }}
               >
+                {i < roles.length - 1 && (
+                  <span
+                    className="timeline-segment"
+                    style={{ transitionDelay: `${i * 0.08}s` }}
+                    aria-hidden="true"
+                  />
+                )}
+
                 {/* SVG dot */}
                 <svg
                   style={{
