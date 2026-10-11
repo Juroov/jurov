@@ -1,5 +1,4 @@
 import Navbar from "../components/Navbar";
-import Cursor from "../components/Cursor";
 import ScrollReveal from "../components/ScrollReveal";
 import SectionBackBtn from "../components/SectionBackBtn";
 
@@ -10,7 +9,6 @@ export default function SectionLayout({
 }) {
   return (
     <>
-      <Cursor />
       <ScrollReveal />
       <Navbar />
       <SectionBackBtn />

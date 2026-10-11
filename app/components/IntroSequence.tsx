@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 /**
  * IntroSequence — Shield SVG draws its outline, "KJ" fades in,
@@ -11,23 +11,28 @@ export default function IntroSequence() {
   const [visible, setVisible] = useState(false);
   const [fadingOut, setFadingOut] = useState(false);
 
-  useEffect(() => {
-    // Respect reduced motion
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
-    
-    // Always show intro on load
-    setVisible(true);
-    const t = setTimeout(() => dismiss(), 3000);
-    return () => clearTimeout(t);
-  }, []);
-
-  const dismiss = () => {
+  const dismiss = useCallback(() => {
     setFadingOut(true);
     sessionStorage.setItem("intro-done", "1");
-    setTimeout(() => setVisible(false), 800);
-  };
+    window.setTimeout(() => setVisible(false), 650);
+  }, []);
+
+  useEffect(() => {
+    if (
+      sessionStorage.getItem("intro-done") ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => setVisible(true));
+    const timer = window.setTimeout(dismiss, 2200);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      clearTimeout(timer);
+    };
+  }, [dismiss]);
 
   if (!visible) return null;
 
@@ -44,7 +49,7 @@ export default function IntroSequence() {
         fill="none"
         style={{
           animation: fadingOut
-            ? "shieldShrink 0.8s cubic-bezier(0.22,1,0.36,1) forwards"
+            ? "shieldShrink 0.65s cubic-bezier(0.22,1,0.36,1) forwards"
             : undefined,
         }}
       >

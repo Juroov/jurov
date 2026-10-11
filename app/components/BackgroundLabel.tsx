@@ -13,30 +13,43 @@ export default function BackgroundLabel({ text }: { text: string }) {
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    // Use IntersectionObserver instead of a scroll listener.
+    // We only update the parallax offset while the element is visible,
+    // throttled via a rAF flag so we write to the DOM at most once per frame.
+    let rafPending = false;
+    let isVisible = false;
+
     const onScroll = () => {
-      const parent = container.parentElement;
-      if (!parent) return;
-      
-      const rect = parent.getBoundingClientRect();
-      const vh = window.innerHeight;
-      
-      // Only animate if the section is in view
-      if (rect.top > vh || rect.bottom < 0) return;
-      
-      // Calculate scroll progress (0 when just entering bottom of screen, 1 when leaving top)
-      const progress = (vh - rect.top) / (vh + rect.height);
-      
-      // Parallax offset for the text: moves it slightly vertically based on scroll
-      const offset = (progress - 0.5) * 150;
-      
-      textEl.style.transform = `translate(-50%, calc(-50% + ${offset}px))`;
+      if (!isVisible || rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(() => {
+        rafPending = false;
+        const parent = container.parentElement;
+        if (!parent) return;
+        const rect = parent.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const progress = (vh - rect.top) / (vh + rect.height);
+        const offset = (progress - 0.5) * 150;
+        textEl.style.transform = `translate(-50%, calc(-50% + ${offset}px))`;
+      });
     };
 
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) onScroll(); // update immediately on enter
+      },
+      { threshold: 0, rootMargin: "100px 0px 100px 0px" }
+    );
+    obs.observe(container);
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    // Initial position
     onScroll();
 
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      obs.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   return (

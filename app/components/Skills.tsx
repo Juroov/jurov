@@ -1,6 +1,4 @@
-"use client";
-
-import { CodeIcon, PenToolIcon, GearIcon, BriefcaseIcon } from "./SvgIcons";
+import { CodeIcon, PenToolIcon, GearIcon, BotIcon } from "./SvgIcons";
 
 const categories = [
   {
@@ -12,46 +10,52 @@ const categories = [
       "Next.js",
       "TypeScript",
       "JavaScript",
-      "HTML / CSS",
+      "HTML5",
+      "CSS3",
       "Tailwind CSS",
       "Supabase",
     ],
   },
   {
     num: "02",
-    title: "UI/UX Design",
+    title: "UI/UX Design & Prototyping",
     icon: PenToolIcon,
     skills: [
       "Figma",
       "Wireframing",
-      "Prototyping",
-      "Responsive Design",
+      "User Interface Design",
+      "User Experience Design",
       "Design Systems",
+      "Responsive Design",
     ],
   },
   {
     num: "03",
-    title: "Tools & Version Control",
+    title: "Tools, Version Control & Practices",
     icon: GearIcon,
     skills: [
       "VS Code",
       "Git & GitHub",
       "AntiGravity",
       "Notion",
-      "Microsoft 365 & Canva",
+      "Agile / Scrum",
+      "SDLC",
+      "Technical Documentation",
     ],
   },
   {
     num: "04",
-    title: "Professional Skills",
-    icon: BriefcaseIcon,
+    title: "Embedded Systems & Hardware",
+    icon: BotIcon,
     skills: [
-      "Agile Development",
-      "SDLC",
-      "Technical Documentation",
-      "Business Proposal Dev",
-      "Project Coordination",
-      "Problem Solving",
+      "Arduino Uno / Nano",
+      "ESP32",
+      "C / C++",
+      "Microcontroller Interfacing",
+      "RFID (RC522)",
+      "Ultrasonic & Water Level Sensors",
+      "Circuit Prototyping",
+      "Serial Communication",
     ],
   },
 ];
@@ -110,22 +114,7 @@ function CategoryCard({ cat }: { cat: typeof categories[0] }) {
               background: "rgba(196,30,58,0.12)",
               border: "1px solid rgba(196,30,58,0.35)",
               color: "var(--accent-bright)",
-              // Micro-stagger on tag appearance (pure CSS delay via variable)
-              opacity: 0,
-              transform: "translateY(6px) scale(0.96)",
-              transition: `opacity 0.5s cubic-bezier(0.16,1,0.3,1) ${0.05 + si * 0.04}s, transform 0.5s cubic-bezier(0.16,1,0.3,1) ${0.05 + si * 0.04}s`,
-            }}
-            ref={(el) => {
-              if (!el) return;
-              // Small micro-observe: reveal tags when card becomes visible
-              const obs = new IntersectionObserver(([entry]) => {
-                if (entry.isIntersecting) {
-                  el.style.opacity = "1";
-                  el.style.transform = "translateY(0) scale(1)";
-                  obs.disconnect();
-                }
-              }, { threshold: 0.1 });
-              obs.observe(el);
+              transitionDelay: `${0.05 + si * 0.04}s`,
             }}
           >
             {skill}
@@ -176,7 +165,7 @@ export default function Skills() {
         </div>
 
         <div className="stagger-children grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-          {categories.map((cat, i) => (
+          {categories.map((cat) => (
             <CategoryCard key={cat.num} cat={cat} />
           ))}
         </div>

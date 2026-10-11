@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 
 const links = [
-  { href: "#projects", label: "Projects" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#projects", sectionId: "projects", label: "Projects" },
+  { href: "/#contact", sectionId: "contact", label: "Contact" },
 ];
 
 /* ── Wave text helper ── */
@@ -48,16 +49,24 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState("");
   const menuRef = useRef<HTMLDivElement>(null);
+  const scrollMarkerRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const marker = scrollMarkerRef.current;
+    if (!marker) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setScrolled(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(marker);
+
+    return () => observer.disconnect();
   }, []);
 
   // Active section detection via IntersectionObserver
   useEffect(() => {
-    const sectionIds = links.map((l) => l.href.slice(1));
+    const sectionIds = links.map((link) => link.sectionId);
     const observers: IntersectionObserver[] = [];
     sectionIds.forEach((id) => {
       const el = document.getElementById(id);
@@ -89,37 +98,31 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
-  const handleMobileLink = (href: string) => {
-    setMenuOpen(false);
-    setTimeout(() => {
-      const el = document.querySelector(href);
-      el?.scrollIntoView({ behavior: "smooth" });
-    }, 50);
-  };
-
   return (
     <>
+      <span
+        ref={scrollMarkerRef}
+        aria-hidden="true"
+        style={{ position: "absolute", top: 24, left: 0, width: 1, height: 1, pointerEvents: "none" }}
+      />
       <nav
         className="fixed top-0 left-0 right-0 z-50"
         style={{
           viewTransitionName: "site-header",
           background: scrolled
-            ? "color-mix(in srgb, var(--bg-card) 88%, transparent)"
+            ? "color-mix(in srgb, var(--bg-card) 96%, transparent)"
             : "transparent",
-          backdropFilter: scrolled ? "blur(22px) saturate(180%)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(22px) saturate(180%)" : "none",
           borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
           transition:
             "background 0.55s cubic-bezier(0.22,1,0.36,1), " +
-            "backdrop-filter 0.55s cubic-bezier(0.22,1,0.36,1), " +
             "border-color 0.55s cubic-bezier(0.22,1,0.36,1)",
         }}
       >
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
           <div className="flex items-center justify-between" style={{ height: "64px" }}>
             {/* Wordmark "Lorrenz." */}
-            <a
-              href="#"
+            <Link
+              href="/"
               className="nav-wordmark-wave"
               style={{
                 textDecoration: "none",
@@ -132,24 +135,24 @@ export default function Navbar() {
               }}
             >
               <WaveText text="Lorrenz." />
-            </a>
+            </Link>
 
             {/* Desktop nav */}
             <div className="hidden lg:flex items-center gap-8">
               {links.map((l) => (
-                <a
+                <Link
                   key={l.href}
                   href={l.href}
                   className="nav-link"
                   style={{
-                    color: active === l.href.slice(1)
+                    color: active === l.sectionId
                       ? "var(--text-primary)"
                       : undefined,
                     position: "relative",
                   }}
                 >
                   <WaveText text={l.label} />
-                  {active === l.href.slice(1) && (
+                  {active === l.sectionId && (
                     <span
                       aria-hidden="true"
                       style={{
@@ -163,7 +166,7 @@ export default function Navbar() {
                       }}
                     />
                   )}
-                </a>
+                </Link>
               ))}
             </div>
 
@@ -174,9 +177,9 @@ export default function Navbar() {
                   Open for Work
                 </span>
               </div>
-              <a href="#contact" className="btn-primary hidden sm:inline-flex" style={{ padding: "8px 18px", fontSize: 12 }}>
+              <Link href="/#contact" className="btn-primary hidden sm:inline-flex" style={{ padding: "8px 18px", fontSize: 12 }}>
                 Hire me
-              </a>
+              </Link>
               <button
                 id="menuBtn"
                 className="lg:hidden flex items-center justify-center transition-colors"
@@ -203,8 +206,6 @@ export default function Navbar() {
         className="fixed inset-0 z-[60] flex flex-col items-center justify-center"
         style={{
           background: "color-mix(in srgb, var(--bg) 96%, transparent)",
-          backdropFilter: "blur(28px) saturate(160%)",
-          WebkitBackdropFilter: "blur(28px) saturate(160%)",
           opacity: menuOpen ? 1 : 0,
           pointerEvents: menuOpen ? "auto" : "none",
           gap: 32,
@@ -229,9 +230,10 @@ export default function Navbar() {
           <IconClose />
         </button>
         {links.map((l, i) => (
-          <button
+          <Link
             key={l.href}
-            onClick={() => handleMobileLink(l.href)}
+            href={l.href}
+            onClick={() => setMenuOpen(false)}
             style={{
               fontSize: 28,
               fontWeight: 600,
@@ -249,6 +251,7 @@ export default function Navbar() {
               transitionDuration: menuOpen ? "0.55s" : "0.2s",
               transitionDelay: menuOpen ? `${i * 0.06 + 0.1}s` : "0s",
               transitionTimingFunction: "cubic-bezier(0.16,1,0.3,1)",
+              textDecoration: "none",
             }}
             onMouseOver={(e) =>
               ((e.target as HTMLButtonElement).style.color = "var(--accent)")
@@ -258,10 +261,10 @@ export default function Navbar() {
             }
           >
             {l.label}
-          </button>
+          </Link>
         ))}
-        <a
-          href="#contact"
+        <Link
+          href="/#contact"
           className="btn-primary"
           onClick={() => setMenuOpen(false)}
           style={{
@@ -271,7 +274,7 @@ export default function Navbar() {
           }}
         >
           Hire me
-        </a>
+        </Link>
       </div>
     </>
   );

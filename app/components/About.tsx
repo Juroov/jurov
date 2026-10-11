@@ -2,16 +2,16 @@
 
 export default function About() {
   const stats = [
-    { value: "2+", label: "Commissions done", sub: "Local & remote" },
-    { value: "1", label: "Internship", sub: "PRIME Philippines" },
-    { value: "2", label: "Live projects", sub: "Fully deployed" },
+    { value: "1", label: "Industry internship", sub: "PRIME Philippines" },
+    { value: "4", label: "Technical projects", sub: "Web and embedded systems" },
+    { value: "2027", label: "Expected graduation", sub: "BS Computer Engineering" },
   ];
 
   const facts = [
-    { icon: "📍", text: "Based in Bulacan, Philippines" },
-    { icon: "🎓", text: "BS Computer Engineering, Bulacan State University" },
-    { icon: "💼", text: "Interned at PRIME Philippines (ArgoNavis fleet system)" },
-    { icon: "🔧", text: "Freelance frontend dev & UI/UX designer" },
+    { icon: "01", text: "Based in San Jose del Monte, Bulacan, Philippines" },
+    { icon: "02", text: "Computer Engineering student at Bulacan State University" },
+    { icon: "03", text: "Frontend developer and UI/UX designer working with React, Next.js, and TypeScript" },
+    { icon: "04", text: "Builds responsive design systems, accessible interfaces, and full-stack web applications" },
   ];
 
   return (
@@ -58,7 +58,20 @@ export default function About() {
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-32">
           {/* Fact bullets */}
           <div className="reveal flex-1" style={{ maxWidth: "60ch" }}>
-            <div className="stagger-children" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <p
+              style={{
+                fontFamily: "var(--font-ui)",
+                fontSize: 18,
+                color: "var(--text-secondary)",
+                lineHeight: 1.75,
+                marginBottom: 32,
+              }}
+            >
+              I combine hands-on frontend engineering with UI/UX design and a
+              Computer Engineering foundation to create high-performance,
+              user-centered products.
+            </p>
+            <div className="stagger-children about-facts">
               {facts.map((f, i) => (
                 <div
                   key={i}
@@ -69,13 +82,25 @@ export default function About() {
                     gap: 14,
                   }}
                 >
-                  <span style={{ fontSize: 20, lineHeight: 1.4 }}>{f.icon}</span>
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      fontFamily: "var(--font-impact)",
+                      fontSize: 18,
+                      lineHeight: 1.5,
+                      color: "var(--accent)",
+                      minWidth: 24,
+                    }}
+                  >
+                    {f.icon}
+                  </span>
                   <p
                     style={{
                       fontFamily: "var(--font-ui)",
                       fontSize: 18,
                       color: "var(--text-secondary)",
-                      lineHeight: 1.5,
+                      lineHeight: 1.6,
+                      maxWidth: "52ch",
                     }}
                   >
                     {f.text}
@@ -86,16 +111,19 @@ export default function About() {
 
             {/* Education */}
             <div
-              className="reveal border-t border-[var(--border-strong)] pt-8 mt-10"
+              className="reveal about-education"
             >
               <p style={{ fontFamily: "var(--font-ui)", fontSize: 18, fontWeight: 500, color: "var(--text-primary)", marginBottom: 4 }}>
                 Bachelor of Science in Computer Engineering
               </p>
               <p style={{ fontFamily: "var(--font-ui)", fontSize: 16, color: "var(--text-secondary)", fontStyle: "italic" }}>
-                Bulacan State University · 2023 – Present
+                Bulacan State University · Expected 2027
               </p>
-              <p style={{ fontFamily: "var(--font-ui)", fontSize: 14, color: "var(--accent)", fontStyle: "italic", marginTop: 8 }}>
-                In Progress
+              <p style={{ fontFamily: "var(--font-ui)", fontSize: 14, color: "var(--accent)", fontStyle: "italic", lineHeight: 1.65, marginTop: 12 }}>
+                Coursework: Software Engineering, Web Development, Data Structures, and System Architecture
+              </p>
+              <p style={{ fontFamily: "var(--font-ui)", fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.65, marginTop: 14 }}>
+                Research: <em>Reyal or Fake?</em>, covering detection frameworks and technical risks of synthetic AI-generated video media.
               </p>
             </div>
           </div>
@@ -103,7 +131,7 @@ export default function About() {
           {/* Stats with Bebas Neue numerals */}
           <div className="reveal flex-1 flex flex-col gap-12">
             <div className="stagger-children grid grid-cols-2 gap-x-8 gap-y-12">
-              {stats.map((s, i) => (
+              {stats.map((s) => (
                 <div key={s.label} className="stagger-item">
                   <p className="impact-number" style={{ marginBottom: 8 }}>
                     {s.value}

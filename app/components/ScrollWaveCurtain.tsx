@@ -40,11 +40,11 @@ export default function ScrollWaveCurtain({
             }
             if (pathRef.current) {
               const anims = pathRef.current.querySelectorAll("animate");
-              anims.forEach(a => { try { (a as any).beginElement() } catch {} });
+              anims.forEach(a => { try { (a as SVGAnimateElement).beginElement() } catch {} });
             }
             if (accentPathRef.current) {
               const anims = accentPathRef.current.querySelectorAll("animate");
-              anims.forEach(a => { try { (a as any).beginElement() } catch {} });
+              anims.forEach(a => { try { (a as SVGAnimateElement).beginElement() } catch {} });
             }
             
             // Fade out the container after animation finishes so it doesn't block clicks just in case

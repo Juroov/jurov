@@ -4,7 +4,7 @@ import Experience from "../../components/Experience";
 export const metadata: Metadata = {
   title: "Experience — Lorrenz Amarille",
   description:
-    "Internship at PRIME Philippines, Microsoft Student Community partnership lead, and more.",
+    "Frontend and UI/UX internship experience, web and embedded systems projects, and technology community leadership.",
 };
 
 export default function ExperiencePage() {

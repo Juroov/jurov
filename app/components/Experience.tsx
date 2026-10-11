@@ -1,13 +1,10 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-
 type Role = {
   title: string;
   company: string;
   period: string;
-  outcome: string;
-  outcomeNumber: string;
+  location: string;
+  summary: string;
+  highlight: string;
 };
 
 const roles: Role[] = [
@@ -15,80 +12,68 @@ const roles: Role[] = [
     title: "UI/UX and Frontend Development Intern",
     company: "PRIME Philippines",
     period: "May 2026 — Jul 2026",
-    outcome: "Built design system for ArgoNavis fleet platform",
-    outcomeNumber: "1",
+    location: "Quezon City, Philippines",
+    summary:
+      "Engineered responsive Next.js and Tailwind CSS interfaces for the ArgoNavis fleet and mobility platform, alongside a documented modular design system with light and dark modes.",
+    highlight: "Next.js",
+  },
+  {
+    title: "Lead Frontend Developer & UI Designer",
+    company: "HakotLahat",
+    period: "Technical Project",
+    location: "Bulacan, Philippines",
+    summary:
+      "Engineered an end-to-end web platform for municipal waste collection logistics, status reporting, and tracking.",
+    highlight: "Web",
+  },
+  {
+    title: "Frontend Architect & UI/UX Designer",
+    company: "ArgoNavis Corporate Booking System",
+    period: "Technical Project",
+    location: "Quezon City, Philippines",
+    summary:
+      "Architected accessible booking workflows and standardized design tokens with modular UI components for consistent experiences across user roles.",
+    highlight: "UI/UX",
+  },
+  {
+    title: "Embedded Systems Developer",
+    company: "Smart RFID Parking Management System",
+    period: "Technical Project",
+    location: "Bulacan, Philippines",
+    summary:
+      "Engineered an automated parking management system using an ESP32 and RC522 RFID modules for contactless vehicle access.",
+    highlight: "ESP32",
+  },
+  {
+    title: "Hardware & Firmware Engineer",
+    company: "Arduino-Based Early Flood Detection System",
+    period: "Technical Project",
+    location: "Bulacan, Philippines",
+    summary:
+      "Built and calibrated real-time sensor logic for ultrasonic and water-level monitoring with dynamic OLED and buzzer alerts.",
+    highlight: "Arduino",
   },
   {
     title: "Partnership Lead — External",
     company: "Microsoft Student Community, BulSU",
-    period: "Jul 2025 — Apr 2026",
-    outcome: "Led external partnerships for 200+ members",
-    outcomeNumber: "200+",
+    period: "Aug 2025",
+    location: "Bulacan, Philippines",
+    summary:
+      "Led strategic industry partnerships and brand visibility initiatives for the Membership ID Program.",
+    highlight: "MSC",
   },
   {
     title: "Volunteer Coordinator",
     company: "DEVCON Manila",
     period: "Apr 2025",
-    outcome: "Coordinated 30+ volunteers across 2 conferences",
-    outcomeNumber: "30+",
-  },
-  {
-    title: "Game Agent",
-    company: "Yield Guild Games Philippines",
-    period: "2023 — 2024",
-    outcome: "Managed digital assets across 12-month engagement",
-    outcomeNumber: "12",
+    location: "Manila, Philippines",
+    summary:
+      "Supervised event logistics and coordinated technical volunteer operations for regional technology conference tracks.",
+    highlight: "DEVCON",
   },
 ];
 
 export default function Experience() {
-  const timelineRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!timelineRef.current) return;
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) return;
-
-    // SVG line draw on scroll
-    const svgLine = timelineRef.current.querySelector<SVGLineElement>(".timeline-svg-line");
-    const dots = timelineRef.current.querySelectorAll<SVGCircleElement>(".timeline-dot");
-
-    const lineObs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && svgLine) {
-          svgLine.classList.add("is-visible");
-          lineObs.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (timelineRef.current) lineObs.observe(timelineRef.current);
-
-    // Dot observers
-    const dotObservers: IntersectionObserver[] = [];
-    dots.forEach((dot) => {
-      const parentEntry = dot.closest("[data-timeline-entry]");
-      if (!parentEntry) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            dot.classList.add("is-visible");
-            obs.unobserve(entry.target);
-          }
-        },
-        { threshold: 0.5 }
-      );
-      obs.observe(parentEntry);
-      dotObservers.push(obs);
-    });
-
-    return () => {
-      lineObs.disconnect();
-      dotObservers.forEach((o) => o.disconnect());
-    };
-  }, []);
-
   return (
     <section
       id="experience"
@@ -120,16 +105,15 @@ export default function Experience() {
               textShadow: "var(--headline-glow)",
             }}
           >
-            Where I&apos;ve{" "}
+            What I&apos;ve built &{" "}
             <span className="headline-accent">
-              worked.
+              contributed to.
             </span>
           </h2>
         </div>
 
         {/* Timeline container */}
         <div
-          ref={timelineRef}
           style={{ position: "relative", paddingLeft: 48 }}
         >
           {/* SVG timeline line */}
@@ -160,7 +144,7 @@ export default function Experience() {
           >
             {roles.map((role, i) => (
               <div
-                key={i}
+                key={`${role.company}-${role.title}`}
                 data-timeline-entry
                 className="stagger-item"
                 style={{
@@ -213,7 +197,7 @@ export default function Experience() {
                         color: "var(--text-secondary)",
                       }}
                     >
-                      {role.company}
+                      {role.company} · {role.location}
                     </p>
                   </div>
                   <span
@@ -230,10 +214,10 @@ export default function Experience() {
                   </span>
                 </div>
 
-                {/* Outcome line with impact number */}
+                {/* Project or role summary with a concise technical highlight */}
                 <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginTop: 8 }}>
                   <span className="impact-number" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
-                    {role.outcomeNumber}
+                    {role.highlight}
                   </span>
                   <p
                     style={{
@@ -244,7 +228,7 @@ export default function Experience() {
                       maxWidth: "50ch",
                     }}
                   >
-                    {role.outcome}
+                    {role.summary}
                   </p>
                 </div>
               </div>

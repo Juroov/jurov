@@ -76,9 +76,9 @@
   padding: 0;
 }
 
-/* Disable native smooth-scroll so Lenis controls everything */
 html {
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
 body {
@@ -652,6 +652,19 @@ body {
   transform: translateY(0) scale(1);
   clip-path: ellipse(150% 150% at 50% 100%);
   filter: blur(0px);
+}
+
+.skill-tag {
+  opacity: 0;
+  transform: translateY(6px) scale(0.96);
+  transition:
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stagger-item.is-visible .skill-tag {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 /* Clip-path headline wipe — sleek wave sweep */
@@ -1659,6 +1672,11 @@ body {
   opacity: 1;
 }
 
+.stagger-item.is-visible .timeline-dot {
+  transform: scale(1);
+  opacity: 1;
+}
+
 /* ─── REDUCED MOTION ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .reveal {
@@ -1693,6 +1711,12 @@ body {
     transform: none !important;
     transition: none !important;
     filter: none !important;
+  }
+
+  .skill-tag {
+    opacity: 1;
+    transform: none !important;
+    transition: none !important;
   }
 
   .row-reveal.is-visible,
@@ -2181,5 +2205,222 @@ body {
 
   .pg-tab {
     padding: 14px 16px;
+  }
+}
+
+/* ─── ABOUT + CONTACT LAYOUT ────────────────────────────────── */
+.about-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.about-education {
+  max-width: 60ch;
+  margin-top: clamp(44px, 6vw, 64px);
+  padding-top: 28px;
+  border-top: 1px solid var(--border-strong);
+}
+
+.contact-section {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(80px, 8vw, 112px) 6% clamp(96px, 10vw, 136px);
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+}
+
+.contact-shell {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(56px, 8vw, 112px);
+  align-items: start;
+}
+
+.contact-copy {
+  max-width: 560px;
+}
+
+.contact-copy h2 {
+  margin-bottom: 24px;
+}
+
+.contact-intro {
+  max-width: 42ch;
+  margin-bottom: 40px;
+  color: var(--text-secondary);
+  font-family: var(--font-ui);
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.7;
+}
+
+.contact-socials {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.contact-social-link {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.contact-signature {
+  width: fit-content;
+  margin-bottom: 32px;
+  opacity: 0.45;
+}
+
+.contact-form-column {
+  width: 100%;
+  max-width: 720px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.contact-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.contact-label {
+  display: block;
+  color: var(--text-secondary);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-style: italic;
+}
+
+.contact-field {
+  width: 100%;
+  padding: 14px 0;
+  border: 0;
+  border-bottom: 1px solid var(--border-strong);
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 17px;
+  transition: border-color 160ms ease;
+}
+
+.contact-field:focus {
+  border-color: var(--accent-bright);
+}
+
+.contact-field::placeholder {
+  color: var(--text-faint);
+}
+
+.contact-select {
+  cursor: pointer;
+  color-scheme: dark;
+}
+
+.contact-select option {
+  background: var(--bg-card-2);
+  color: var(--text-primary);
+}
+
+.contact-textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.contact-submit {
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+/* Keep the reveal language while avoiding costly blur and clip-path work. */
+.reveal,
+.reveal.visible,
+.stagger-item,
+.stagger-item.is-visible {
+  filter: none;
+}
+
+.stagger-item,
+.stagger-item.is-visible {
+  clip-path: none;
+}
+
+.reveal.visible,
+.stagger-item.is-visible {
+  will-change: auto;
+}
+
+.cursor-dot,
+.cursor-ring {
+  top: 0;
+  left: 0;
+}
+
+.cursor-dot {
+  will-change: translate, transform;
+}
+
+.cursor-ring {
+  will-change: translate;
+}
+
+.btn-brand {
+  will-change: auto;
+}
+
+@media (min-width: 1024px) {
+  .contact-grid {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  }
+
+  .contact-form-column {
+    padding-top: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .about-facts {
+    gap: 18px;
+  }
+
+  .about-education {
+    margin-top: 40px;
+    padding-top: 24px;
+  }
+
+  .contact-form-row {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .contact-submit {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }

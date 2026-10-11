@@ -25,8 +25,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       ? "dark"
       : "light";
     const initial = stored ?? system;
-    setTheme(initial);
-    document.documentElement.setAttribute("data-theme", initial);
+    const frame = requestAnimationFrame(() => {
+      setTheme(initial);
+      document.documentElement.setAttribute("data-theme", initial);
+    });
+
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   const toggle = () => {

@@ -5,10 +5,7 @@ import { useEffect, useRef } from "react";
 /**
  * Cursor — magnetic spring cursor with crimson hover state.
  *
- * Technique: Pure DOM manipulation in a single rAF loop.
- * - dot:  snaps directly to mouse position (no lag)
- * - ring: follows with spring lerp (stiffness ~0.14) for the magnetic feel
- * - On hover: ring scales up and fills with crimson glow via CSS class
+ * The animation frame loop only exists while the ring is moving.
  *
  * Zero useState → zero React re-renders on pointer move.
  */
@@ -20,40 +17,39 @@ export default function Cursor() {
     const dot  = dotRef.current;
     const ring = ringRef.current;
     if (!dot || !ring) return;
+    if (window.matchMedia("(pointer: coarse)").matches) return;
 
     // Spring state for ring
     let mx = -100, my = -100; // mouse position
     let rx = -100, ry = -100; // ring position (lerped)
-    let isDirty = false;
-    let raf: number;
+    let raf = 0;
 
-    const LERP = 0.14; // spring stiffness — lower = more lag/spring feel
+    const LERP = 0.14; // spring stiffness
+    const DEAD_ZONE = 0.3; // px — below this, stop updating
 
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
       my = e.clientY;
-      isDirty = true;
 
-      // Dot snaps immediately (no lerp)
-      dot.style.left = `${mx - 3.5}px`;
-      dot.style.top  = `${my - 3.5}px`;
+      dot.style.translate = `${mx - 3.5}px ${my - 3.5}px`;
+      if (!raf) raf = requestAnimationFrame(tick);
     };
 
     const tick = () => {
-      raf = requestAnimationFrame(tick);
-      if (!isDirty) return;
+      const dx = mx - 16 - rx;
+      const dy = my - 16 - ry;
+      rx += dx * LERP;
+      ry += dy * LERP;
 
-      // Lerp ring toward mouse
-      rx += (mx - 16 - rx) * LERP;
-      ry += (my - 16 - ry) * LERP;
+      ring.style.translate = `${rx}px ${ry}px`;
 
-      // Only write DOM if ring has moved meaningfully
-      ring.style.left = `${rx}px`;
-      ring.style.top  = `${ry}px`;
-
-      if (Math.abs(mx - 16 - rx) < 0.05 && Math.abs(my - 16 - ry) < 0.05) {
-        isDirty = false;
+      if (Math.abs(dx) < DEAD_ZONE && Math.abs(dy) < DEAD_ZONE) {
+        ring.style.translate = `${mx - 16}px ${my - 16}px`;
+        raf = 0;
+        return;
       }
+
+      raf = requestAnimationFrame(tick);
     };
 
     const addHover = () => {
@@ -65,7 +61,6 @@ export default function Cursor() {
       ring.classList.remove("hovering");
     };
 
-    raf = requestAnimationFrame(tick);
     window.addEventListener("mousemove", onMove, { passive: true });
 
     // Attach hover to all interactive elements — use event delegation
@@ -82,7 +77,7 @@ export default function Cursor() {
     document.addEventListener("mouseout",   onLeave, { passive: true });
 
     return () => {
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseover",  onEnter);
       document.removeEventListener("mouseout",   onLeave);

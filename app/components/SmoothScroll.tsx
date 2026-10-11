@@ -5,26 +5,33 @@ import Lenis from "lenis";
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
+    const useNativeScroll =
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      window.matchMedia("(pointer: coarse)").matches;
+
+    if (useNativeScroll) return;
+
     const lenis = new Lenis({
-      // Slower, silkier scroll — lower lerp = more inertia / premium feel
-      lerp: 0.045, // Decreased for a longer, smoother deceleration tail
+      autoRaf: true,
+      anchors: true,
+      lerp: 0.1,
       smoothWheel: true,
-      wheelMultiplier: 0.65, // Decreased for a slower, heavier scrolling feel
-      touchMultiplier: 1.4,
+      wheelMultiplier: 0.9,
+      syncTouch: false,
       infinite: false,
     });
 
-    let rafId: number;
-
-    function raf(time: number) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-
-    rafId = requestAnimationFrame(raf);
+    const handleVisibility = () => {
+      if (document.hidden) {
+        lenis.stop();
+      } else {
+        lenis.start();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      document.removeEventListener("visibilitychange", handleVisibility);
       lenis.destroy();
     };
   }, []);
