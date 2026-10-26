@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Montserrat, Bebas_Neue } from "next/font/google";
 import "./globals.css";
-import SmoothScroll from "./components/SmoothScroll";
-import { WaveNavigatorProvider } from "./components/WaveNavigator";
-import IntroSequence from "./components/IntroSequence";
+import "./redesign.css";
+import MotionPreferences from "./components/MotionPreferences";
 
 const playfair = Playfair_Display({
   variable: "--font-display",
@@ -45,15 +44,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-scroll-behavior="smooth"
       className={`${playfair.variable} ${montserrat.variable} ${bebasNeue.variable}`}
       data-theme="dark"
+      data-scroll-behavior="smooth"
     >
       <body>
-        <IntroSequence />
-        <WaveNavigatorProvider>
-          <SmoothScroll>{children}</SmoothScroll>
-        </WaveNavigatorProvider>
+        <a className="bits-skip-link" href="#main-content">Skip to content</a>
+        <MotionPreferences>{children}</MotionPreferences>
       </body>
     </html>
   );

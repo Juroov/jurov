@@ -1,174 +1,49 @@
-import { CodeIcon, PenToolIcon, GearIcon, BotIcon } from "./SvgIcons";
+"use client";
+
+import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import SpotlightCard from "./react-bits/SpotlightCard";
+import SectionHeading from "./SectionHeading";
 
 const categories = [
-  {
-    num: "01",
-    title: "Web & Frontend Development",
-    icon: CodeIcon,
-    skills: [
-      "React",
-      "Next.js",
-      "TypeScript",
-      "JavaScript",
-      "HTML5",
-      "CSS3",
-      "Tailwind CSS",
-      "Supabase",
-    ],
-  },
-  {
-    num: "02",
-    title: "UI/UX Design & Prototyping",
-    icon: PenToolIcon,
-    skills: [
-      "Figma",
-      "Wireframing",
-      "User Interface Design",
-      "User Experience Design",
-      "Design Systems",
-      "Responsive Design",
-    ],
-  },
-  {
-    num: "03",
-    title: "Tools, Version Control & Practices",
-    icon: GearIcon,
-    skills: [
-      "VS Code",
-      "Git & GitHub",
-      "AntiGravity",
-      "Notion",
-      "Agile / Scrum",
-      "SDLC",
-      "Technical Documentation",
-    ],
-  },
-  {
-    num: "04",
-    title: "Embedded Systems & Hardware",
-    icon: BotIcon,
-    skills: [
-      "Arduino Uno / Nano",
-      "ESP32",
-      "C / C++",
-      "Microcontroller Interfacing",
-      "RFID (RC522)",
-      "Ultrasonic & Water Level Sensors",
-      "Circuit Prototyping",
-      "Serial Communication",
-    ],
-  },
+  { id:"development", label:"Development", title:"Frontend & app development", symbol:"</>", description:"From reusable components to the complete product.", context:"In practice: FitPlay, HakotLahat, and client websites.", skills:["React","Next.js","TypeScript","JavaScript","HTML & CSS","Tailwind CSS","Flutter","Supabase","Firebase"] },
+  { id:"design", label:"Design", title:"UI/UX & prototyping", symbol:"✳", description:"Making the next step feel obvious.", context:"In practice: web and mobile interfaces, from wireframes to finished screens.", skills:["Figma","Wireframing","User interface design","User experience design","Design systems","Responsive design"] },
+  { id:"tools", label:"Tools", title:"Tools & collaboration", symbol:"⌘", description:"Keeping the work organized and easy to build on.", context:"In practice: version control, documented handoffs, and design-to-deployment workflows.", skills:["Git & GitHub","VS Code","Notion","Agile / Scrum","SDLC","Technical documentation"] },
+  { id:"hardware", label:"Hardware", title:"Hardware & embedded systems", symbol:"⌁", description:"Bringing code into the physical world.", context:"In practice: RFID parking access and early flood detection systems.", skills:["Arduino Uno / Nano","ESP32","C / C++","Microcontroller interfacing","RFID (RC522)","Sensors","Circuit prototyping","Serial communication"] },
 ];
 
-function CategoryCard({ cat }: { cat: typeof categories[0] }) {
-  const Icon = cat.icon;
-
-  return (
-    <div className="stagger-item">
-      {/* Ghost watermark numeral */}
-      <div
-        style={{
-          fontFamily: "var(--font-impact), 'Bebas Neue', sans-serif",
-          fontSize: 80,
-          color: "var(--watermark)",
-          lineHeight: 1,
-          marginBottom: 16,
-          userSelect: "none",
-          letterSpacing: "0.04em",
-        }}
-        aria-hidden="true"
-      >
-        {cat.num}
-      </div>
-      
-      {/* Icon + Title row */}
-      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
-        <div className="icon-box">
-          <Icon />
-        </div>
-        <h3
-          style={{
-            fontFamily: "var(--font-ui)",
-            fontSize: 24,
-            fontWeight: 600,
-            color: "var(--text-primary)",
-          }}
-        >
-          {cat.title}
-        </h3>
-      </div>
-
-      {/* Skill tags */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-        {cat.skills.map((skill, si) => (
-          <span
-            key={skill}
-            className="skill-tag"
-            style={{
-              fontFamily: "var(--font-ui)",
-              fontSize: "13px",
-              fontWeight: 500,
-              letterSpacing: ".02em",
-              padding: "8px 16px",
-              borderRadius: "100px",
-              background: "rgba(196,30,58,0.12)",
-              border: "1px solid rgba(196,30,58,0.35)",
-              color: "var(--accent-bright)",
-              transitionDelay: `${0.05 + si * 0.04}s`,
-            }}
-          >
-            {skill}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export default function Skills() {
+  const [selected, setSelected] = useState("all");
+  const reduced = useReducedMotion();
+  const visible = selected === "all" ? categories : categories.filter(category => category.id === selected);
   return (
-    <section
-      id="skills"
-      style={{
-        padding: "120px 6%",
-        background: "var(--bg)",
-        borderTop: "1px solid var(--border)",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      {/* Ghost watermark */}
-      <div className="ghost-word" aria-hidden="true">
-        SKILLS
-      </div>
-
-      <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto", position: "relative", zIndex: 1 }}>
-        
-        <div className="section-reveal reveal" style={{ marginBottom: 80 }}>
-          <h2
-            className="clip-wipe"
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(3rem, 7vw, 5rem)",
-              fontWeight: 900,
-              fontStyle: "italic",
-              letterSpacing: "-0.02em",
-              color: "var(--text-primary)",
-              textShadow: "var(--headline-glow)",
-            }}
-          >
-            What I bring to the{" "}
-            <span className="headline-accent">
-              table.
-            </span>
-          </h2>
+    <section className="bits-profile-section" aria-labelledby="skills-title">
+      <div className="bits-shell">
+        <SectionHeading label="My toolkit" title="Different tools. One thoughtful experience." id="skills-title" level={1}
+          description="A mix of frontend engineering, visual design, and Computer Engineering. Choose an area to see the tools and where I put them to work." />
+        <div className="bits-filter-bar" role="group" aria-label="Filter skills">
+          {[{id:"all",label:"All areas"},...categories].map(category => <button key={category.id} type="button" aria-pressed={selected === category.id}
+            aria-controls="skills-grid" onClick={() => setSelected(category.id)}>{category.label}
+            {selected === category.id && <motion.span layoutId="skills-filter" className="bits-filter-active" transition={{duration:reduced?0:0.25}} />}
+          </button>)}
         </div>
-
-        <div className="stagger-children grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-          {categories.map((cat) => (
-            <CategoryCard key={cat.num} cat={cat} />
-          ))}
-        </div>
+        <motion.div layout id="skills-grid" className="bits-skills-grid" data-focused={selected !== "all"} transition={{duration:reduced?0:0.3}}>
+          <AnimatePresence mode="popLayout" initial={false}>
+            {visible.map(category => <motion.div layout key={category.id}
+              initial={reduced ? false : {opacity:0,y:16}} animate={{opacity:1,y:0}} exit={{opacity:0,y:8}}
+              transition={{duration:reduced?0:0.25}}>
+              <SpotlightCard className="bits-skill-card" spotlightColor="#C41E3A" proximity={0} intensity={0.18} flare={false}>
+                <div className="bits-skill-intro"><span className="bits-service-icon" aria-hidden="true">{category.symbol}</span>
+                  <h3>{category.title}</h3><p>{category.description}</p>
+                </div>
+                <div className="bits-skill-details"><ul>{category.skills.map(skill => <li key={skill}>{skill}</li>)}</ul>
+                  <p className="bits-skill-context">{category.context}</p>
+                </div>
+              </SpotlightCard>
+            </motion.div>)}
+          </AnimatePresence>
+        </motion.div>
+        <p className="bits-filter-summary" aria-live="polite">{selected === "all" ? "Explore all four areas, or select one above for a closer look." : `Showing ${visible[0].title.toLowerCase()}.`}</p>
       </div>
     </section>
   );

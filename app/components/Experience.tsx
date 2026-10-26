@@ -1,226 +1,50 @@
-type Role = {
-  title: string;
-  company: string;
-  period: string;
-  location: string;
-  summary: string;
-  highlight: string;
-};
+"use client";
 
-const roles: Role[] = [
-  {
-    title: "UI/UX and Frontend Development Intern",
-    company: "PRIME Philippines",
-    period: "May 2026 — Jul 2026",
-    location: "Quezon City, Philippines",
-    summary:
-      "Engineered responsive Next.js and Tailwind CSS interfaces for the ArgoNavis fleet and mobility platform, alongside a documented modular design system with light and dark modes.",
-    highlight: "Next.js",
-  },
-  {
-    title: "Lead Frontend Developer & UI Designer",
-    company: "HakotLahat",
-    period: "Technical Project",
-    location: "Bulacan, Philippines",
-    summary:
-      "Engineered an end-to-end web platform for municipal waste collection logistics, status reporting, and tracking.",
-    highlight: "Web",
-  },
-  {
-    title: "Frontend Architect & UI/UX Designer",
-    company: "ArgoNavis Corporate Booking System",
-    period: "Technical Project",
-    location: "Quezon City, Philippines",
-    summary:
-      "Architected accessible booking workflows and standardized design tokens with modular UI components for consistent experiences across user roles.",
-    highlight: "UI/UX",
-  },
-  {
-    title: "Embedded Systems Developer",
-    company: "Smart RFID Parking Management System",
-    period: "Technical Project",
-    location: "Bulacan, Philippines",
-    summary:
-      "Engineered an automated parking management system using an ESP32 and RC522 RFID modules for contactless vehicle access.",
-    highlight: "ESP32",
-  },
-  {
-    title: "Hardware & Firmware Engineer",
-    company: "Arduino-Based Early Flood Detection System",
-    period: "Technical Project",
-    location: "Bulacan, Philippines",
-    summary:
-      "Built and calibrated real-time sensor logic for ultrasonic and water-level monitoring with dynamic OLED and buzzer alerts.",
-    highlight: "Arduino",
-  },
-  {
-    title: "Partnership Lead — External",
-    company: "Microsoft Student Community, BulSU",
-    period: "Aug 2025",
-    location: "Bulacan, Philippines",
-    summary:
-      "Led strategic industry partnerships and brand visibility initiatives for the Membership ID Program.",
-    highlight: "MSC",
-  },
-  {
-    title: "Volunteer Coordinator",
-    company: "DEVCON Manila",
-    period: "Apr 2025",
-    location: "Manila, Philippines",
-    summary:
-      "Supervised event logistics and coordinated technical volunteer operations for regional technology conference tracks.",
-    highlight: "DEVCON",
-  },
+import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import SectionHeading from "./SectionHeading";
+
+const roles = [
+  { group:"community", company:"Microsoft Student Community, BulSU", title:"Director for Media", period:"Aug – Present", type:"Community leadership", summary:"Lead the creation and ongoing development of the MSC website. Guide the media team in producing and organizing visual content, coordinate creative responsibilities, and collaborate with fellow core members on community plans and initiatives.", tags:["Website development","Media team leadership","Core member"] },
+  { group:"industry", company:"PRIME Philippines", title:"UI/UX and Frontend Development Intern", period:"May – Jul 2026", type:"Industry internship", summary:"Built responsive Next.js and Tailwind CSS interfaces for the ArgoNavis fleet and mobility platform, alongside a modular design system with light and dark modes.", tags:["Next.js","Tailwind CSS","Design systems"] },
+  { group:"projects", company:"HakotLahat", title:"Lead Frontend Developer & UI Designer", period:"Technical project", type:"Web application", summary:"Designed and built a platform for municipal waste collection logistics, status reporting, and tracking.", tags:["Frontend architecture","UI design","Full-stack web"] },
+  { group:"projects", company:"ArgoNavis Corporate Booking System", title:"Frontend Architect & UI/UX Designer", period:"Technical project", type:"Web application", summary:"Created accessible booking workflows and standardized design tokens with modular components for consistent experiences across user roles.", tags:["Accessibility","Booking workflows","Design tokens"] },
+  { group:"projects", company:"Smart RFID Parking Management System", title:"Embedded Systems Developer", period:"Technical project", type:"Embedded systems", summary:"Built automated contactless vehicle access using an ESP32 and RC522 RFID modules.", tags:["ESP32","RFID","C / C++"] },
+  { group:"projects", company:"Early Flood Detection System", title:"Hardware & Firmware Engineer", period:"Technical project", type:"Embedded systems", summary:"Built and calibrated ultrasonic and water-level sensor logic, with OLED displays and buzzer alerts.", tags:["Arduino","Sensors","Firmware"] },
+  { group:"community", company:"Microsoft Student Community, BulSU", title:"Partnership Lead — External", period:"Aug 2025", type:"Community", summary:"Led industry partnerships and brand visibility initiatives for the Membership ID Program.", tags:["Partnerships","Community"] },
+  { group:"community", company:"DEVCON Manila", title:"Volunteer Coordinator", period:"Apr 2025", type:"Community", summary:"Coordinated event logistics and technical volunteer operations for regional technology conference tracks.", tags:["Coordination","Events"] },
 ];
+const filters = [{id:"all",label:"All experience"},{id:"industry",label:"Industry"},{id:"projects",label:"Projects"},{id:"community",label:"Community"}];
 
 export default function Experience() {
+  const [selected, setSelected] = useState("all");
+  const reduced = useReducedMotion();
+  const visible = selected === "all" ? roles : roles.filter(role => role.group === selected);
   return (
-    <section
-      id="experience"
-      style={{
-        padding: "120px 6%",
-        background: "var(--bg)",
-        borderTop: "1px solid var(--border)",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      {/* Ghost watermark */}
-      <div className="ghost-word" aria-hidden="true">
-        EXPERIENCE
-      </div>
-
-      <div style={{ maxWidth: 1400, width: "100%", margin: "0 auto", position: "relative", zIndex: 1 }}>
-
-        <div className="section-reveal" style={{ marginBottom: 64 }}>
-          <h2
-            className="clip-wipe"
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(3rem, 7vw, 5rem)",
-              fontWeight: 900,
-              fontStyle: "italic",
-              letterSpacing: "-0.02em",
-              color: "var(--text-primary)",
-              textShadow: "var(--headline-glow)",
-            }}
-          >
-            What I&apos;ve built &{" "}
-            <span className="headline-accent">
-              contributed to.
-            </span>
-          </h2>
+    <section className="bits-profile-section" aria-labelledby="experience-title">
+      <div className="bits-shell">
+        <SectionHeading label="The work behind the work" title="Learning by building. Growing by doing." id="experience-title" level={1}
+          description="Industry experience, practical projects, and community work that have shaped how I design and develop." />
+        <div className="bits-experience-facts"><span><strong>{roles.filter(role => role.group === "industry").length}</strong> industry internship</span><span><strong>{roles.filter(role => role.group === "projects").length}</strong> technical projects</span><span><strong>{roles.filter(role => role.group === "community").length}</strong> community roles</span></div>
+        <div className="bits-filter-bar" role="group" aria-label="Filter experience">
+          {filters.map(filter => <button key={filter.id} type="button" aria-pressed={selected === filter.id}
+            aria-controls="experience-list" onClick={() => setSelected(filter.id)}>{filter.label}<small>{filter.id === "all" ? roles.length : roles.filter(role => role.group === filter.id).length}</small>
+            {selected === filter.id && <motion.span layoutId="experience-filter" className="bits-filter-active" transition={{duration:reduced?0:0.25}} />}
+          </button>)}
         </div>
-
-        {/* Timeline container */}
-        <div
-          style={{ position: "relative", paddingLeft: 48 }}
-        >
-          <div
-            className="stagger-children"
-            style={{ display: "flex", flexDirection: "column", gap: 0 }}
-          >
-            {roles.map((role, i) => (
-              <div
-                key={`${role.company}-${role.title}`}
-                data-timeline-entry
-                className="stagger-item"
-                style={{
-                  position: "relative",
-                  paddingBottom: i < roles.length - 1 ? 64 : 0,
-                }}
-              >
-                {i < roles.length - 1 && (
-                  <span
-                    className="timeline-segment"
-                    style={{ transitionDelay: `${i * 0.08}s` }}
-                    aria-hidden="true"
-                  />
-                )}
-
-                {/* SVG dot */}
-                <svg
-                  style={{
-                    position: "absolute",
-                    left: -41,
-                    top: 6,
-                    width: 14,
-                    height: 14,
-                    overflow: "visible",
-                  }}
-                  aria-hidden="true"
-                >
-                  <circle
-                    className="timeline-dot"
-                    cx="7" cy="7" r="6"
-                    fill="var(--accent)"
-                    style={{
-                      transitionDelay: `${0.3 + i * 0.2}s`,
-                      filter: "drop-shadow(0 0 6px var(--accent-glow))",
-                    }}
-                  />
-                </svg>
-
-                {/* Role content */}
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4" style={{ marginBottom: 12 }}>
-                  <div>
-                    <h3
-                      style={{
-                        fontFamily: "var(--font-ui)",
-                        fontSize: 22,
-                        fontWeight: 600,
-                        color: "var(--text-primary)",
-                        marginBottom: 4,
-                      }}
-                    >
-                      {role.title}
-                    </h3>
-                    <p
-                      style={{
-                        fontFamily: "var(--font-ui)",
-                        fontSize: 16,
-                        fontStyle: "italic",
-                        color: "var(--text-secondary)",
-                      }}
-                    >
-                      {role.company} · {role.location}
-                    </p>
-                  </div>
-                  <span
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: 14,
-                      fontStyle: "italic",
-                      fontWeight: 700,
-                      color: "var(--accent)",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {role.period}
-                  </span>
-                </div>
-
-                {/* Project or role summary with a concise technical highlight */}
-                <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginTop: 8 }}>
-                  <span className="impact-number" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
-                    {role.highlight}
-                  </span>
-                  <p
-                    style={{
-                      fontFamily: "var(--font-ui)",
-                      fontSize: 16,
-                      color: "var(--text-secondary)",
-                      lineHeight: 1.5,
-                      maxWidth: "50ch",
-                    }}
-                  >
-                    {role.summary}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div id="experience-list" className="bits-experience-list">
+          <AnimatePresence mode="popLayout" initial={false}>
+            {visible.map(role => <motion.article layout key={`${role.company}-${role.title}`} className="bits-experience-card"
+              initial={reduced ? false : {opacity:0,y:15}} animate={{opacity:1,y:0}} exit={{opacity:0,y:8}}
+              transition={{duration:reduced?0:0.25}}>
+              <div className="bits-experience-period"><span>{role.type}</span><strong>{role.period}</strong></div>
+              <div className="bits-experience-content"><h3>{role.company}</h3><h4>{role.title}</h4><p>{role.summary}</p>
+                <div className="bits-experience-tags">{role.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
+              </div><span className="bits-experience-mark" aria-hidden="true">↗</span>
+            </motion.article>)}
+          </AnimatePresence>
         </div>
+        <p className="bits-filter-summary" aria-live="polite">{visible.length} {visible.length === 1 ? "role" : "roles"} shown.</p>
       </div>
     </section>
   );
