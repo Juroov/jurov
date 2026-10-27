@@ -6,10 +6,10 @@ import SpotlightCard from "./react-bits/SpotlightCard";
 import SectionHeading from "./SectionHeading";
 
 const categories = [
-  { id: "development", label: "Development", title: "Frontend & app development", symbol: "</>", description: "From reusable components to the complete product.", context: "In practice: FitPlay, HakotLahat, and client websites.", skills: ["React", "Next.js", "TypeScript", "JavaScript", "HTML & CSS", "Tailwind CSS", "Flutter", "Supabase", "Firebase", "App Development", "Web Development"] },
-  { id: "design", label: "Design", title: "UI/UX & prototyping", symbol: "✳", description: "Making the next step feel obvious.", context: "In practice: web and mobile interfaces, from wireframes to finished screens.", skills: ["Figma", "Wireframing", "User interface design", "User experience design", "Design systems", "Responsive design"] },
-  { id: "tools", label: "Tools", title: "Tools & collaboration", symbol: "⌘", description: "Keeping the work organized and easy to build on.", context: "In practice: version control, documented handoffs, and design-to-deployment workflows.", skills: ["Git & GitHub", "VS Code", "Notion", "Agile / Scrum", "SDLC", "Technical documentation"] },
-  { id: "hardware", label: "Hardware", title: "Hardware & embedded systems", symbol: "⌁", description: "Bringing code into the physical world.", context: "In practice: RFID parking access and early flood detection systems.", skills: ["Arduino Uno / Nano", "ESP32", "C / C++", "Microcontroller interfacing", "RFID (RC522)", "Sensors", "Circuit prototyping", "Serial communication"] },
+  { id: "development", label: "Development", title: "Frontend & app development", symbol: "</>", description: "Components to complete products.", context: "FitPlay, HakotLahat, and client websites.", skills: ["React", "Next.js", "TypeScript", "JavaScript", "HTML & CSS", "Tailwind CSS", "Flutter", "Supabase", "Firebase", "App Development", "Web Development"] },
+  { id: "design", label: "Design", title: "UI/UX & prototyping", symbol: "✳", description: "Clear, intuitive interfaces.", context: "Web and mobile, from wireframes to screens.", skills: ["Figma", "Wireframing", "User interface design", "User experience design", "Design systems", "Responsive design"] },
+  { id: "tools", label: "Tools", title: "Tools & collaboration", symbol: "⌘", description: "Organized, collaborative workflows.", context: "Version control, handoffs, and deployment.", skills: ["Git & GitHub", "VS Code", "Notion", "Agile / Scrum", "SDLC", "Technical documentation"] },
+  { id: "hardware", label: "Hardware", title: "Hardware & embedded systems", symbol: "⌁", description: "Code meets hardware.", context: "RFID parking and flood detection systems.", skills: ["Arduino Uno / Nano", "ESP32", "C / C++", "Microcontroller interfacing", "RFID (RC522)", "Sensors", "Circuit prototyping", "Serial communication"] },
 ];
 
 export default function Skills() {
@@ -19,8 +19,8 @@ export default function Skills() {
   return (
     <section className="bits-profile-section" aria-labelledby="skills-title">
       <div className="bits-shell">
-        <SectionHeading label="My toolkit" title="Different tools. One thoughtful experience." id="skills-title" level={1}
-          description="A mix of frontend engineering, visual design, and Computer Engineering. Choose an area to see the tools and where I put them to work." />
+        <SectionHeading label="My toolkit" title="The tools behind my work." id="skills-title" level={1}
+          description="Development, design, and embedded systems." />
         <div className="bits-filter-bar" role="group" aria-label="Filter skills">
           {[{ id: "all", label: "All areas" }, ...categories].map(category => <button key={category.id} type="button" aria-pressed={selected === category.id}
             aria-controls="skills-grid" onClick={() => setSelected(category.id)}>{category.label}
@@ -43,7 +43,7 @@ export default function Skills() {
             </motion.div>)}
           </AnimatePresence>
         </motion.div>
-        <p className="bits-filter-summary" aria-live="polite">{selected === "all" ? "Explore all four areas, or select one above for a closer look." : `Showing ${visible[0].title.toLowerCase()}.`}</p>
+        <p className="bits-filter-summary" aria-live="polite">{selected === "all" ? "4 areas" : `Showing ${visible[0].title.toLowerCase()}.`}</p>
       </div>
     </section>
   );

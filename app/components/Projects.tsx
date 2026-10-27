@@ -7,7 +7,7 @@ export default function Projects() {
     <section id="projects" className="work-section" aria-labelledby="work-heading">
       <div className="work-shell">
         <SectionHeading label="Selected work" title="Ideas, brought to life." id="work-heading"
-          description="Useful apps. Thoughtful websites. Select a project and take a closer look." />
+          description="Select a project to explore." />
 
         <AnimatedContent>
         <ProjectSelector />
@@ -16,10 +16,9 @@ export default function Projects() {
         <div className="work-more">
           <div>
             <p className="work-project-type">Automation · Python</p>
-            <h3>Web automation and data scraping</h3>
+            <h3>Web automation</h3>
             <p>
-              A Selenium workflow that turns property data from spreadsheets
-              into WordPress staging listings.
+              Selenium turns spreadsheet data into WordPress property listings.
             </p>
           </div>
           <div>
@@ -34,8 +33,7 @@ export default function Projects() {
               </a>
             </h3>
             <p>
-              Research on the challenges of identifying AI-generated video
-              and designing trustworthy verification systems.
+              Research on AI-generated video detection and verification.
             </p>
           </div>
         </div>

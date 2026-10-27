@@ -6,10 +6,10 @@ import AnimatedContent from "./react-bits/AnimatedContent";
 import SectionHeading from "./SectionHeading";
 
 const steps = [
-  {title:"Understand the idea",detail:"We start with what you want to achieve, who it's for, and what success should look like. A clear brief gives every design decision a purpose.",output:"Goals, scope, and a shared direction"},
-  {title:"Find the right shape",detail:"I work through the structure, key flows, and visual direction. You'll see how the experience fits together before the full build begins.",output:"Wireframes, interface design, and a prototype"},
-  {title:"Bring it to life",detail:"The design becomes responsive, reusable components. I focus on the details people feel: clear feedback, smooth interactions, and a layout that works across screens.",output:"A working website or app"},
-  {title:"Refine and deliver",detail:"We review the finished experience, test the important journeys, and work through the final adjustments. Then it's ready for a proper handoff.",output:"A polished build and a clear handoff"},
+  {title:"Understand the idea",detail:"Define your goals, audience, and scope before design begins.",output:"A shared direction"},
+  {title:"Find the right shape",detail:"Explore the structure, user flows, and visual direction before building.",output:"Wireframes and a prototype"},
+  {title:"Bring it to life",detail:"Build responsive components with clear feedback and smooth interactions.",output:"A working website or app"},
+  {title:"Refine and deliver",detail:"Test key journeys, gather feedback, and polish the final details.",output:"Final build and handoff"},
 ];
 
 export default function Process() {
@@ -18,8 +18,8 @@ export default function Process() {
   return (
     <section className="bits-process" aria-labelledby="process-title">
       <div className="bits-shell bits-process-grid">
-        <SectionHeading label="How we'll work together" title="Good work starts with good questions." id="process-title"
-          description="A clear process, room for your feedback, and care all the way through." />
+        <SectionHeading label="My process" title="Good work. Clear steps." id="process-title"
+          description="Your feedback, at every step." />
         <AnimatedContent className="bits-process-steps">
           {steps.map((step,index) => <article key={step.title} className="bits-process-step" data-open={active === index}>
             <h3><button type="button" aria-expanded={active === index} aria-controls={`process-step-${index}`}

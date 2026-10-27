@@ -5,14 +5,14 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import SectionHeading from "./SectionHeading";
 
 const roles = [
-  { group:"community", company:"Microsoft Student Community, BulSU", title:"Director for Media", period:"Aug – Present", type:"Community leadership", summary:"Lead the creation and ongoing development of the MSC website. Guide the media team in producing and organizing visual content, coordinate creative responsibilities, and collaborate with fellow core members on community plans and initiatives.", tags:["Website development","Media team leadership","Core member"] },
-  { group:"industry", company:"PRIME Philippines", title:"UI/UX and Frontend Development Intern", period:"May – Jul 2026", type:"Industry internship", summary:"Built responsive Next.js and Tailwind CSS interfaces for the ArgoNavis fleet and mobility platform, alongside a modular design system with light and dark modes.", tags:["Next.js","Tailwind CSS","Design systems"] },
-  { group:"projects", company:"HakotLahat", title:"Lead Frontend Developer & UI Designer", period:"Technical project", type:"Web application", summary:"Designed and built a platform for municipal waste collection logistics, status reporting, and tracking.", tags:["Frontend architecture","UI design","Full-stack web"] },
-  { group:"projects", company:"ArgoNavis Corporate Booking System", title:"Frontend Architect & UI/UX Designer", period:"Technical project", type:"Web application", summary:"Created accessible booking workflows and standardized design tokens with modular components for consistent experiences across user roles.", tags:["Accessibility","Booking workflows","Design tokens"] },
-  { group:"projects", company:"Smart RFID Parking Management System", title:"Embedded Systems Developer", period:"Technical project", type:"Embedded systems", summary:"Built automated contactless vehicle access using an ESP32 and RC522 RFID modules.", tags:["ESP32","RFID","C / C++"] },
-  { group:"projects", company:"Early Flood Detection System", title:"Hardware & Firmware Engineer", period:"Technical project", type:"Embedded systems", summary:"Built and calibrated ultrasonic and water-level sensor logic, with OLED displays and buzzer alerts.", tags:["Arduino","Sensors","Firmware"] },
-  { group:"community", company:"Microsoft Student Community, BulSU", title:"Partnership Lead — External", period:"Aug 2025", type:"Community", summary:"Led industry partnerships and brand visibility initiatives for the Membership ID Program.", tags:["Partnerships","Community"] },
-  { group:"community", company:"DEVCON Manila", title:"Volunteer Coordinator", period:"Apr 2025", type:"Community", summary:"Coordinated event logistics and technical volunteer operations for regional technology conference tracks.", tags:["Coordination","Events"] },
+  { group:"community", company:"Microsoft Student Community, BulSU", title:"Director for Media", period:"Aug – Present", type:"Community leadership", summary:"Lead MSC website development and the media team, coordinating content and community initiatives with fellow core members.", tags:["Website development","Media team leadership","Core member"] },
+  { group:"industry", company:"PRIME Philippines", title:"UI/UX and Frontend Development Intern", period:"May – Jul 2026", type:"Industry internship", summary:"Built responsive ArgoNavis interfaces and a modular design system with light and dark modes.", tags:["Next.js","Tailwind CSS","Design systems"] },
+  { group:"projects", company:"HakotLahat", title:"Lead Frontend Developer & UI Designer", period:"Technical project", type:"Web application", summary:"Designed and built waste collection, reporting, and tracking interfaces.", tags:["Frontend architecture","UI design","Full-stack web"] },
+  { group:"projects", company:"ArgoNavis Corporate Booking System", title:"Frontend Architect & UI/UX Designer", period:"Technical project", type:"Web application", summary:"Created accessible booking flows, shared design tokens, and reusable components.", tags:["Accessibility","Booking workflows","Design tokens"] },
+  { group:"projects", company:"Smart RFID Parking Management System", title:"Embedded Systems Developer", period:"Technical project", type:"Embedded systems", summary:"Built contactless vehicle access with ESP32 and RC522 RFID modules.", tags:["ESP32","RFID","C / C++"] },
+  { group:"projects", company:"Early Flood Detection System", title:"Hardware & Firmware Engineer", period:"Technical project", type:"Embedded systems", summary:"Calibrated water-level sensors with OLED displays and buzzer alerts.", tags:["Arduino","Sensors","Firmware"] },
+  { group:"community", company:"Microsoft Student Community, BulSU", title:"Partnership Lead - External", period:"Aug 2025", type:"Community", summary:"Led industry partnerships for the Membership ID Program.", tags:["Partnerships","Community"] },
+  { group:"community", company:"DEVCON Manila", title:"Volunteer Coordinator", period:"Apr 2025", type:"Community", summary:"Coordinated conference logistics and technical volunteers.", tags:["Coordination","Events"] },
 ];
 const filters = [{id:"all",label:"All experience"},{id:"industry",label:"Industry"},{id:"projects",label:"Projects"},{id:"community",label:"Community"}];
 
@@ -23,8 +23,8 @@ export default function Experience() {
   return (
     <section className="bits-profile-section" aria-labelledby="experience-title">
       <div className="bits-shell">
-        <SectionHeading label="The work behind the work" title="Learning by building. Growing by doing." id="experience-title" level={1}
-          description="Industry experience, practical projects, and community work that have shaped how I design and develop." />
+        <SectionHeading label="Experience" title="Learning by building." id="experience-title" level={1}
+          description="Industry, projects, and community." />
         <div className="bits-experience-facts"><span><strong>{roles.filter(role => role.group === "industry").length}</strong> industry internship</span><span><strong>{roles.filter(role => role.group === "projects").length}</strong> technical projects</span><span><strong>{roles.filter(role => role.group === "community").length}</strong> community roles</span></div>
         <div className="bits-filter-bar" role="group" aria-label="Filter experience">
           {filters.map(filter => <button key={filter.id} type="button" aria-pressed={selected === filter.id}

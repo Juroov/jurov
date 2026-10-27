@@ -3,16 +3,16 @@ import AnimatedContent from "./react-bits/AnimatedContent";
 import SectionHeading from "./SectionHeading";
 
 const services = [
-  { title: "Frontend development", icon: "</>", description: "Responsive websites and app interfaces built with care for speed, accessibility, and every little interaction.", detail: "React · Next.js · Flutter", price: "From ₱1,500" },
-  { title: "UI/UX design", icon: "✳", description: "Thoughtful flows, clear screens, and design systems that help people get from a first tap to a finished task.", detail: "Figma · Prototypes · Design systems", price: "From ₱1,200" },
-  { title: "Web optimization", icon: "↗", description: "A faster, clearer experience for a website that already exists. Fine-tuning the details that make it work better.", detail: "Performance · Accessibility · SEO", price: "From ₱800" },
+  { title: "Frontend development", icon: "</>", description: "Fast, accessible websites and app interfaces.", detail: "React · Next.js · Flutter", price: "From ₱1,500" },
+  { title: "UI/UX design", icon: "✳", description: "Clear user flows, interfaces, and design systems.", detail: "Figma · Prototypes · Design systems", price: "From ₱1,200" },
+  { title: "Web optimization", icon: "↗", description: "Improve your site's speed, usability, and search visibility.", detail: "Performance · Accessibility · SEO", price: "From ₱800" },
 ];
 
 export default function Services() {
   return (
     <section id="services" className="bits-services" aria-labelledby="offer-heading">
       <div className="bits-shell">
-        <SectionHeading label="What I can help with" title="From the first sketch to the last detail." id="offer-heading" />
+        <SectionHeading label="Services" title="From sketch to screen." id="offer-heading" />
         <div className="bits-services-grid">
           {services.map((service,index) => <AnimatedContent key={service.title} delay={index*0.08}>
             <SpotlightCard className="bits-service-card" spotlightColor="#C41E3A" intensity={0.2} proximity={0} ambient={false} flare={false}>

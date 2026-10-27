@@ -6,9 +6,9 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import StarBorder from "./react-bits/StarBorder";
 
 const options = [
-  { title: "About", href: "/about", detail: "The person behind the pixels.", icon: "↗" },
-  { title: "Skills", href: "/skills", detail: "The tools behind the work.", icon: "⌘" },
-  { title: "Experience", href: "/experience", detail: "Where I've put them to use.", icon: "✳" },
+  { title: "About", href: "/about", detail: "My story", icon: "↗" },
+  { title: "Skills", href: "/skills", detail: "My toolkit", icon: "⌘" },
+  { title: "Experience", href: "/experience", detail: "My journey", icon: "✳" },
 ];
 
 export default function KnowMore() {
@@ -31,7 +31,7 @@ export default function KnowMore() {
         aria-expanded={open} aria-controls="know-more-options"
         onClick={() => setOpen((value) => !value)}
       >
-        Know More About Me <span aria-hidden="true">{open ? "−" : "+"}</span>
+        More about me <span aria-hidden="true">{open ? "−" : "+"}</span>
       </StarBorder>
       <AnimatePresence initial={false}>
         {open && (

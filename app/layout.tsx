@@ -29,11 +29,11 @@ const bebasNeue = Bebas_Neue({
 export const metadata: Metadata = {
   title: "Lorrenz Amarille — Frontend Developer & UI/UX Designer",
   description:
-    "Computer Engineering student with internship experience at PRIME Philippines. Builds responsive frontends, designs UI systems, and takes on freelance commissions.",
+    "Frontend developer, UI/UX designer, and Computer Engineering student. Websites, apps, and design systems by Lorrenz Amarille.",
   openGraph: {
     title: "Lorrenz Amarille — Frontend Developer & UI/UX Designer",
     description:
-      "Responsive frontends, UI systems, and freelance commissions. Currently open.",
+      "Websites, apps, and UI design by Lorrenz Amarille.",
     type: "website",
   },
 };
